@@ -1,4 +1,6 @@
 using Godot;
+using System.Collections.Generic;
+using System.Linq;
 
 public partial class GoalManager : Node2D
 {
@@ -10,6 +12,7 @@ public partial class GoalManager : Node2D
     [Export] public PackedScene TrackCornerCCwScene;
 
     private int _goalCounter = 1;
+    private static int _maxRandomTracks = 20;
 
     struct TrackTile
     {
@@ -18,6 +21,8 @@ public partial class GoalManager : Node2D
         public Track.TrackDir Exit;
         public Track.TrackRotation Rotation;
         public PackedScene TrackScene;
+
+        public int x = 0, y = 0;
 
         public TrackTile(Track.TrackType type)
         {
@@ -62,7 +67,16 @@ public partial class GoalManager : Node2D
         new (Track.TrackType.CornerCCw)
     ];
 
-    private TrackTile[] _tracks = new TrackTile[10];
+    private TrackTile[] _tracks = new TrackTile[100];
+
+    // TODO: Optimise :3
+    public bool IsTrackTileOccupied(int x, int y)
+    {
+        foreach (TrackTile tile in _tracks) {
+            if (tile.x == x && tile.y == y) return true;
+        }
+        return false;
+    }
 
     public PackedScene GetTrackScene(Track.TrackType type)
     {
@@ -84,35 +98,11 @@ public partial class GoalManager : Node2D
         _tracks[0] = new TrackTile(Track.TrackType.Start);
         _tracks[0].TrackScene = TrackStartScene;
 
-        // _tracks[1] = new TrackTile(Track.TrackType.Straight);
-        // _tracks[1].TrackScene = TrackStraightScene;
-        //
-        // // The following tracks are for debugging and in the future will be generated using GenerateTrack
-        // _tracks[2] = new TrackTile(Track.TrackType.CornerCw);
-        // _tracks[2].Rotation = Track.TrackRotation.Deg180;
-        // _tracks[2].TrackScene = TrackCornerCwScene;
-        //
-        // _tracks[3] = new TrackTile(Track.TrackType.CornerCw);
-        // _tracks[3].Rotation = Track.TrackRotation.Deg270;
-        // _tracks[3].TrackScene = TrackCornerCwScene;
-        //
-        // for (int i = 4; i < 6; i++)
-        // {
-        //     _tracks[i] = new TrackTile(Track.TrackType.Straight);
-        //     _tracks[i].Rotation = Track.TrackRotation.Deg180;
-        //     _tracks[i].TrackScene = TrackStraightScene;
-        // }
-        //
-        // _tracks[6] = new TrackTile(Track.TrackType.CornerCw);
-        // _tracks[6].TrackScene = TrackCornerCwScene;
-        //
-        // _tracks[7] = new TrackTile(Track.TrackType.CornerCw);
-        // _tracks[7].Rotation = Track.TrackRotation.Deg90;
-        // _tracks[7].TrackScene = TrackCornerCwScene;
-
         GD.Print("Track 1: " + _tracks[1].GetExitDir());
 
-        GenerateTrack();
+        GenerateRandomTrack();
+        var returnPath = PathfindToStart();
+        GD.Print(returnPath);
         SpawnTrack();
 
         // Inform Racers of the number of goals
@@ -122,24 +112,166 @@ public partial class GoalManager : Node2D
         }
     }
 
-    public void GenerateTrack()
+    public void GenerateRandomTrack()
     {
-        TrackTile lastTile = new TrackTile();
-        for (int i = 1; i < _tracks.Length; i++)
+        int localX = 0, localY = 1;
+        TrackTile lastTile = _tracks[0];
+        for (int i = 1; i < _maxRandomTracks; i++)
         {
-            _tracks[i] = _baseTrackTiles[GD.Randi() % _baseTrackTiles.Length];
-            _tracks[i].TrackScene = GetTrackScene(_tracks[i].Type);
+            GD.Print("Generating Track Piece ", i);
+            bool newTrackExitBlocked = false;
 
-            if (lastTile.TrackScene != null)
+            int trackGenerationAttempt = 0;
+            do
             {
-                while (lastTile.GetExitDir() != _tracks[i].GetEntranceDir())
+                trackGenerationAttempt++;
+                if (newTrackExitBlocked) GD.Print("Track blocked, regenerating...");
+                if (trackGenerationAttempt >= 12)
                 {
-                    _tracks[i].Rotation += 1;
+                    GD.Print("Attempted to generate track piece 12 times with no success, breaking and restarting...");
+                    break;
                 }
-            }
+                _tracks[i] = _baseTrackTiles[GD.Randi() % _baseTrackTiles.Length];
+                _tracks[i].x = localX;
+                _tracks[i].y = localY;
+                _tracks[i].TrackScene = GetTrackScene(_tracks[i].Type);
+
+                if (lastTile.TrackScene != null)
+                {
+                    GD.Print(i, " Rotating Tile to fit ", Track.Opposite(lastTile.GetExitDir()), _tracks[i].GetEntranceDir());
+                    int rotationCounter = 0;
+                    while (rotationCounter < 4 && Track.Opposite(lastTile.GetExitDir()) != _tracks[i].GetEntranceDir())
+                    {
+                        GD.Print(i, " Rotating Tile to fit ", Track.Opposite(lastTile.GetExitDir()), _tracks[i].GetEntranceDir());
+                        _tracks[i].Rotation += 1;
+                        rotationCounter++;
+                        if (rotationCounter >= 4)
+                        {
+                            GD.Print("Unable to rotate track into valid piece, forcing new track...");
+                            newTrackExitBlocked = true;
+                        }
+                    }
+                }
+
+                if (newTrackExitBlocked) GD.Print("Track blocked, regenerating...");
+
+                switch (_tracks[i].GetExitDir())
+                {
+                    case Track.TrackDir.Top:
+                        newTrackExitBlocked = IsTrackTileOccupied(localX, localY + 1);
+                        if (!newTrackExitBlocked) localY++;
+                        break;
+                    case Track.TrackDir.Bottom:
+                        newTrackExitBlocked = IsTrackTileOccupied(localX, localY - 1);
+                        if (!newTrackExitBlocked) localY--;
+                        break;
+                    case Track.TrackDir.Left:
+                        newTrackExitBlocked = IsTrackTileOccupied(localX - 1, localY);
+                        if (!newTrackExitBlocked) localX--;
+                        break;
+                    case Track.TrackDir.Right:
+                        newTrackExitBlocked = IsTrackTileOccupied(localX + 1, localY);
+                        if (!newTrackExitBlocked) localX++;
+                        break;
+                }
+            } while (newTrackExitBlocked);
 
             lastTile = _tracks[i];
+
+            if (trackGenerationAttempt >= 12) i = 1;
         }
+    }
+
+    static int Heuristic(Vector2I current, Vector2I goal)
+    {
+        return Mathf.Abs(current.X - goal.X) + Mathf.Abs(current.Y - goal.Y);
+    }
+
+    public List<Vector2I> PathfindToStart()
+    {
+        var lastTrack = _tracks[_maxRandomTracks - 1];
+        var firstTrack = _tracks[0];
+        GD.Print("Last Track " + lastTrack.x + " " + lastTrack.y);
+        GD.Print("First Track " + firstTrack.x + " " + firstTrack.y);
+
+        int startX = lastTrack.x, startY = lastTrack.y;
+        int goalX = firstTrack.x, goalY = firstTrack.y - 1;
+
+        switch (lastTrack.GetExitDir())
+        {
+            case Track.TrackDir.Top: startY++; break;
+            case Track.TrackDir.Bottom: startY--; break;
+            case Track.TrackDir.Left: startX--; break;
+            case Track.TrackDir.Right: startX++; break;
+        }
+
+        GD.Print("Need to Pathfind from " + startX + ", " + startY + " to " + goalX + ", " + goalY);
+
+        var start = new Vector2I(startX, startY);
+        var goal = new Vector2I(goalX, goalY);
+
+        var openList = new List<Vector2I> { start };
+        var closedList = new HashSet<Vector2I>();
+
+        var gScore = new Dictionary<Vector2I, int> { [start] = 0 };
+        var hScore = new Dictionary<Vector2I, int> { [start] = Heuristic(start, goal) };
+        var parentMap = new Dictionary<Vector2I, Vector2I>();
+
+        while (openList.Count > 0)
+        {
+            var current = openList.OrderBy(track => gScore[track] + hScore[track]).First();
+            if (current == goal)
+            {
+                // Return path reconstruction
+                return ReconstructPath(parentMap, current);
+            }
+
+            openList.Remove(current);
+            closedList.Remove(current);
+
+            foreach (var neighbour in GetNeighbours(current))
+            {
+                if (closedList.Contains(current) || IsTrackTileOccupied(neighbour.X, neighbour.Y)) continue;
+
+                int tentativeGScore = gScore[current] + Heuristic(neighbour, current);
+
+                if (!gScore.ContainsKey(neighbour) || tentativeGScore < gScore[neighbour])
+                {
+                    gScore[neighbour] = tentativeGScore;
+                    hScore[neighbour] = Heuristic(neighbour, goal);
+
+                    parentMap[neighbour] = current;
+
+                    if (!openList.Contains(neighbour)) openList.Add(neighbour);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private static List<Vector2I> ReconstructPath(Dictionary<Vector2I, Vector2I> parentMap, Vector2I current)
+    {
+        var path = new List<Vector2I> { current };
+        while (parentMap.ContainsKey(current))
+        {
+            path.Add(parentMap[current]);
+        }
+
+        path.Reverse();
+        return path;
+    }
+
+    // TODO: Vomit emoji
+    private static List<Vector2I> GetNeighbours(Vector2I current)
+    {
+        var neighbours = new List<Vector2I>();
+        neighbours.Add(new Vector2I(current.X, current.Y + 1));
+        neighbours.Add(new Vector2I(current.X + 1, current.Y));
+        neighbours.Add(new Vector2I(current.X, current.Y - 1));
+        neighbours.Add(new Vector2I(current.X - 1, current.Y));
+
+        return neighbours;
     }
 
     public void SpawnTrack()

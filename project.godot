@@ -11,17 +11,9 @@ config_version=5
 [application]
 
 config/name="racer"
-run/main_scene="uid://dewk3mmtsn03l"
+run/main_scene="uid://b5bgixivrxxmm"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
-config/icon="res://icon.svg"
-
-[display]
-
-window/size/viewport_width=1024
-window/size/viewport_height=1024
-window/size/resizable=false
-window/size/borderless=true
-window/stretch/mode="canvas_items"
+config/icon="uid://crpks4fqcqaiv"
 
 [dotnet]
 
@@ -63,3 +55,7 @@ decelerate={
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":83,"key_label":0,"unicode":115,"location":0,"echo":false,"script":null)
 ]
 }
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
