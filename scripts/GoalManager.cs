@@ -12,7 +12,7 @@ public partial class GoalManager : Node2D
     [Export] public PackedScene TrackCornerCCwScene;
 
     private int _goalCounter = 1;
-    private static int _maxRandomTracks = 20;
+    private static int _maxRandomTracks = 10;
 
     struct TrackTile
     {
@@ -67,7 +67,7 @@ public partial class GoalManager : Node2D
         new (Track.TrackType.CornerCCw)
     ];
 
-    private TrackTile[] _tracks = new TrackTile[100];
+    private TrackTile[] _tracks = new TrackTile[50];
 
     // TODO: Optimise :3
     public bool IsTrackTileOccupied(int x, int y)
@@ -102,7 +102,7 @@ public partial class GoalManager : Node2D
 
         GenerateRandomTrack();
         var returnPath = PathfindToStart();
-        GD.Print(returnPath);
+        //GD.Print(returnPath);
         SpawnTrack();
 
         // Inform Racers of the number of goals
@@ -217,8 +217,19 @@ public partial class GoalManager : Node2D
         var hScore = new Dictionary<Vector2I, int> { [start] = Heuristic(start, goal) };
         var parentMap = new Dictionary<Vector2I, Vector2I>();
 
-        while (openList.Count > 0)
+        int loopCount = 0;
+
+        GD.Print("About to start path finding");
+        GD.Print(openList.Count);
+
+        while (openList.Count > 0 || loopCount < 100)
         {
+            loopCount++;
+            if (loopCount >= 100)
+            {
+                GD.Print("stuck in loop? yeet");
+                break;
+            }
             var current = openList.OrderBy(track => gScore[track] + hScore[track]).First();
             if (current == goal)
             {
