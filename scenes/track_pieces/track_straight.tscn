@@ -1,0 +1,68 @@
+[gd_scene load_steps=7 format=3 uid="uid://c8baep1wl8lq5"]
+
+[ext_resource type="Script" uid="uid://d3h1rc0kdj7wc" path="res://scripts/Track/Track.cs" id="1_3pr3h"]
+[ext_resource type="PackedScene" uid="uid://bswu77k37e7bo" path="res://scenes/goal.tscn" id="2_qt0vn"]
+[ext_resource type="Texture2D" uid="uid://cmbmnoc3j2mpw" path="res://assets/grass.png" id="2_s3kis"]
+[ext_resource type="Texture2D" uid="uid://47wcx8030kbi" path="res://assets/road.png" id="3_o6q0e"]
+[ext_resource type="Texture2D" uid="uid://gvtbytq25i64" path="res://assets/kerb.png" id="4_6jo2n"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_gmwo1"]
+b = Vector2(0, 500)
+
+[node name="TrackLR" type="Node2D" node_paths=PackedStringArray("Entrance", "Exit")]
+script = ExtResource("1_3pr3h")
+Entrance = NodePath("Entrance")
+Exit = NodePath("Goal")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 2
+texture = ExtResource("2_s3kis")
+region_enabled = true
+region_rect = Rect2(0, 0, 500, 500)
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 2
+texture = ExtResource("3_o6q0e")
+region_enabled = true
+region_rect = Rect2(0, 0, 192, 500)
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(-96, 0)
+texture = ExtResource("4_6jo2n")
+region_enabled = true
+region_rect = Rect2(0, 0, 8, 500)
+
+[node name="Sprite2D4" type="Sprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(96, 0)
+texture = ExtResource("4_6jo2n")
+region_enabled = true
+region_rect = Rect2(0, 0, 8, 500)
+
+[node name="Goal" parent="." instance=ExtResource("2_qt0vn")]
+position = Vector2(0, -250)
+scale = Vector2(4, 4)
+
+[node name="Entrance" type="Node2D" parent="."]
+position = Vector2(0, 250)
+
+[node name="Wall1" type="StaticBody2D" parent="."]
+position = Vector2(-96, -250)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall1"]
+shape = SubResource("SegmentShape2D_gmwo1")
+
+[node name="Wall2" type="StaticBody2D" parent="."]
+position = Vector2(96, -250)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2"]
+shape = SubResource("SegmentShape2D_gmwo1")

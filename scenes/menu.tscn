@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://dewk3mmtsn03l"]
+[gd_scene load_steps=2 format=3 uid="uid://dewk3mmtsn03l"]
+
+[ext_resource type="Script" uid="uid://dpjkyw8jsmxbn" path="res://scenes/MainMenu.cs" id="1_yqeox"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -7,3 +9,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_yqeox")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 74.0
+offset_top = 54.0
+offset_right = 192.0
+offset_bottom = 85.0
+text = "Debug Start :3"
+
+[connection signal="StartGame" from="." to="." method="_on_start_game"]
+[connection signal="pressed" from="Button" to="." method="_on_start_game"]

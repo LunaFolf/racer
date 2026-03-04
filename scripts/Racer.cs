@@ -10,7 +10,9 @@ public partial class Racer : CharacterBody2D
 	[Export] public float Acceleration = 200.0f;
 	[Export] public float Deceleration = 400.0f;
 
-	[Export] public int NumberOfGoals { get; set; } = 10;
+	[Export] public CarParticleSystem CarParticleSystem;
+
+	[Export] public int NumberOfGoals { get; set; }
 
 	[Signal] public delegate void GoalEnteredEventHandler(int goalNumber);
 
@@ -72,7 +74,6 @@ public partial class Racer : CharacterBody2D
 			// 	accel *= 0.2f;
 			// }
 
-
 			if (accel > 0.01f)
 			{
 				velocity = velocity.MoveToward(forward * _actualMaxAccelSpeed * accel, Acceleration * (float)delta);
@@ -84,9 +85,20 @@ public partial class Racer : CharacterBody2D
 
 			if (rot != 0 && !velocity.IsZeroApprox())
 			{
-				float actualRotSpeed = 2 + (velocity.Dot(forward) / _actualMaxAccelSpeed) * RotationSpeed;
+				float forwardSpeed = velocity.Dot(GlobalTransform.Y);
+				float actualRotSpeed = 2 + (Math.Abs(forwardSpeed) / MaxAccelSpeed) * RotationSpeed;
 				Rotate(rot * actualRotSpeed * (float)delta);
 			}
+
+			float speedPercent = velocity.Length() / MaxAccelSpeed;
+			CarParticleSystem.DebrisParticles.AmountRatio = speedPercent;
+			CarParticleSystem.TireProcessMaterial.Gravity = new Vector3(GlobalTransform.Y.X * 94, GlobalTransform.Y.Y * 94, 0);
+
+			float driftPercent = Math.Abs(velocity.Dot(GlobalTransform.X)) / MaxAccelSpeed;
+			float tireMarkLifetime = Math.Max(0.01f, driftPercent);
+
+			CarParticleSystem.LeftTireParticles.Lifetime = tireMarkLifetime;
+			CarParticleSystem.RightTireParticles.Lifetime = tireMarkLifetime;
 		}
 
 		Velocity = velocity;
@@ -95,11 +107,11 @@ public partial class Racer : CharacterBody2D
 
 	public void _on_goal_entered(int goalNumber)
 	{
-		GD.Print("I entered goal " + goalNumber);
+		GD.Print("I entered goal " + goalNumber + " out of " + NumberOfGoals + "");
 		if (goalNumber != _goalCounter) return;
-		GD.Print("Moving to next goal!");
 		_goalCounter++;
 		if (_goalCounter > NumberOfGoals) _goalCounter = 1; // For debugging :3
+		GD.Print("Moving to next goal: " + _goalCounter + "");
 		FindGoal();
 	}
 }

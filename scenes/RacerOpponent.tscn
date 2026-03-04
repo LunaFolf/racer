@@ -1,23 +1,30 @@
-[gd_scene load_steps=4 format=3 uid="uid://cfrv5mcxkd8cj"]
+[gd_scene load_steps=5 format=3 uid="uid://cfrv5mcxkd8cj"]
 
 [ext_resource type="Script" uid="uid://bbmo4y554w56c" path="res://scripts/Racer.cs" id="1_j3bjo"]
+[ext_resource type="PackedScene" uid="uid://bdlpr56xw4u6o" path="res://scenes/car_particle_system.tscn" id="2_3bsvd"]
 [ext_resource type="Texture2D" uid="uid://crpks4fqcqaiv" path="res://assets/temp-car.png" id="2_oj5pt"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kpjcp"]
 
-[node name="Racer" type="CharacterBody2D"]
+[node name="Racer" type="CharacterBody2D" node_paths=PackedStringArray("CarParticleSystem")]
 collision_mask = 2
 script = ExtResource("1_j3bjo")
+RotationSpeed = 1.5
+Deceleration = 160.0
+CarParticleSystem = NodePath("CarParticleSystem")
+
+[node name="CarParticleSystem" parent="." instance=ExtResource("2_3bsvd")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(0.998975, 0.732687, 0, 1)
 texture_filter = 1
 use_parent_material = true
+position = Vector2(0, 8)
 rotation = -1.5708
 texture = ExtResource("2_oj5pt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
+position = Vector2(0, 8)
 shape = SubResource("CapsuleShape2D_kpjcp")
 
 [connection signal="GoalEntered" from="." to="." method="_on_goal_entered"]

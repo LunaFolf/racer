@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bp3p75y8nltxv"]
+[gd_scene load_steps=7 format=3 uid="uid://bp3p75y8nltxv"]
 
 [ext_resource type="PackedScene" uid="uid://ddibarwjv0dnq" path="res://scenes/Player.tscn" id="1_3vd64"]
 [ext_resource type="PackedScene" uid="uid://bswu77k37e7bo" path="res://scenes/goal.tscn" id="2_hqhvd"]
@@ -10,18 +10,10 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_svo7y"]
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5ph7u"]
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_o7ao6"]
-
-[node name="Debug" type="Node2D"]
+[node name="Game" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_3vd64")]
 position = Vector2(-331, 116)
-MaxAccelSpeed = null
-RotationSpeed = null
-Acceleration = null
-Deceleration = null
 
 [node name="TestColBox" type="StaticBody2D" parent="."]
 position = Vector2(1065, 303)
@@ -42,68 +34,75 @@ shape = SubResource("RectangleShape2D_svo7y")
 
 [node name="Goal1" parent="Goals" instance=ExtResource("2_hqhvd")]
 scale = Vector2(4, 4)
+GoalNumber = 1
 
 [node name="Goal2" parent="Goals" instance=ExtResource("2_hqhvd")]
 position = Vector2(0, -500)
 scale = Vector2(4, 4)
+GoalNumber = 2
 
 [node name="Goal3" parent="Goals" instance=ExtResource("2_hqhvd")]
 position = Vector2(0, -1000)
 scale = Vector2(4, 4)
+GoalNumber = 3
 
 [node name="Goal4" parent="Goals" instance=ExtResource("2_hqhvd")]
 position = Vector2(-250, -1250)
 rotation = -1.5708
 scale = Vector2(4, 4)
+GoalNumber = 4
 
 [node name="Goal5" parent="Goals" instance=ExtResource("2_hqhvd")]
 position = Vector2(-750, -1250)
 rotation = -1.5708
 scale = Vector2(4, 4)
+GoalNumber = 5
 
 [node name="Goal6" parent="Goals" instance=ExtResource("2_hqhvd")]
 position = Vector2(-1000, -1000)
 rotation = -3.14159
 scale = Vector2(4, 4)
+GoalNumber = 6
 
 [node name="Goal7" parent="Goals" instance=ExtResource("2_hqhvd")]
 position = Vector2(-1000, -500)
 rotation = -3.14159
 scale = Vector2(4, 4)
+GoalNumber = 7
 
 [node name="Goal8" parent="Goals" instance=ExtResource("2_hqhvd")]
 position = Vector2(-1000, 0)
 rotation = -3.14159
 scale = Vector2(4, 4)
+GoalNumber = 8
 
 [node name="Goal9" parent="Goals" instance=ExtResource("2_hqhvd")]
 position = Vector2(-1000, 500)
 rotation = -3.14159
 scale = Vector2(4, 4)
+GoalNumber = 9
 
 [node name="Goal10" parent="Goals" instance=ExtResource("2_hqhvd")]
 position = Vector2(-750, 750)
 rotation = -4.71239
 scale = Vector2(4, 4)
+GoalNumber = 10
 
 [node name="Goal11" parent="Goals" instance=ExtResource("2_hqhvd")]
 position = Vector2(-500, 500)
 scale = Vector2(4, 4)
+GoalNumber = 11
 
 [node name="Goal12" parent="Goals" instance=ExtResource("2_hqhvd")]
 position = Vector2(-250, 250)
 rotation = -4.71239
 scale = Vector2(4, 4)
+GoalNumber = 12
 
 [node name="Racers" type="Node" parent="."]
 
 [node name="Racer" parent="Racers" instance=ExtResource("3_kayp2")]
 position = Vector2(0, 43)
-MaxAccelSpeed = null
-_actualMaxAccelSpeed = null
-RotationSpeed = null
-Acceleration = null
-Deceleration = null
 
 [node name="Camera2D" type="Camera2D" parent="Racers/Racer"]
 position_smoothing_enabled = true
@@ -113,116 +112,12 @@ drag_vertical_enabled = true
 
 [node name="Racer2" parent="Racers" instance=ExtResource("3_kayp2")]
 position = Vector2(0, 122)
-MaxAccelSpeed = null
-_actualMaxAccelSpeed = null
-RotationSpeed = null
-Acceleration = null
-Deceleration = null
 
 [node name="Racer3" parent="Racers" instance=ExtResource("3_kayp2")]
 position = Vector2(0, 194)
-MaxAccelSpeed = null
-_actualMaxAccelSpeed = null
-RotationSpeed = null
-Acceleration = null
-Deceleration = null
 
 [node name="Racer4" parent="Racers" instance=ExtResource("3_kayp2")]
 position = Vector2(0, 263)
-MaxAccelSpeed = null
-_actualMaxAccelSpeed = null
-RotationSpeed = null
-Acceleration = null
-Deceleration = null
 
 [node name="Racer5" parent="Racers" instance=ExtResource("3_kayp2")]
 position = Vector2(0, 334)
-MaxAccelSpeed = null
-_actualMaxAccelSpeed = null
-RotationSpeed = null
-Acceleration = null
-Deceleration = null
-
-[node name="TempTile" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.254902)
-material = SubResource("CanvasItemMaterial_5ph7u")
-position = Vector2(0, -250)
-scale = Vector2(500, 500)
-texture = SubResource("CanvasTexture_o7ao6")
-
-[node name="TempTile2" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.254902)
-material = SubResource("CanvasItemMaterial_5ph7u")
-position = Vector2(0, -750)
-scale = Vector2(500, 500)
-texture = SubResource("CanvasTexture_o7ao6")
-
-[node name="TempTile3" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.254902)
-material = SubResource("CanvasItemMaterial_5ph7u")
-position = Vector2(0, -1250)
-scale = Vector2(500, 500)
-texture = SubResource("CanvasTexture_o7ao6")
-
-[node name="TempTile4" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.254902)
-material = SubResource("CanvasItemMaterial_5ph7u")
-position = Vector2(-500, -1250)
-scale = Vector2(500, 500)
-texture = SubResource("CanvasTexture_o7ao6")
-
-[node name="TempTile5" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.254902)
-material = SubResource("CanvasItemMaterial_5ph7u")
-position = Vector2(-1000, -1250)
-scale = Vector2(500, 500)
-texture = SubResource("CanvasTexture_o7ao6")
-
-[node name="TempTile6" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.254902)
-material = SubResource("CanvasItemMaterial_5ph7u")
-position = Vector2(-1000, -750)
-scale = Vector2(500, 500)
-texture = SubResource("CanvasTexture_o7ao6")
-
-[node name="TempTile7" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.254902)
-material = SubResource("CanvasItemMaterial_5ph7u")
-position = Vector2(-1000, -250)
-scale = Vector2(500, 500)
-texture = SubResource("CanvasTexture_o7ao6")
-
-[node name="TempTile8" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.254902)
-material = SubResource("CanvasItemMaterial_5ph7u")
-position = Vector2(-1000, 250)
-scale = Vector2(500, 500)
-texture = SubResource("CanvasTexture_o7ao6")
-
-[node name="TempTile9" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.254902)
-material = SubResource("CanvasItemMaterial_5ph7u")
-position = Vector2(-1000, 750)
-scale = Vector2(500, 500)
-texture = SubResource("CanvasTexture_o7ao6")
-
-[node name="TempTile10" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.254902)
-material = SubResource("CanvasItemMaterial_5ph7u")
-position = Vector2(-500, 750)
-scale = Vector2(500, 500)
-texture = SubResource("CanvasTexture_o7ao6")
-
-[node name="TempTile11" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.254902)
-material = SubResource("CanvasItemMaterial_5ph7u")
-position = Vector2(-500, 250)
-scale = Vector2(500, 500)
-texture = SubResource("CanvasTexture_o7ao6")
-
-[node name="TempTile12" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.254902)
-material = SubResource("CanvasItemMaterial_5ph7u")
-position = Vector2(0, 250)
-scale = Vector2(500, 500)
-texture = SubResource("CanvasTexture_o7ao6")

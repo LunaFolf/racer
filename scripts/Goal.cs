@@ -3,7 +3,7 @@ using System;
 
 public partial class Goal : Area2D
 {
-    public int GoalNumber { get; set; }
+    [Export] public int GoalNumber { get; set; }
     public void _on_body_entered(Node2D body)
     {
         GD.Print("Goal " + GoalNumber + " entered!");

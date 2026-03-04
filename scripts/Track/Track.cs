@@ -18,6 +18,7 @@ public partial class Track : Node2D
 
 	public enum TrackType
 	{
+		Start,
 		Straight,
 		CornerCw,
 		CornerCCw
@@ -31,7 +32,7 @@ public partial class Track : Node2D
 		Deg270
 	}
 
-	public TrackDir NextClockwise(TrackDir direction)
+	public static TrackDir NextClockwise(TrackDir direction)
 	{
 		if (direction == TrackDir.Top) return TrackDir.Right;
 		if (direction == TrackDir.Right) return TrackDir.Bottom;
@@ -39,7 +40,15 @@ public partial class Track : Node2D
 		return TrackDir.Top;
 	}
 
-	public TrackDir RotateDirection(TrackDir direction, TrackRotation rotation)
+	public static TrackDir Opposite(TrackDir direction)
+	{
+		if (direction == TrackDir.Top) return TrackDir.Bottom;
+		if (direction == TrackDir.Right) return TrackDir.Left;
+		if (direction == TrackDir.Bottom) return TrackDir.Top;
+		return TrackDir.Right;
+	}
+
+	public static TrackDir RotateDirection(TrackDir direction, TrackRotation rotation)
 	{
 		for (int i = 0; i < (int)rotation; i++)
 		{

@@ -20,12 +20,9 @@ b = Vector2(345, 0)
 b = Vector2(154, 0)
 
 [node name="TrackTL" type="Node2D" node_paths=PackedStringArray("Entrance", "Exit")]
-rotation = 6.28319
 script = ExtResource("1_x6o2m")
 Entrance = NodePath("Entrance")
 Exit = NodePath("Goal")
-EntranceLocation = 1
-ExitLocation = 2
 
 [node name="TempTile" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 0.254902)
