@@ -10,7 +10,6 @@ b = Vector2(48, 0)
 [sub_resource type="CanvasTexture" id="CanvasTexture_sx1j4"]
 
 [node name="Goal" type="Area2D"]
-visible = false
 script = ExtResource("1_jbojv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

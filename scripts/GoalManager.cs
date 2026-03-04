@@ -66,7 +66,17 @@ public partial class GoalManager : Node2D
 
     public PackedScene GetTrackScene(Track.TrackType type)
     {
-        return null;
+        switch (type)
+        {
+            case Track.TrackType.Straight:
+                return TrackStraightScene;
+            case Track.TrackType.CornerCw:
+                return TrackCornerCwScene;
+            case Track.TrackType.CornerCCw:
+                return TrackCornerCCwScene;
+            default:
+                return null;
+        }
     }
 
     public override void _Ready()
@@ -74,31 +84,31 @@ public partial class GoalManager : Node2D
         _tracks[0] = new TrackTile(Track.TrackType.Start);
         _tracks[0].TrackScene = TrackStartScene;
 
-        _tracks[1] = new TrackTile(Track.TrackType.Straight);
-        _tracks[1].TrackScene = TrackStraightScene;
-
-        // The following tracks are for debugging and in the future will be generated using GenerateTrack
-        _tracks[2] = new TrackTile(Track.TrackType.CornerCw);
-        _tracks[2].Rotation = Track.TrackRotation.Deg180;
-        _tracks[2].TrackScene = TrackCornerCwScene;
-
-        _tracks[3] = new TrackTile(Track.TrackType.CornerCw);
-        _tracks[3].Rotation = Track.TrackRotation.Deg270;
-        _tracks[3].TrackScene = TrackCornerCwScene;
-
-        for (int i = 4; i < 6; i++)
-        {
-            _tracks[i] = new TrackTile(Track.TrackType.Straight);
-            _tracks[i].Rotation = Track.TrackRotation.Deg180;
-            _tracks[i].TrackScene = TrackStraightScene;
-        }
-
-        _tracks[6] = new TrackTile(Track.TrackType.CornerCw);
-        _tracks[6].TrackScene = TrackCornerCwScene;
-
-        _tracks[7] = new TrackTile(Track.TrackType.CornerCw);
-        _tracks[7].Rotation = Track.TrackRotation.Deg90;
-        _tracks[7].TrackScene = TrackCornerCwScene;
+        // _tracks[1] = new TrackTile(Track.TrackType.Straight);
+        // _tracks[1].TrackScene = TrackStraightScene;
+        //
+        // // The following tracks are for debugging and in the future will be generated using GenerateTrack
+        // _tracks[2] = new TrackTile(Track.TrackType.CornerCw);
+        // _tracks[2].Rotation = Track.TrackRotation.Deg180;
+        // _tracks[2].TrackScene = TrackCornerCwScene;
+        //
+        // _tracks[3] = new TrackTile(Track.TrackType.CornerCw);
+        // _tracks[3].Rotation = Track.TrackRotation.Deg270;
+        // _tracks[3].TrackScene = TrackCornerCwScene;
+        //
+        // for (int i = 4; i < 6; i++)
+        // {
+        //     _tracks[i] = new TrackTile(Track.TrackType.Straight);
+        //     _tracks[i].Rotation = Track.TrackRotation.Deg180;
+        //     _tracks[i].TrackScene = TrackStraightScene;
+        // }
+        //
+        // _tracks[6] = new TrackTile(Track.TrackType.CornerCw);
+        // _tracks[6].TrackScene = TrackCornerCwScene;
+        //
+        // _tracks[7] = new TrackTile(Track.TrackType.CornerCw);
+        // _tracks[7].Rotation = Track.TrackRotation.Deg90;
+        // _tracks[7].TrackScene = TrackCornerCwScene;
 
         GD.Print("Track 1: " + _tracks[1].GetExitDir());
 
@@ -114,7 +124,22 @@ public partial class GoalManager : Node2D
 
     public void GenerateTrack()
     {
+        TrackTile lastTile = new TrackTile();
+        for (int i = 1; i < _tracks.Length; i++)
+        {
+            _tracks[i] = _baseTrackTiles[GD.Randi() % _baseTrackTiles.Length];
+            _tracks[i].TrackScene = GetTrackScene(_tracks[i].Type);
 
+            if (lastTile.TrackScene != null)
+            {
+                while (lastTile.GetExitDir() != _tracks[i].GetEntranceDir())
+                {
+                    _tracks[i].Rotation += 1;
+                }
+            }
+
+            lastTile = _tracks[i];
+        }
     }
 
     public void SpawnTrack()
@@ -127,9 +152,6 @@ public partial class GoalManager : Node2D
         foreach (var tile in _tracks)
         {
             if (tile.TrackScene == null) continue;
-
-            // Track.TrackDir dir = Track.TrackDir.Top;
-            // Track.TrackRotation rot = Track.TrackRotation.Deg0;
 
             if (lastTile.TrackScene != null)
             {
