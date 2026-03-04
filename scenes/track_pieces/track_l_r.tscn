@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=3 uid="uid://c8baep1wl8lq5"]
+
+[ext_resource type="Script" uid="uid://d3h1rc0kdj7wc" path="res://scripts/Track/Track.cs" id="1_3pr3h"]
+[ext_resource type="PackedScene" uid="uid://bswu77k37e7bo" path="res://scenes/goal.tscn" id="2_qt0vn"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_kbkf2"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_gmwo1"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_gmwo1"]
+b = Vector2(0, 500)
+
+[node name="TrackLR" type="Node2D" node_paths=PackedStringArray("Entrance", "Exit")]
+rotation = -1.5708
+script = ExtResource("1_3pr3h")
+Entrance = NodePath("Entrance")
+Exit = NodePath("Goal")
+EntranceLocation = 3
+ExitLocation = 1
+
+[node name="TempTile" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.254902)
+material = SubResource("CanvasItemMaterial_kbkf2")
+position = Vector2(-524, -166)
+scale = Vector2(500, 500)
+texture = SubResource("CanvasTexture_gmwo1")
+offset = Vector2(1.048, 0.332)
+
+[node name="TempTile2" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.254902)
+material = SubResource("CanvasItemMaterial_kbkf2")
+position = Vector2(159, 204)
+scale = Vector2(192, 500)
+texture = SubResource("CanvasTexture_gmwo1")
+offset = Vector2(-0.828125, -0.408)
+
+[node name="Goal" parent="." instance=ExtResource("2_qt0vn")]
+position = Vector2(0, 250)
+scale = Vector2(4, 4)
+
+[node name="Entrance" type="Node2D" parent="."]
+position = Vector2(0, -250)
+
+[node name="Wall1" type="StaticBody2D" parent="."]
+position = Vector2(-96, -250)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall1"]
+shape = SubResource("SegmentShape2D_gmwo1")
+
+[node name="Wall2" type="StaticBody2D" parent="."]
+position = Vector2(96, -250)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2"]
+shape = SubResource("SegmentShape2D_gmwo1")

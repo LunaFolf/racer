@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://cfrv5mcxkd8cj"]
+
+[ext_resource type="Script" uid="uid://bbmo4y554w56c" path="res://scripts/Racer.cs" id="1_j3bjo"]
+[ext_resource type="Texture2D" uid="uid://crpks4fqcqaiv" path="res://assets/temp-car.png" id="2_oj5pt"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kpjcp"]
+
+[node name="Racer" type="CharacterBody2D"]
+collision_mask = 2
+script = ExtResource("1_j3bjo")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(0.998975, 0.732687, 0, 1)
+texture_filter = 1
+use_parent_material = true
+rotation = -1.5708
+texture = ExtResource("2_oj5pt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CapsuleShape2D_kpjcp")
+
+[connection signal="GoalEntered" from="." to="." method="_on_goal_entered"]

@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://b5bgixivrxxmm"]
+
+[ext_resource type="PackedScene" uid="uid://ddibarwjv0dnq" path="res://scenes/Player.tscn" id="1_80nbo"]
+[ext_resource type="Script" uid="uid://kbxceqpd5hcx" path="res://scripts/GoalManager.cs" id="2_lnu2h"]
+[ext_resource type="PackedScene" uid="uid://cfrv5mcxkd8cj" path="res://scenes/RacerOpponent.tscn" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://tf5mwdw0ujmc" path="res://scenes/track_pieces/track_start.tscn" id="3_lbhrr"]
+
+[node name="Game" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_80nbo")]
+position = Vector2(0, 80)
+
+[node name="Goals" type="Node2D" parent="."]
+script = ExtResource("2_lnu2h")
+StartingTrackScene = ExtResource("3_lbhrr")
+
+[node name="Racers" type="Node" parent="."]
+
+[node name="Racer" parent="Racers" instance=ExtResource("2_yqjtg")]
+position = Vector2(0, 40)
+
+[node name="Camera2D" type="Camera2D" parent="Racers/Racer"]
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true

@@ -1,0 +1,94 @@
+[gd_scene load_steps=9 format=3 uid="uid://83oaud63kx7c"]
+
+[ext_resource type="Script" uid="uid://d3h1rc0kdj7wc" path="res://scripts/Track/Track.cs" id="1_3qxt8"]
+[ext_resource type="PackedScene" uid="uid://bswu77k37e7bo" path="res://scenes/goal.tscn" id="2_s1ht6"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_kbkf2"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_gmwo1"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_ta58y"]
+b = Vector2(0, 154)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_gmwo1"]
+b = Vector2(0, 500)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_ht0pf"]
+b = Vector2(345, 0)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_no0kn"]
+b = Vector2(154, 0)
+
+[node name="TrackTR" type="Node2D" node_paths=PackedStringArray("Entrance", "Exit")]
+rotation = 3.14159
+script = ExtResource("1_3qxt8")
+Entrance = NodePath("Entrance")
+Exit = NodePath("Goal")
+EntranceLocation = 1
+ExitLocation = 3
+
+[node name="TempTile" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.254902)
+material = SubResource("CanvasItemMaterial_kbkf2")
+scale = Vector2(500, 500)
+texture = SubResource("CanvasTexture_gmwo1")
+
+[node name="TempTile2" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.254902)
+material = SubResource("CanvasItemMaterial_kbkf2")
+position = Vector2(0, 173)
+scale = Vector2(192, 154)
+texture = SubResource("CanvasTexture_gmwo1")
+
+[node name="TempTile3" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.254902)
+material = SubResource("CanvasItemMaterial_kbkf2")
+scale = Vector2(192, 192)
+texture = SubResource("CanvasTexture_gmwo1")
+
+[node name="TempTile4" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.254902)
+material = SubResource("CanvasItemMaterial_kbkf2")
+position = Vector2(-173, 0)
+scale = Vector2(154, 192)
+texture = SubResource("CanvasTexture_gmwo1")
+
+[node name="Goal" parent="." instance=ExtResource("2_s1ht6")]
+position = Vector2(-250, 0)
+rotation = -1.5708
+scale = Vector2(4, 4)
+
+[node name="Entrance" type="Node2D" parent="."]
+position = Vector2(0, 250)
+
+[node name="Wall1" type="StaticBody2D" parent="."]
+position = Vector2(-96, 96)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall1"]
+shape = SubResource("SegmentShape2D_ta58y")
+
+[node name="Wall2" type="StaticBody2D" parent="."]
+position = Vector2(96, -250)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2"]
+shape = SubResource("SegmentShape2D_gmwo1")
+
+[node name="Wall3" type="StaticBody2D" parent="."]
+position = Vector2(-250, -96)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall3"]
+shape = SubResource("SegmentShape2D_ht0pf")
+
+[node name="Wall4" type="StaticBody2D" parent="."]
+position = Vector2(-250, 96)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall4"]
+shape = SubResource("SegmentShape2D_no0kn")
