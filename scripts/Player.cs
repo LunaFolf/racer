@@ -26,7 +26,7 @@ public partial class Player : CharacterBody2D
 		set
 		{
 			_racePosition = value;
-			_actualMaxAccelSpeed = MaxAccelSpeed + (_racePosition - 1) * 20;
+			_actualMaxAccelSpeed = MaxAccelSpeed + (_racePosition - 1) * 10;
 		}
 	}
 
@@ -34,6 +34,17 @@ public partial class Player : CharacterBody2D
 	private double _stageTime = 0;
 	private int _lapCounter = 1;
 	private int _goalCounter = 1;
+
+	public void Reset()
+	{
+		_lapCounter = 1;
+		_goalCounter = 1;
+		_splitTime = 0;
+		_stageTime = 0;
+		Velocity = Vector2.Zero;
+		MoveAndSlide();
+	}
+
 	[Export] public int NumberOfGoals { get; set; }
 
 	public override void _Ready()

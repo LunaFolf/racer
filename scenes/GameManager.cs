@@ -3,11 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+// Notes
+// 1. Collisions are fucked lol
+// 2. Need markers on floor for when a corner is coming
+// 3. Minimap?
+// 4. Ramps and Obstacles?
+
 public partial class GameManager : Node2D
 {
     [Export] public HUD Hud;
     [Export] public GoalManager GoalManager;
     [Export] public RacerManager RacerManager;
+    [Export] public Camera2D Camera;
     private Godot.Collections.Dictionary<int, double> StageTime = new() { [0] = 0 };
     private Godot.Collections.Dictionary<int, double> SplitTime = new() { [0] = 0 };
     private Godot.Collections.Dictionary<int, string> RacerNames = new() { [0] = "Player" };
@@ -28,6 +35,8 @@ public partial class GameManager : Node2D
         RacerManager.MaxRacers = 9;
         RacerManager.GenerateRacers(GoalManager.GoalCounter);
 
+        Camera.Reparent(Player);
+
         foreach (Racer racer in RacerManager.Racers)
         {
             Racers.Add(racer.RacerNumber, racer);
@@ -41,9 +50,38 @@ public partial class GameManager : Node2D
         }
     }
 
+    public void Reset()
+    {
+        GD.Print("reset!");
+        int racerCounter = 0;
+        foreach (var entry in Racers.Keys)
+        {
+            StageTime[entry] = 0;
+            SplitTime[entry] = 0;
+            RacerLaps[entry] = 0;
+            RacerGoals[entry] = 1;
+
+            var racer = Racers[entry];
+
+            if (racerCounter == 0) ((Player)racer).Reset();
+            else ((Racer)racer).Reset();
+
+            var t = Transform2D.Identity;
+            ((CharacterBody2D)racer).GlobalTransform = t;
+            ((CharacterBody2D)racer).GlobalPosition = new Vector2(0, 90 + 45 * racerCounter);
+
+            racerCounter++;
+        }
+    }
+
     public override void _Process(double delta)
     {
         UpdatePositionsList();
+
+        if (Input.IsActionJustPressed("reset"))
+        {
+            Reset();
+        }
     }
 
     private void UpdatePositionsList()
@@ -63,11 +101,13 @@ public partial class GameManager : Node2D
 
         foreach (var racerId in ordered)
         {
-            positionCounter++;
+            // if (playerPosition == 1) Camera.Reparent(Racers[racerId]);
             if (racerId == 0) playerPosition = positionCounter;
             positions += positionCounter + ": " + RacerNames[racerId] + "\n";
 
             Racers[racerId].Set("RacePosition", positionCounter);
+
+            positionCounter++;
         }
 
         Hud.SetPositions(positions);

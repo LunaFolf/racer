@@ -7,6 +7,7 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kpjcp"]
 
 [node name="Racer" type="CharacterBody2D" node_paths=PackedStringArray("CarParticleSystem", "DebugTargetPos")]
+collision_layer = 3
 collision_mask = 2
 script = ExtResource("1_j3bjo")
 RotationSpeed = 1.5

@@ -19,7 +19,7 @@ public partial class Racer : CharacterBody2D
 		set
 		{
 			_racePosition = value;
-			_actualMaxAccelSpeed = MaxAccelSpeed + (_racePosition - 1) * 20;
+			_actualMaxAccelSpeed = MaxAccelSpeed + (_racePosition - 1) * 10;
 		}
 	}
 
@@ -39,6 +39,16 @@ public partial class Racer : CharacterBody2D
 	private double _stageTime = 0;
 	private int _goalCounter = 1;
 	[Export] public int NumberOfGoals { get; set; }
+
+	public void Reset()
+	{
+		_goalCounter = 1;
+		_splitTime = 0;
+		_stageTime = 0;
+		Velocity = Vector2.Zero;
+		MoveAndSlide();
+		FindGoal();
+	}
 
 	[Export] public GameManager GameManager;
 	public override void _Ready()
@@ -106,7 +116,7 @@ public partial class Racer : CharacterBody2D
 			float dot = forward.Dot(directionToGoal);
 			float cross = forward.Cross(directionToGoal);
 			float rot = Mathf.Clamp(cross, -1f, 1f);
-			float accel = Mathf.Clamp(dot, 0f, 1f);
+			float accel = Mathf.Clamp(dot, -1f, 1f);
 
 			accel *= Mathf.Clamp(dot, 0.3f, 1f);
 			accel *= Mathf.Clamp(1f - Mathf.Abs(rot), 0.3f, 1f);

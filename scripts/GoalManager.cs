@@ -16,7 +16,7 @@ public partial class GoalManager : Node2D
     private static PackedScene _trackCornerCCwScene;
 
     private int _goalCounter = 1;
-    private static int _maxRandomTracks = 10;
+    private static int _maxRandomTracks = 25;
 
     public int GoalCounter => _goalCounter - 1;
 
