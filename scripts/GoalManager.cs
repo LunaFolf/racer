@@ -11,8 +11,23 @@ public partial class GoalManager : Node2D
     [Export] public PackedScene TrackCornerCwScene;
     [Export] public PackedScene TrackCornerCCwScene;
 
+    private static PackedScene _trackStraightScene;
+    private static PackedScene _trackCornerCwScene;
+    private static PackedScene _trackCornerCCwScene;
+
     private int _goalCounter = 1;
     private static int _maxRandomTracks = 10;
+
+    public int GoalCounter => _goalCounter - 1;
+
+    private List<Goal> _goals = new();
+    public List<Goal> Goals => _goals;
+
+    public float DistanceToGoal(Vector2 pos, int goalNumber)
+    {
+        var goal = Goals[goalNumber];
+        return (pos - goal.Position).Length();
+    }
 
     struct TrackTile
     {
@@ -25,6 +40,11 @@ public partial class GoalManager : Node2D
         public int x = 0, y = 0;
 
         public TrackTile(Track.TrackType type)
+        {
+            SetType(type);
+        }
+
+        public void SetType(Track.TrackType type)
         {
             Type = type;
             Rotation = Track.TrackRotation.Deg0;
@@ -69,25 +89,29 @@ public partial class GoalManager : Node2D
 
     private TrackTile[] _tracks = new TrackTile[50];
 
-    // TODO: Optimise :3
     public bool IsTrackTileOccupied(int x, int y)
     {
-        foreach (TrackTile tile in _tracks) {
-            if (tile.x == x && tile.y == y) return true;
+        foreach (TrackTile tile in _tracks)
+        {
+            if (tile.TrackScene == null) continue;
+
+            if (tile.x == x && tile.y == y)
+                return true;
         }
+
         return false;
     }
 
-    public PackedScene GetTrackScene(Track.TrackType type)
+    public static PackedScene GetTrackScene(Track.TrackType type)
     {
         switch (type)
         {
             case Track.TrackType.Straight:
-                return TrackStraightScene;
+                return _trackStraightScene;
             case Track.TrackType.CornerCw:
-                return TrackCornerCwScene;
+                return _trackCornerCwScene;
             case Track.TrackType.CornerCCw:
-                return TrackCornerCCwScene;
+                return _trackCornerCCwScene;
             default:
                 return null;
         }
@@ -95,23 +119,137 @@ public partial class GoalManager : Node2D
 
     public override void _Ready()
     {
+        _trackStraightScene ??= TrackStraightScene;
+        _trackCornerCwScene ??= TrackCornerCwScene;
+        _trackCornerCCwScene ??= TrackCornerCCwScene;
+    }
+
+    public void StartGeneration()
+    {
         _tracks[0] = new TrackTile(Track.TrackType.Start);
         _tracks[0].TrackScene = TrackStartScene;
 
-        GD.Print("Track 1: " + _tracks[1].GetExitDir());
+        List<Vector2I> returnPath;
 
-        GenerateRandomTrack();
-        var returnPath = PathfindToStart();
-        //GD.Print(returnPath);
-        SpawnTrack();
-
-        // Inform Racers of the number of goals
-        foreach (var racer in GetTree().GetRoot().GetNode("Game/Racers").GetChildren())
+        do
         {
-            racer.Set("NumberOfGoals", _goalCounter - 1);
+            GenerateRandomTrack();
+            returnPath = PathfindToStart();
+
+            if (returnPath == null) GD.PrintErr("Unable to generate a valid circuit, aborting...");
+            else GD.Print("Pathfinding to start returned " + returnPath.Count + " points");
+        } while (returnPath == null);
+
+        GenerateReturnPathTrack(returnPath);
+
+        SpawnTrack();
+    }
+
+    public void GenerateReturnPathTrack(List<Vector2I> path)
+    {
+        for (int i = 0; i < path.Count; i++) // Using for loop instead of foreach, so I can grab "next" track piece easily.
+        {
+            var current = path[i];
+
+            TrackTile prev;
+            if (i == 0)
+                prev = _tracks[_maxRandomTracks - 1];
+            else
+                prev = _tracks[_maxRandomTracks + i - 1];
+
+            var prevExitOpposite = Track.Opposite(prev.GetExitDir());
+            var nextEntrance = GetTrackDir(current, new Vector2I(0, 0));
+
+            var newTrackPiece = new TrackTile(Track.TrackType.Straight);
+
+            if (i < path.Count - 1)
+            {
+                var next = path[i + 1];
+                nextEntrance = GetTrackDir(current, next);
+            }
+
+            GD.Print(prevExitOpposite, " -> ", nextEntrance);
+            newTrackPiece.SetType(GetExactTrackTile(prevExitOpposite, nextEntrance));
+            newTrackPiece.TrackScene = GetTrackScene(newTrackPiece.Type);
+
+            int rotationCounter = 0;
+            while (rotationCounter < 4 && prevExitOpposite != newTrackPiece.GetEntranceDir())
+            {
+                GD.Print(i, " [RP] Rotating Tile to fit ", prevExitOpposite, newTrackPiece.GetEntranceDir());
+                newTrackPiece.Rotation += 1;
+                rotationCounter++;
+                if (rotationCounter >= 4)
+                {
+                    GD.PrintErr("[RP] Unable to rotate track into valid piece, forcing new track...");
+                    break;
+                }
+            }
+
+            newTrackPiece.x = current.X;
+            newTrackPiece.y = current.Y;
+
+            _tracks[_maxRandomTracks + i] = newTrackPiece;
         }
     }
 
+    public static Track.TrackType GetExactTrackTile(Track.TrackDir entrance, Track.TrackDir exit)
+    {
+        // CCW:
+        // Bottom -> Left, Left -> Top, Top -> Right, Right -> Bottom
+        if ((entrance == Track.TrackDir.Bottom && exit == Track.TrackDir.Left) ||
+            (entrance == Track.TrackDir.Left && exit == Track.TrackDir.Top) ||
+            (entrance == Track.TrackDir.Top && exit == Track.TrackDir.Right) ||
+            (entrance == Track.TrackDir.Right && exit == Track.TrackDir.Bottom))
+        {
+            return Track.TrackType.CornerCCw;
+        }
+
+        // CW:
+        // Top -> Left, Right -> Top, Bottom -> Right, Left -> Bottom
+        if ((entrance == Track.TrackDir.Top && exit == Track.TrackDir.Left) ||
+            (entrance == Track.TrackDir.Right && exit == Track.TrackDir.Top) ||
+            (entrance == Track.TrackDir.Bottom && exit == Track.TrackDir.Right) ||
+            (entrance == Track.TrackDir.Left && exit == Track.TrackDir.Bottom))
+        {
+            return Track.TrackType.CornerCw;
+        }
+
+        // Straight:
+        // Bottom -> Top, Top -> Bottom, Left -> Right, Right -> Left
+        if ((entrance == Track.TrackDir.Bottom && exit == Track.TrackDir.Top) ||
+            (entrance == Track.TrackDir.Top && exit == Track.TrackDir.Bottom) ||
+            (entrance == Track.TrackDir.Left && exit == Track.TrackDir.Right) ||
+            (entrance == Track.TrackDir.Right && exit == Track.TrackDir.Left))
+        {
+            return Track.TrackType.Straight;
+        }
+
+        GD.PrintErr("[RP] Invalid track direction! Can't covert entrance: " + entrance + " exit: " + exit + " to a track type!");
+
+        return Track.TrackType.Straight;
+    }
+
+    public Track.TrackDir GetTrackDir(Vector2I start, Vector2I end)
+    {
+        // Read the coords, check if we need a straight piece/corner/corner-cw
+        // And if the piece needs to be rotated.
+        // Coord will be in the form of (x, y), and could be moving from bottom to top, left to right, bottom to right, or any of the combos...
+
+        int xDiff = end.X - start.X;
+        int yDiff = end.Y - start.Y;
+
+        GD.Print("xDiff: " + xDiff + ", yDiff: " + yDiff);
+
+        if (xDiff < 0) return Track.TrackDir.Left;
+        if (xDiff > 0) return Track.TrackDir.Right;
+        if (yDiff > 0) return Track.TrackDir.Top;
+        if (yDiff < 0) return Track.TrackDir.Bottom;
+
+        throw new System.Exception("Invalid track direction! Can't covert xDiff: " + xDiff + " yDiff: " + yDiff + " to a direction!");
+    }
+
+    // Generate several random track pieces, that don't cause collisions with existing pieces,
+    // so that the start of the circuit is more interesting.
     public void GenerateRandomTrack()
     {
         int localX = 0, localY = 1;
@@ -120,18 +258,13 @@ public partial class GoalManager : Node2D
         {
             GD.Print("Generating Track Piece ", i);
             bool newTrackExitBlocked = false;
-
             int trackGenerationAttempt = 0;
             do
             {
                 trackGenerationAttempt++;
                 if (newTrackExitBlocked) GD.Print("Track blocked, regenerating...");
-                if (trackGenerationAttempt >= 12)
-                {
-                    GD.Print("Attempted to generate track piece 12 times with no success, breaking and restarting...");
-                    break;
-                }
-                _tracks[i] = _baseTrackTiles[GD.Randi() % _baseTrackTiles.Length];
+                var randomType = _baseTrackTiles[GD.Randi() % _baseTrackTiles.Length].Type;
+                _tracks[i] = new TrackTile(randomType);
                 _tracks[i].x = localX;
                 _tracks[i].y = localY;
                 _tracks[i].TrackScene = GetTrackScene(_tracks[i].Type);
@@ -147,13 +280,11 @@ public partial class GoalManager : Node2D
                         rotationCounter++;
                         if (rotationCounter >= 4)
                         {
-                            GD.Print("Unable to rotate track into valid piece, forcing new track...");
+                            GD.PrintErr("Unable to rotate track into valid piece, forcing new track...");
                             newTrackExitBlocked = true;
                         }
                     }
                 }
-
-                if (newTrackExitBlocked) GD.Print("Track blocked, regenerating...");
 
                 switch (_tracks[i].GetExitDir())
                 {
@@ -174,11 +305,17 @@ public partial class GoalManager : Node2D
                         if (!newTrackExitBlocked) localX++;
                         break;
                 }
-            } while (newTrackExitBlocked);
+            } while (trackGenerationAttempt <= 12 && newTrackExitBlocked);
 
             lastTile = _tracks[i];
 
-            if (trackGenerationAttempt >= 12) i = 1;
+            if (trackGenerationAttempt >= 12 || newTrackExitBlocked)
+            {
+                lastTile = _tracks[0];
+                i = 0;
+                localX = 0;
+                localY = 1;
+            };
         }
     }
 
@@ -187,6 +324,8 @@ public partial class GoalManager : Node2D
         return Mathf.Abs(current.X - goal.X) + Mathf.Abs(current.Y - goal.Y);
     }
 
+    // Pathfind from the end of the randomly generated track, back to the starting line,
+    // so that we have a complete circuit for our race.
     public List<Vector2I> PathfindToStart()
     {
         var lastTrack = _tracks[_maxRandomTracks - 1];
@@ -219,32 +358,29 @@ public partial class GoalManager : Node2D
 
         int loopCount = 0;
 
-        GD.Print("About to start path finding");
-        GD.Print(openList.Count);
-
-        while (openList.Count > 0 || loopCount < 100)
+        while (openList.Count > 0 && loopCount < 1000)
         {
             loopCount++;
-            if (loopCount >= 100)
+            if (loopCount >= 1000)
             {
-                GD.Print("stuck in loop? yeet");
-                break;
+                GD.PrintErr("Got stuck in an infinite loop for pathfinding, breaking and restarting...");
+                return null;
             }
             var current = openList.OrderBy(track => gScore[track] + hScore[track]).First();
-            if (current == goal)
+            if (current.Equals(goal))
             {
                 // Return path reconstruction
                 return ReconstructPath(parentMap, current);
             }
 
             openList.Remove(current);
-            closedList.Remove(current);
+            closedList.Add(current);
 
             foreach (var neighbour in GetNeighbours(current))
             {
-                if (closedList.Contains(current) || IsTrackTileOccupied(neighbour.X, neighbour.Y)) continue;
+                if (closedList.Contains(neighbour) || IsTrackTileOccupied(neighbour.X, neighbour.Y)) continue;
 
-                int tentativeGScore = gScore[current] + Heuristic(neighbour, current);
+                int tentativeGScore = gScore[current] + 1;
 
                 if (!gScore.ContainsKey(neighbour) || tentativeGScore < gScore[neighbour])
                 {
@@ -266,7 +402,8 @@ public partial class GoalManager : Node2D
         var path = new List<Vector2I> { current };
         while (parentMap.ContainsKey(current))
         {
-            path.Add(parentMap[current]);
+            current = parentMap[current];
+            path.Add(current);
         }
 
         path.Reverse();
@@ -285,42 +422,21 @@ public partial class GoalManager : Node2D
         return neighbours;
     }
 
+    // Generate the track based on the given pieces, rotation, etc., in _tracks.
     public void SpawnTrack()
     {
         GD.Print("SpawnTrack");
 
         TrackTile lastTile = new TrackTile();
 
-        float spawnX = 0, spawnY = 0;
         foreach (var tile in _tracks)
         {
             if (tile.TrackScene == null) continue;
 
-            if (lastTile.TrackScene != null)
-            {
-                var lastTileExit = lastTile.GetExitDir();
-
-                switch (lastTileExit)
-                {
-                    case Track.TrackDir.Top:
-                        spawnY -= 500;
-                        break;
-                    case Track.TrackDir.Right:
-                        spawnX += 500;
-                        break;
-                    case Track.TrackDir.Bottom:
-                        spawnY += 500;
-                        break;
-                    case Track.TrackDir.Left:
-                        spawnX -= 500;
-                        break;
-                }
-            }
-
             Node2D scene = tile.TrackScene.Instantiate<Node2D>();
             AddChild(scene);
 
-            scene.GlobalPosition = new Vector2(spawnX, spawnY);
+            scene.GlobalPosition = new Vector2(tile.x * 500, -tile.y * 500);
 
             if (tile.Rotation != Track.TrackRotation.Deg0)
             {
@@ -333,6 +449,7 @@ public partial class GoalManager : Node2D
                 goal.Reparent(this);
                 goal.Set("GoalNumber", _goalCounter);
                 goal.Name = "Goal" + _goalCounter;
+                _goals.Add((Goal)goal);
             }
 
             lastTile = tile;

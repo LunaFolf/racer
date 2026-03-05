@@ -1,13 +1,22 @@
-[gd_scene load_steps=7 format=3 uid="uid://b5bgixivrxxmm"]
+[gd_scene load_steps=11 format=3 uid="uid://b5bgixivrxxmm"]
 
 [ext_resource type="PackedScene" uid="uid://ddibarwjv0dnq" path="res://scenes/Player.tscn" id="1_80nbo"]
+[ext_resource type="Script" uid="uid://b2epx77qqqfxp" path="res://scenes/GameManager.cs" id="1_gee14"]
 [ext_resource type="Script" uid="uid://kbxceqpd5hcx" path="res://scripts/GoalManager.cs" id="2_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://tf5mwdw0ujmc" path="res://scenes/track_pieces/_track_start.tscn" id="3_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://c8baep1wl8lq5" path="res://scenes/track_pieces/track_straight.tscn" id="4_gee14"]
 [ext_resource type="PackedScene" uid="uid://biqkclajotyu8" path="res://scenes/track_pieces/track_cw.tscn" id="5_0tnpc"]
 [ext_resource type="PackedScene" uid="uid://83oaud63kx7c" path="res://scenes/track_pieces/track_ccw.tscn" id="6_vtaks"]
+[ext_resource type="PackedScene" uid="uid://cfrv5mcxkd8cj" path="res://scenes/RacerOpponent.tscn" id="7_0tnpc"]
+[ext_resource type="Script" uid="uid://dnqkyh6qrn7fg" path="res://scenes/RacerManager.cs" id="7_vtaks"]
+[ext_resource type="PackedScene" uid="uid://db04xgn52pj5d" path="res://scenes/HUD.tscn" id="8_gee14"]
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("Hud", "GoalManager", "RacerManager", "Player")]
+script = ExtResource("1_gee14")
+Hud = NodePath("HUD")
+GoalManager = NodePath("Goals")
+RacerManager = NodePath("Racers")
+Player = NodePath("Player")
 
 [node name="Goals" type="Node2D" parent="."]
 script = ExtResource("2_lnu2h")
@@ -16,11 +25,16 @@ TrackStraightScene = ExtResource("4_gee14")
 TrackCornerCwScene = ExtResource("5_0tnpc")
 TrackCornerCCwScene = ExtResource("6_vtaks")
 
-[node name="Racers" type="Node" parent="."]
+[node name="Racers" type="Node" parent="." node_paths=PackedStringArray("GameManager")]
+script = ExtResource("7_vtaks")
+GameManager = NodePath("..")
+RacerScene = ExtResource("7_0tnpc")
 
-[node name="Player" parent="." node_paths=PackedStringArray("Camera") instance=ExtResource("1_80nbo")]
-position = Vector2(0, 179)
+[node name="Player" parent="." node_paths=PackedStringArray("Camera", "GameManager", "Hud") instance=ExtResource("1_80nbo")]
+z_as_relative = false
 Camera = NodePath("Camera2D")
+GameManager = NodePath("..")
+Hud = NodePath("../HUD")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(0, -48)
@@ -29,3 +43,10 @@ position_smoothing_enabled = true
 rotation_smoothing_enabled = true
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
+
+[node name="HUD" parent="." instance=ExtResource("8_gee14")]
+
+[connection signal="SetRacerGoal" from="." to="." method="_on_set_racer_goal"]
+[connection signal="SetRacerLap" from="." to="." method="_on_set_racer_lap"]
+[connection signal="SetSplitTime" from="." to="." method="_on_set_split_time"]
+[connection signal="SetStageTime" from="." to="." method="_on_set_stage_time"]

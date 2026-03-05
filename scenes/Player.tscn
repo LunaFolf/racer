@@ -9,7 +9,7 @@
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("CarParticleSystem")]
 collision_mask = 3
 script = ExtResource("1_v6fml")
-MaxAccelSpeed = 220.0
+MaxAccelSpeed = 200.0
 RotationSpeed = 1.5
 Acceleration = 160.0
 Deceleration = 160.0
@@ -26,3 +26,5 @@ texture = ExtResource("1_xhfnw")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(5.72205e-05, 8.00006)
 shape = SubResource("CapsuleShape2D_kpjcp")
+
+[connection signal="GoalEntered" from="." to="." method="_on_goal_entered"]

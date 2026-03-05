@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://biqkclajotyu8"]
+[gd_scene load_steps=10 format=3 uid="uid://biqkclajotyu8"]
 
 [ext_resource type="Script" uid="uid://d3h1rc0kdj7wc" path="res://scripts/Track/Track.cs" id="1_x6o2m"]
 [ext_resource type="Texture2D" uid="uid://cmbmnoc3j2mpw" path="res://assets/grass.png" id="2_mfx8t"]
 [ext_resource type="PackedScene" uid="uid://bswu77k37e7bo" path="res://scenes/goal.tscn" id="2_nu1i1"]
 [ext_resource type="Texture2D" uid="uid://47wcx8030kbi" path="res://assets/road.png" id="3_t7p4n"]
 [ext_resource type="Texture2D" uid="uid://gvtbytq25i64" path="res://assets/kerb.png" id="4_t7p4n"]
+[ext_resource type="Texture2D" uid="uid://co1v7dhkvh2vk" path="res://assets/fence.png" id="5_5in0o"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_ta58y"]
 a = Vector2(-1.0009, -1)
@@ -16,12 +17,15 @@ b = Vector2(0, 500)
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_ht0pf"]
 b = Vector2(345, 0)
 
-[node name="TrackTL" type="Node2D" node_paths=PackedStringArray("Entrance", "Exit")]
+[node name="TrackTL" type="Node2D" node_paths=PackedStringArray("Entrance", "Exit", "DebugCoords")]
+z_index = -100
 script = ExtResource("1_x6o2m")
 Entrance = NodePath("Entrance")
 Exit = NodePath("Goal")
+DebugCoords = NodePath("Debug_COORDS")
 
 [node name="TempTile" type="Sprite2D" parent="."]
+z_index = -1
 texture_filter = 1
 texture_repeat = 2
 texture = ExtResource("2_mfx8t")
@@ -37,6 +41,7 @@ uv = PackedVector2Array(96, 96, -250, 96, -250, -96, -96, -250, 96, -250)
 polygons = [PackedInt32Array(3, 4, 0, 1, 2)]
 
 [node name="Line2D" type="Line2D" parent="."]
+z_index = 1
 texture_filter = 1
 texture_repeat = 2
 points = PackedVector2Array(96, -250, 96, 96, -250, 96)
@@ -48,6 +53,7 @@ begin_cap_mode = 2
 end_cap_mode = 2
 
 [node name="Line2D2" type="Line2D" parent="."]
+z_index = 1
 texture_filter = 1
 texture_repeat = 2
 points = PackedVector2Array(-96, -250, -250, -96)
@@ -57,6 +63,18 @@ texture_mode = 1
 begin_cap_mode = 2
 end_cap_mode = 2
 sharp_limit = 0.0
+
+[node name="Line2D4" type="Line2D" parent="."]
+z_index = 1
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(-154, 500)
+rotation = 1.5708
+points = PackedVector2Array(-750, -404, -250, -404, -250, 96)
+width = 8.0
+texture = ExtResource("5_5in0o")
+texture_mode = 1
+joint_mode = 1
 
 [node name="Goal" parent="." instance=ExtResource("2_nu1i1")]
 position = Vector2(-250, 0)
@@ -89,3 +107,15 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall3"]
 shape = SubResource("SegmentShape2D_ht0pf")
+
+[node name="Debug_COORDS" type="Label" parent="."]
+top_level = true
+offset_left = -90.0
+offset_top = -90.0
+offset_right = 88.0
+offset_bottom = 82.0
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 126
+text = "0,0"
+horizontal_alignment = 1
+vertical_alignment = 1

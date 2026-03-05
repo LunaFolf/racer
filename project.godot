@@ -15,6 +15,10 @@ run/main_scene="uid://b5bgixivrxxmm"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="uid://crpks4fqcqaiv"
 
+[display]
+
+window/stretch/mode="canvas_items"
+
 [dotnet]
 
 project/assembly_name="racer"
