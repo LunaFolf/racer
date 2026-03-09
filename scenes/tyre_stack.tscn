@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://o5alaviq6wga"]
+
+[ext_resource type="Script" uid="uid://563pjtpdbxb4" path="res://scripts/AlwaysUp.cs" id="1_ehrrp"]
+[ext_resource type="Texture2D" uid="uid://b2b8lngfnfxvn" path="res://assets/tyre.png" id="1_v3mbq"]
+
+[node name="TyreStack" type="Node2D"]
+script = ExtResource("1_ehrrp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, 0)
+texture = ExtResource("1_v3mbq")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(8, -1)
+texture = ExtResource("1_v3mbq")
+offset = Vector2(-9, -4)
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+position = Vector2(10, -5)
+texture = ExtResource("1_v3mbq")
+offset = Vector2(-9, -4)

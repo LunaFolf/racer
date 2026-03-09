@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://bdlpr56xw4u6o"]
 
-[ext_resource type="Script" uid="uid://bh624r8mfaig7" path="res://scenes/CarParticleSystem.cs" id="1_5q2wo"]
-[ext_resource type="Material" uid="uid://b5ldkho74uac5" path="res://scenes/Debris Particle.tres" id="1_ith0h"]
-[ext_resource type="Material" uid="uid://2eocj8kpjlty" path="res://scenes/Tire Particle.tres" id="2_5q2wo"]
+[ext_resource type="Script" uid="uid://bh624r8mfaig7" path="res://scripts/CarParticleSystem.cs" id="1_5q2wo"]
+[ext_resource type="Material" uid="uid://b5ldkho74uac5" path="res://assets/Debris Particle.tres" id="1_ith0h"]
+[ext_resource type="Material" uid="uid://2eocj8kpjlty" path="res://assets/Tire Particle.tres" id="2_5q2wo"]
 
 [node name="CarParticleSystem" type="Node2D" node_paths=PackedStringArray("DebrisParticles", "LeftTireParticles", "RightTireParticles")]
 script = ExtResource("1_5q2wo")

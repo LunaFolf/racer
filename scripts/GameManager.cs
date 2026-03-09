@@ -20,7 +20,7 @@ public partial class GameManager : Node2D
     private Godot.Collections.Dictionary<int, string> RacerNames = new() { [0] = "Player" };
     private Godot.Collections.Dictionary<int, int> RacerLaps = new() { [0] = 0 };
     private Godot.Collections.Dictionary<int, int> RacerGoals = new() { [0] = 1 };
-    private Godot.Collections.Dictionary<int, Node> Racers = new();
+    private Godot.Collections.Dictionary<int, CharacterBody2D> Racers = new();
     [Export] public Player Player;
 
     [Signal] public delegate void SetSplitTimeEventHandler(int racerId, double time);
@@ -30,6 +30,7 @@ public partial class GameManager : Node2D
     public override void _Ready()
     {
         GoalManager.StartGeneration();
+        Hud.Minimap.SetMap(GoalManager.TrackPoints);
         Player.NumberOfGoals = GoalManager.GoalCounter;
         Racers.Add(0, Player);
         RacerManager.MaxRacers = 9;
@@ -67,8 +68,8 @@ public partial class GameManager : Node2D
             else ((Racer)racer).Reset();
 
             var t = Transform2D.Identity;
-            ((CharacterBody2D)racer).GlobalTransform = t;
-            ((CharacterBody2D)racer).GlobalPosition = new Vector2(0, 90 + 45 * racerCounter);
+            racer.GlobalTransform = t;
+            racer.GlobalPosition = new Vector2(0, 90 + 45 * racerCounter);
 
             racerCounter++;
         }
@@ -86,7 +87,7 @@ public partial class GameManager : Node2D
 
     private void UpdatePositionsList()
     {
-        string positions = "";
+        // string positions = "";
 
         int positionCounter = 0;
 
@@ -94,23 +95,30 @@ public partial class GameManager : Node2D
             .OrderByDescending(id => RacerLaps[id])
             .ThenByDescending(id => RacerGoals[id])
             .ThenBy(id => GoalManager.DistanceToGoal(
-                ((CharacterBody2D)Racers[id]).GlobalPosition, RacerGoals[id] - 1
+                Racers[id].GlobalPosition, RacerGoals[id] - 1
                 )); // TODO: Sort by distance to next goal
 
         int playerPosition = 1;
 
         foreach (var racerId in ordered)
         {
-            // if (playerPosition == 1) Camera.Reparent(Racers[racerId]);
-            if (racerId == 0) playerPosition = positionCounter;
-            positions += positionCounter + ": " + RacerNames[racerId] + "\n";
+            // if (positionCounter == 0 && Camera.GetParent() != Racers[racerId])
+            // {
+            //     GD.Print("Camera parent changed!", Racers[racerId]);
+            //     var newCamPos = Racers[racerId].GlobalPosition;
+            //     newCamPos.Y -= 48;
+            //     Camera.Reparent(Racers[racerId]);
+            //     Camera.GlobalPosition = newCamPos;
+            // }
+            if (racerId == 0) playerPosition = positionCounter + 1;
+            // positions += positionCounter + ": " + RacerNames[racerId] + "\n";
 
             Racers[racerId].Set("RacePosition", positionCounter);
 
             positionCounter++;
         }
 
-        Hud.SetPositions(positions);
+        // Hud.SetPositions(positions);
         Hud.SetRanking(playerPosition + " / " + (RacerManager.MaxRacers + 1));
     }
 

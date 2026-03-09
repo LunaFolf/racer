@@ -29,11 +29,17 @@ public partial class Racer : CharacterBody2D
 
 	[Signal] public delegate void GoalEnteredEventHandler(int goalNumber);
 
-	private bool _debug = true;
+	[Flags]
+	private enum DebugMode
+	{
+		TargetPos = 1 << 1,
+		Label = 1 << 2
+	}
+	[Export] private DebugMode _currentDebugMode;
+	[Export] private Label _debugLabel;
+	[Export] private Node2D _debugTargetPos;
 
-	[Export] public Node2D DebugTargetPos;
-
-	private Area2D _goal;
+	private Goal _goal;
 	private Vector2 _targetPos;
 	private double _splitTime = 0;
 	private double _stageTime = 0;
@@ -59,13 +65,23 @@ public partial class Racer : CharacterBody2D
 
 		Modulate = _racerColor;
 
-		if (!_debug)
+		if ((_currentDebugMode & DebugMode.Label) == 0)
 		{
-			DebugTargetPos.QueueFree();
-			return;
+			_debugLabel.QueueFree();
+		}
+		else
+		{
+			_debugLabel.Modulate = new Color(1,1,1);
 		}
 
-		DebugTargetPos.Modulate = _racerColor;
+		if ((_currentDebugMode & DebugMode.TargetPos) == 0)
+		{
+			_debugTargetPos.QueueFree();
+		}
+		else
+		{
+			_debugTargetPos.Modulate = _racerColor;
+		}
 
 	}
 
@@ -77,19 +93,20 @@ public partial class Racer : CharacterBody2D
 
 	public void FindGoal()
 	{
-		Area2D goal = GetTree().GetRoot().GetNodeOrNull<Area2D>("Game/Goals/Goal" + _goalCounter);
+		Goal goal = GetTree().GetRoot().GetNodeOrNull<Goal>("Game/Goals/Goal" + _goalCounter);
 
 		if (goal != null)
 		{
 			GD.Print("Goal found!");
 			_goal = goal;
 			_targetPos = _goal.GlobalPosition; // TODO: Randomise a position on the goal, so each car races a little differently
-			// float offset = 24f * (float)GD.RandRange(-1f, 1f);
 			Vector2 dir = _goal.GlobalTransform.X;
 
-			float laneOffset = GD.RandRange(-8, 8) * 2;
-			_targetPos += dir * laneOffset;
-			DebugTargetPos.Position = _targetPos;
+			var goalWidth = _goal.Width - 8;
+
+			var laneOffset = GD.RandRange(-(goalWidth/4), goalWidth/4) * 2;
+			_targetPos += dir * (float)laneOffset;
+			if ((_currentDebugMode & DebugMode.TargetPos) != 0 && _debugTargetPos != null) _debugTargetPos.Position = _targetPos;
 
 			GD.Print("Target: " + _targetPos);
 		}
@@ -106,6 +123,8 @@ public partial class Racer : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
+		string debugText = "";
+		if ((_currentDebugMode & DebugMode.Label) != 0 && _debugLabel != null) debugText = "Racer " + RacerNumber + " " + _goalCounter + "/" + NumberOfGoals;
 		Vector2 velocity = Velocity;
 
 		if (_goal != null)
@@ -121,7 +140,7 @@ public partial class Racer : CharacterBody2D
 			accel *= Mathf.Clamp(dot, 0.3f, 1f);
 			accel *= Mathf.Clamp(1f - Mathf.Abs(rot), 0.3f, 1f);
 
-			if (accel > 0.01f)
+			if (!Mathf.IsEqualApprox(accel, 0f))
 			{
 				velocity = velocity.MoveToward(forward * _actualMaxAccelSpeed * accel, Acceleration * (float)delta);
 			}
@@ -146,7 +165,11 @@ public partial class Racer : CharacterBody2D
 
 			CarParticleSystem.LeftTireParticles.Lifetime = tireMarkLifetime;
 			CarParticleSystem.RightTireParticles.Lifetime = tireMarkLifetime;
+
+			if ((_currentDebugMode & DebugMode.Label) != 0 && _debugLabel != null) debugText += "\n" + "Accel: " + accel + "\nRot: " + rot + "\nSpeed: " + velocity.Length() + "";
 		}
+
+		if ((_currentDebugMode & DebugMode.Label) != 0 && _debugLabel != null) _debugLabel.Text = debugText;
 
 		Velocity = velocity;
 		MoveAndSlide();

@@ -4,6 +4,8 @@ using System;
 public partial class Goal : Area2D
 {
     [Export] public int GoalNumber { get; set; }
+
+    public int Width => 48;
     public void _on_body_entered(Node2D body)
     {
         GD.Print("Goal " + GoalNumber + " entered!");

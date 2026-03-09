@@ -6,15 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://47wcx8030kbi" path="res://assets/road.png" id="3_53ok6"]
 [ext_resource type="Texture2D" uid="uid://gvtbytq25i64" path="res://assets/kerb.png" id="4_xv0ur"]
 [ext_resource type="Texture2D" uid="uid://co1v7dhkvh2vk" path="res://assets/fence.png" id="5_53ok6"]
-
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_gmwo1"]
-b = Vector2(0, 500)
-
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_ht0pf"]
-b = Vector2(345, 0)
-
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_no0kn"]
-b = Vector2(154, 154)
+[ext_resource type="Texture2D" uid="uid://cuul764fh5dhh" path="res://assets/tile_cw.png" id="6_yfn43"]
+[ext_resource type="Texture2D" uid="uid://dkterpq6fiyub" path="res://assets/arrow-left.png" id="7_xv0ur"]
+[ext_resource type="PackedScene" uid="uid://o5alaviq6wga" path="res://scenes/tyre_stack.tscn" id="9_0cfcr"]
 
 [node name="TrackTR" type="Node2D" node_paths=PackedStringArray("Entrance", "Exit", "DebugCoords")]
 z_index = -100
@@ -24,6 +18,7 @@ Exit = NodePath("Goal")
 DebugCoords = NodePath("Debug_COORDS")
 
 [node name="TempTile5" type="Sprite2D" parent="."]
+visible = false
 z_index = -1
 texture_filter = 1
 texture_repeat = 2
@@ -32,6 +27,7 @@ region_enabled = true
 region_rect = Rect2(0, 0, 500, 500)
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
+visible = false
 texture_filter = 1
 texture_repeat = 2
 rotation = -1.57079
@@ -41,6 +37,7 @@ uv = PackedVector2Array(96, 96, -250, 96, -250, -96, -96, -250, 96, -250)
 polygons = [PackedInt32Array(3, 4, 0, 1, 2)]
 
 [node name="Line2D" type="Line2D" parent="."]
+visible = false
 z_index = 1
 texture_filter = 1
 texture_repeat = 2
@@ -54,6 +51,7 @@ begin_cap_mode = 2
 end_cap_mode = 2
 
 [node name="Line2D2" type="Line2D" parent="."]
+visible = false
 z_index = 1
 texture_filter = 1
 texture_repeat = 2
@@ -67,6 +65,7 @@ end_cap_mode = 2
 sharp_limit = 0.0
 
 [node name="Line2D4" type="Line2D" parent="."]
+visible = false
 z_index = 1
 texture_filter = 1
 texture_repeat = 2
@@ -77,37 +76,20 @@ texture = ExtResource("5_53ok6")
 texture_mode = 1
 joint_mode = 1
 
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 2
+texture = ExtResource("6_yfn43")
+region_enabled = true
+region_rect = Rect2(0, 0, 500, 500)
+
 [node name="Goal" parent="." instance=ExtResource("2_s1ht6")]
 position = Vector2(-250, 0)
 rotation = -1.5708
-scale = Vector2(4, 4)
+scale = Vector2(4.5, 4)
 
 [node name="Entrance" type="Node2D" parent="."]
 position = Vector2(0, 250)
-
-[node name="Wall2" type="StaticBody2D" parent="."]
-position = Vector2(96, -250)
-collision_layer = 2
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2"]
-shape = SubResource("SegmentShape2D_gmwo1")
-
-[node name="Wall3" type="StaticBody2D" parent="."]
-position = Vector2(-250, -96)
-collision_layer = 2
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall3"]
-shape = SubResource("SegmentShape2D_ht0pf")
-
-[node name="Wall4" type="StaticBody2D" parent="."]
-position = Vector2(-250, 96)
-collision_layer = 2
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall4"]
-shape = SubResource("SegmentShape2D_no0kn")
 
 [node name="Debug_COORDS" type="Label" parent="."]
 top_level = true
@@ -119,3 +101,79 @@ theme_override_font_sizes/font_size = 126
 text = "0,0"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, 314)
+texture = ExtResource("7_xv0ur")
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="TyreStack" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(-232, -129)
+
+[node name="TyreStack2" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(-200, -124)
+
+[node name="TyreStack3" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(-166, -118)
+
+[node name="TyreStack4" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(-132, -108)
+
+[node name="TyreStack5" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(-102, -97)
+
+[node name="TyreStack6" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(-72, -83)
+
+[node name="TyreStack7" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(-42, -66)
+
+[node name="TyreStack8" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(-12, -48)
+
+[node name="TyreStack9" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(13, -23)
+
+[node name="TyreStack10" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(39, 1)
+
+[node name="TyreStack11" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(62, 31)
+
+[node name="TyreStack12" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(80, 59)
+
+[node name="TyreStack13" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(97, 92)
+
+[node name="TyreStack14" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(112, 125)
+
+[node name="TyreStack15" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(123, 160)
+
+[node name="TyreStack16" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(131, 199)
+
+[node name="TyreStack17" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(133, 233)
+
+[node name="TyreStack18" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(-235, 139)
+
+[node name="TyreStack19" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(-207, 148)
+
+[node name="TyreStack20" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(-179, 161)
+
+[node name="TyreStack21" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(-160, 182)
+
+[node name="TyreStack22" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(-145, 210)
+
+[node name="TyreStack23" parent="Node2D" instance=ExtResource("9_0cfcr")]
+position = Vector2(-139, 235)

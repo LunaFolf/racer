@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,10 @@ public partial class GoalManager : Node2D
     private static PackedScene _trackCornerCwScene;
     private static PackedScene _trackCornerCCwScene;
 
+    [Export] public Track StartingTrack;
+
     private int _goalCounter = 1;
-    private static int _maxRandomTracks = 25;
+    private static int _maxRandomTracks = 45;
 
     public int GoalCounter => _goalCounter - 1;
 
@@ -87,7 +90,9 @@ public partial class GoalManager : Node2D
         new (Track.TrackType.CornerCCw)
     ];
 
-    private TrackTile[] _tracks = new TrackTile[50];
+    private TrackTile[] _tracks = new TrackTile[_maxRandomTracks];
+
+    public Vector2[] TrackPoints => _tracks.Select((tile, index) => new Vector2(tile.x, tile.y)).ToArray();
 
     public bool IsTrackTileOccupied(int x, int y)
     {
@@ -147,6 +152,8 @@ public partial class GoalManager : Node2D
 
     public void GenerateReturnPathTrack(List<Vector2I> path)
     {
+        Array.Resize(ref _tracks, _maxRandomTracks + path.Count);
+
         for (int i = 0; i < path.Count; i++) // Using for loop instead of foreach, so I can grab "next" track piece easily.
         {
             var current = path[i];
@@ -427,20 +434,29 @@ public partial class GoalManager : Node2D
     {
         GD.Print("SpawnTrack");
 
-        TrackTile lastTile = new TrackTile();
-
+        bool firstTrack = true;
         foreach (var tile in _tracks)
         {
             if (tile.TrackScene == null) continue;
 
-            Node2D scene = tile.TrackScene.Instantiate<Node2D>();
-            AddChild(scene);
+            Track scene;
 
-            scene.GlobalPosition = new Vector2(tile.x * 500, -tile.y * 500);
-
-            if (tile.Rotation != Track.TrackRotation.Deg0)
+            if (!firstTrack)
             {
-                scene.GlobalRotationDegrees = (int)tile.Rotation * 90;
+                scene = tile.TrackScene.Instantiate<Track>();
+                AddChild(scene);
+
+                scene.GlobalPosition = new Vector2(tile.x * 500, -tile.y * 500);
+
+                if (tile.Rotation != Track.TrackRotation.Deg0)
+                {
+                    scene.GlobalRotationDegrees = (int)tile.Rotation * 90;
+                }
+            }
+            else
+            {
+                scene = StartingTrack;
+                firstTrack = false;
             }
 
             // TODO: Move this to OUTSIDE the for loop, otherwise bad performance :3
@@ -452,7 +468,6 @@ public partial class GoalManager : Node2D
                 _goals.Add((Goal)goal);
             }
 
-            lastTile = tile;
             _goalCounter++;
         }
     }

@@ -1,12 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://cfrv5mcxkd8cj"]
+[gd_scene load_steps=6 format=3 uid="uid://cfrv5mcxkd8cj"]
 
 [ext_resource type="Script" uid="uid://bbmo4y554w56c" path="res://scripts/Racer.cs" id="1_j3bjo"]
 [ext_resource type="PackedScene" uid="uid://bdlpr56xw4u6o" path="res://scenes/car_particle_system.tscn" id="2_3bsvd"]
 [ext_resource type="Texture2D" uid="uid://crpks4fqcqaiv" path="res://assets/temp-car.png" id="2_oj5pt"]
+[ext_resource type="Script" uid="uid://563pjtpdbxb4" path="res://scripts/AlwaysUp.cs" id="4_3bsvd"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kpjcp"]
+radius = 9.0
 
-[node name="Racer" type="CharacterBody2D" node_paths=PackedStringArray("CarParticleSystem", "DebugTargetPos")]
+[node name="Racer" type="CharacterBody2D" node_paths=PackedStringArray("CarParticleSystem", "_debugLabel", "_debugTargetPos")]
 collision_layer = 3
 collision_mask = 2
 script = ExtResource("1_j3bjo")
@@ -14,7 +16,9 @@ RotationSpeed = 1.5
 Acceleration = 160.0
 Deceleration = 160.0
 CarParticleSystem = NodePath("CarParticleSystem")
-DebugTargetPos = NodePath("Debug_TargetCross")
+_currentDebugMode = 2
+_debugLabel = NodePath("Node2D/DebugText")
+_debugTargetPos = NodePath("Debug_TargetCross")
 
 [node name="CarParticleSystem" parent="." instance=ExtResource("2_3bsvd")]
 
@@ -43,5 +47,22 @@ points = PackedVector2Array(0, -8, 0, 8)
 width = 2.0
 begin_cap_mode = 2
 end_cap_mode = 2
+
+[node name="Node2D" type="Node2D" parent="."]
+script = ExtResource("4_3bsvd")
+
+[node name="DebugText" type="Label" parent="Node2D"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -49.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "DEBUG"
+horizontal_alignment = 1
 
 [connection signal="GoalEntered" from="." to="." method="_on_goal_entered"]

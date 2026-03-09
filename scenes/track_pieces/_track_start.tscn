@@ -1,11 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://tf5mwdw0ujmc"]
+[gd_scene load_steps=10 format=3 uid="uid://tf5mwdw0ujmc"]
 
 [ext_resource type="PackedScene" uid="uid://bswu77k37e7bo" path="res://scenes/goal.tscn" id="1_d8scv"]
 [ext_resource type="Script" uid="uid://d3h1rc0kdj7wc" path="res://scripts/Track/Track.cs" id="1_krw6s"]
 [ext_resource type="Texture2D" uid="uid://cmbmnoc3j2mpw" path="res://assets/grass.png" id="2_h0vvj"]
 [ext_resource type="Texture2D" uid="uid://47wcx8030kbi" path="res://assets/road.png" id="3_mgv7o"]
+[ext_resource type="Texture2D" uid="uid://bmvna0krmna6x" path="res://assets/tile_start.png" id="4_tdd31"]
 [ext_resource type="Texture2D" uid="uid://gvtbytq25i64" path="res://assets/kerb.png" id="4_w651e"]
 [ext_resource type="Texture2D" uid="uid://co1v7dhkvh2vk" path="res://assets/fence.png" id="5_mgv7o"]
+[ext_resource type="PackedScene" uid="uid://o5alaviq6wga" path="res://scenes/tyre_stack.tscn" id="8_tdd31"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_gmwo1"]
 b = Vector2(0, 500)
@@ -18,6 +20,7 @@ Exit = NodePath("Goal")
 DebugCoords = NodePath("Debug_COORDS")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 z_index = -1
 texture_filter = 1
 texture_repeat = 2
@@ -26,13 +29,22 @@ region_enabled = true
 region_rect = Rect2(0, 0, 500, 500)
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
+visible = false
 texture_filter = 1
 texture_repeat = 2
 texture = ExtResource("3_mgv7o")
 region_enabled = true
 region_rect = Rect2(0, 0, 192, 500)
 
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 2
+texture = ExtResource("4_tdd31")
+region_enabled = true
+region_rect = Rect2(0, 0, 500, 500)
+
 [node name="Line2D" type="Line2D" parent="."]
+visible = false
 z_index = 1
 texture_filter = 1
 texture_repeat = 2
@@ -46,6 +58,7 @@ begin_cap_mode = 2
 end_cap_mode = 2
 
 [node name="Line2D2" type="Line2D" parent="."]
+visible = false
 z_index = 1
 texture_filter = 1
 texture_repeat = 2
@@ -60,6 +73,7 @@ begin_cap_mode = 2
 end_cap_mode = 2
 
 [node name="Line2D3" type="Line2D" parent="."]
+visible = false
 z_index = 1
 texture_filter = 1
 texture_repeat = 2
@@ -70,6 +84,7 @@ texture = ExtResource("5_mgv7o")
 texture_mode = 1
 
 [node name="Line2D4" type="Line2D" parent="."]
+visible = false
 z_index = 1
 texture_filter = 1
 texture_repeat = 2
@@ -79,57 +94,15 @@ width = 8.0
 texture = ExtResource("5_mgv7o")
 texture_mode = 1
 
-[node name="Node" type="Node2D" parent="."]
-z_index = 200
-position = Vector2(0, -250)
-
-[node name="Line2D4" type="Line2D" parent="Node"]
-texture_filter = 1
-texture_repeat = 2
-position = Vector2(-192, 7)
-rotation = -1.57079
-points = PackedVector2Array(1.0006, 96, 13.0007, 104, 1.0007, 112, 13.0008, 120, 1.0008, 128, 13.0009, 136, 1.0009, 144, 13.001, 152, 1.001, 160, 13.0011, 168, 1.0011, 176, 13.0012, 184, 1.0012, 192, 13.0013, 200, 1.00131, 208, 13.0014, 216, 1.00141, 224, 13.0015, 232, 1.00151, 240, 13.0016, 248, 1.00161, 256, 13.0017, 264, 1.00171, 272, 13.0018, 280, 1.00181, 288)
-width = 2.0
-default_color = Color(0.687215, 0.687215, 0.687215, 1)
-texture = ExtResource("3_mgv7o")
-texture_mode = 1
-begin_cap_mode = 1
-end_cap_mode = 1
-
-[node name="Line2D5" type="Line2D" parent="Node"]
-texture_filter = 1
-texture_repeat = 2
-position = Vector2(192, -7)
-rotation = 1.5708
-points = PackedVector2Array(1.0006, 96, 13.0007, 104, 1.0007, 112, 13.0008, 120, 1.0008, 128, 13.0009, 136, 1.0009, 144, 13.001, 152, 1.001, 160, 13.0011, 168, 1.0011, 176, 13.0012, 184, 1.0012, 192, 13.0013, 200, 1.00131, 208, 13.0014, 216, 1.00141, 224, 13.0015, 232, 1.00151, 240, 13.0016, 248, 1.00161, 256, 13.0017, 264, 1.00171, 272, 13.0018, 280, 1.00181, 288)
-width = 2.0
-default_color = Color(0.572988, 0.572988, 0.572988, 1)
-texture = ExtResource("3_mgv7o")
-texture_mode = 1
-begin_cap_mode = 1
-end_cap_mode = 1
-
-[node name="Line2D3" type="Line2D" parent="Node"]
-texture_filter = 1
-texture_repeat = 2
-position = Vector2(-192, -7)
-rotation = -1.57079
-points = PackedVector2Array(0.000576973, 92, 0.00183201, 292, -13.9982, 292, -13.9994, 92.0001)
-closed = true
-width = 2.0
-default_color = Color(0.470076, 0.470076, 0.470076, 1)
-texture = ExtResource("3_mgv7o")
-texture_mode = 1
-
 [node name="Goal" parent="." instance=ExtResource("1_d8scv")]
 position = Vector2(0, -250)
-scale = Vector2(4, 4)
+scale = Vector2(4.5, 4)
 
 [node name="Entrance" type="Node2D" parent="."]
 position = Vector2(0, 250)
 
 [node name="Wall1" type="StaticBody2D" parent="."]
-position = Vector2(-96, -250)
+position = Vector2(-111, -250)
 collision_layer = 2
 collision_mask = 2
 
@@ -137,7 +110,7 @@ collision_mask = 2
 shape = SubResource("SegmentShape2D_gmwo1")
 
 [node name="Wall2" type="StaticBody2D" parent="."]
-position = Vector2(96, -250)
+position = Vector2(111, -250)
 collision_layer = 2
 collision_mask = 2
 
@@ -155,3 +128,117 @@ theme_override_font_sizes/font_size = 126
 text = "0,0"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(-139, 0)
+
+[node name="TyreStack" parent="Node2D" instance=ExtResource("8_tdd31")]
+position = Vector2(1, -237)
+
+[node name="TyreStack2" parent="Node2D" instance=ExtResource("8_tdd31")]
+position = Vector2(3, -210)
+
+[node name="TyreStack3" parent="Node2D" instance=ExtResource("8_tdd31")]
+position = Vector2(-2, -182)
+
+[node name="TyreStack4" parent="Node2D" instance=ExtResource("8_tdd31")]
+position = Vector2(0, -155)
+
+[node name="TyreStack5" parent="Node2D" instance=ExtResource("8_tdd31")]
+position = Vector2(3, -125)
+
+[node name="TyreStack6" parent="Node2D" instance=ExtResource("8_tdd31")]
+position = Vector2(-2, -97)
+
+[node name="TyreStack7" parent="Node2D" instance=ExtResource("8_tdd31")]
+position = Vector2(0, -70)
+
+[node name="TyreStack8" parent="Node2D" instance=ExtResource("8_tdd31")]
+position = Vector2(0, -38)
+
+[node name="TyreStack9" parent="Node2D" instance=ExtResource("8_tdd31")]
+position = Vector2(2, -11)
+
+[node name="TyreStack10" parent="Node2D" instance=ExtResource("8_tdd31")]
+position = Vector2(-3, 17)
+
+[node name="TyreStack11" parent="Node2D" instance=ExtResource("8_tdd31")]
+position = Vector2(-1, 44)
+
+[node name="TyreStack12" parent="Node2D" instance=ExtResource("8_tdd31")]
+position = Vector2(2, 74)
+
+[node name="TyreStack13" parent="Node2D" instance=ExtResource("8_tdd31")]
+position = Vector2(-3, 102)
+
+[node name="TyreStack14" parent="Node2D" instance=ExtResource("8_tdd31")]
+position = Vector2(-1, 129)
+
+[node name="TyreStack15" parent="Node2D" instance=ExtResource("8_tdd31")]
+position = Vector2(1, 158)
+
+[node name="TyreStack16" parent="Node2D" instance=ExtResource("8_tdd31")]
+position = Vector2(3, 185)
+
+[node name="TyreStack17" parent="Node2D" instance=ExtResource("8_tdd31")]
+position = Vector2(-2, 213)
+
+[node name="TyreStack18" parent="Node2D" instance=ExtResource("8_tdd31")]
+position = Vector2(0, 240)
+
+[node name="Node2D2" type="Node2D" parent="."]
+position = Vector2(137, 0)
+
+[node name="TyreStack" parent="Node2D2" instance=ExtResource("8_tdd31")]
+position = Vector2(1, -237)
+
+[node name="TyreStack2" parent="Node2D2" instance=ExtResource("8_tdd31")]
+position = Vector2(3, -210)
+
+[node name="TyreStack3" parent="Node2D2" instance=ExtResource("8_tdd31")]
+position = Vector2(-2, -182)
+
+[node name="TyreStack4" parent="Node2D2" instance=ExtResource("8_tdd31")]
+position = Vector2(0, -155)
+
+[node name="TyreStack5" parent="Node2D2" instance=ExtResource("8_tdd31")]
+position = Vector2(3, -125)
+
+[node name="TyreStack6" parent="Node2D2" instance=ExtResource("8_tdd31")]
+position = Vector2(-2, -97)
+
+[node name="TyreStack7" parent="Node2D2" instance=ExtResource("8_tdd31")]
+position = Vector2(0, -70)
+
+[node name="TyreStack8" parent="Node2D2" instance=ExtResource("8_tdd31")]
+position = Vector2(0, -38)
+
+[node name="TyreStack9" parent="Node2D2" instance=ExtResource("8_tdd31")]
+position = Vector2(2, -11)
+
+[node name="TyreStack10" parent="Node2D2" instance=ExtResource("8_tdd31")]
+position = Vector2(-3, 17)
+
+[node name="TyreStack11" parent="Node2D2" instance=ExtResource("8_tdd31")]
+position = Vector2(-1, 44)
+
+[node name="TyreStack12" parent="Node2D2" instance=ExtResource("8_tdd31")]
+position = Vector2(2, 74)
+
+[node name="TyreStack13" parent="Node2D2" instance=ExtResource("8_tdd31")]
+position = Vector2(-3, 102)
+
+[node name="TyreStack14" parent="Node2D2" instance=ExtResource("8_tdd31")]
+position = Vector2(-1, 129)
+
+[node name="TyreStack15" parent="Node2D2" instance=ExtResource("8_tdd31")]
+position = Vector2(1, 158)
+
+[node name="TyreStack16" parent="Node2D2" instance=ExtResource("8_tdd31")]
+position = Vector2(3, 185)
+
+[node name="TyreStack17" parent="Node2D2" instance=ExtResource("8_tdd31")]
+position = Vector2(-2, 213)
+
+[node name="TyreStack18" parent="Node2D2" instance=ExtResource("8_tdd31")]
+position = Vector2(0, 240)

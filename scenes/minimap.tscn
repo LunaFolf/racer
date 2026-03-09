@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://cyh1x665ocifv"]
+
+[ext_resource type="Script" uid="uid://dnvpjbcr885o4" path="res://scripts/Minimap.cs" id="1_yfyr0"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_lj7mc"]
+size = Vector2(192, 192)
+
+[node name="Minimap" type="Node2D" node_paths=PackedStringArray("TrackLine")]
+script = ExtResource("1_yfyr0")
+TrackLine = NodePath("Node2D/Line2D")
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D"]
+visible = false
+modulate = Color(1, 1, 1, 0.478431)
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(96, 96)
+texture = SubResource("PlaceholderTexture2D_lj7mc")
+region_rect = Rect2(0, 0, 192, 192)
+
+[node name="Line2D" type="Line2D" parent="Node2D"]
+closed = true
+width = 5.0
+default_color = Color(1, 1, 1, 0.607843)
+joint_mode = 2

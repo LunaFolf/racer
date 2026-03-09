@@ -5,6 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://bdlpr56xw4u6o" path="res://scenes/car_particle_system.tscn" id="3_mdl7e"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kpjcp"]
+radius = 8.99994
+height = 29.9999
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("CarParticleSystem")]
 collision_mask = 3

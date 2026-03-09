@@ -5,6 +5,7 @@ public partial class HUD : CanvasLayer
 {
 	[Export] public Label Ranking;
 	[Export] public Label Positions;
+	[Export] public Minimap Minimap;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{

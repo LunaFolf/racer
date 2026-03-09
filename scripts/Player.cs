@@ -10,7 +10,7 @@ public partial class Player : CharacterBody2D
 	[Export] public float Deceleration = 400.0f;
 
 	[Export] public Camera2D Camera;
-	private static float _defaultCameraZoom = 1.5f;
+	private static float _defaultCameraZoom = 1f;
 	private static float _zoomedCameraZoom = _defaultCameraZoom + 1f;
 	private float _currentZoom;
 
