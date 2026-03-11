@@ -56,7 +56,6 @@ public partial class Racer : CharacterBody2D
 		FindGoal();
 	}
 
-	[Export] public GameManager GameManager;
 	public override void _Ready()
 	{
 		FindGoal();
@@ -127,6 +126,8 @@ public partial class Racer : CharacterBody2D
 		if ((_currentDebugMode & DebugMode.Label) != 0 && _debugLabel != null) debugText = "Racer " + RacerNumber + " " + _goalCounter + "/" + NumberOfGoals;
 		Vector2 velocity = Velocity;
 
+		if (GameManager.Instance.GameState != GameManager.State.Racing) return;
+
 		if (_goal != null)
 		{
 			Vector2 forward = -GlobalTransform.Y;
@@ -180,26 +181,26 @@ public partial class Racer : CharacterBody2D
 		if (goalNumber != _goalCounter) return;
 		_goalCounter++;
 
-		GameManager.EmitSignal("SetSplitTime", RacerNumber, _splitTime);
+        GameManager.Instance.EmitSignal("SetSplitTime", RacerNumber, _splitTime);
 		_splitTime = 0;
 
 		if (_goalCounter > NumberOfGoals)
 		{
 			_goalCounter = -1;
-			GameManager.EmitSignal("SetStageTime", RacerNumber, _stageTime);
-			GameManager.EmitSignal("SetRacerLap", RacerNumber);
+            GameManager.Instance.EmitSignal("SetStageTime", RacerNumber, _stageTime);
+            GameManager.Instance.EmitSignal("SetRacerLap", RacerNumber);
 			_stageTime = 0;
 			QueueFree();
 			return;
 		}
 
-		GameManager.EmitSignal("SetRacerGoal", RacerNumber, _goalCounter);
+        GameManager.Instance.EmitSignal("SetRacerGoal", RacerNumber, _goalCounter);
 
 		FindGoal();
 	}
 
 	public void _on_tree_exiting()
 	{
-		GameManager.RemoveRacer(RacerNumber);
+        GameManager.Instance.RemoveRacer(RacerNumber);
 	}
 }

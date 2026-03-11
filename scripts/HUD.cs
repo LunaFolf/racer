@@ -5,10 +5,20 @@ public partial class HUD : CanvasLayer
 {
 	[Export] public Label Position;
 	[Export] public Minimap Minimap;
-	// Called when the node enters the scene tree for the first time.
+	[Export] public Label Countdown;
+
+	public override void _Ready()
+	{
+		GameManager.Instance.Hud = this;
+	}
 
 	public void SetPosition(string positions)
 	{
 		Position.Text = positions;
+	}
+
+	public void SetCountdown(string countdown)
+	{
+		Countdown.Text = countdown;
 	}
 }

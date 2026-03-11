@@ -19,7 +19,7 @@ public partial class GoalManager : Node2D
     [Export] public Track StartingTrack;
 
     private int _goalCounter = 1;
-    private static int _maxRandomTracks = 35;
+    private static int _maxRandomTracks = 5;
 
     public int GoalCounter => _goalCounter - 1;
 
@@ -125,6 +125,7 @@ public partial class GoalManager : Node2D
     public override void _Ready()
     {
         GD.Print("GoalManager Ready!");
+        GameManager.Instance.GoalManager = this;
         _trackStraightScene ??= TrackStraightScene;
         _trackCornerCwScene ??= TrackCornerCwScene;
         _trackCornerCCwScene ??= TrackCornerCCwScene;
@@ -463,16 +464,16 @@ public partial class GoalManager : Node2D
                 firstTrack = false;
             }
 
-            // TODO: Move this to OUTSIDE the for loop, otherwise bad performance :3
-            foreach (var goal in scene.FindChildren("Goal"))
+            if (scene.Exit != null)
             {
+                var goal = scene.Exit;
                 goal.Reparent(this);
                 goal.Set("GoalNumber", _goalCounter);
                 goal.Name = "Goal" + _goalCounter;
-                _goals.Add((Goal)goal);
-            }
+                _goals.Add(goal);
 
-            _goalCounter++;
+                _goalCounter++;
+            }
         }
     }
 

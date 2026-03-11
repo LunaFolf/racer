@@ -11,13 +11,27 @@ using System.Linq;
 
 public partial class GameManager : Node2D
 {
+    public static GameManager Instance;
+
+    public enum State
+    {
+        MainMenu,
+        Paused,
+        Starting,
+        Racing,
+        Ending,
+        Finished,
+        Shop
+    }
+
+    private State _gameState = State.MainMenu;
+    public State GameState => _gameState;
+
     [Export] public HUD Hud;
     [Export] public GoalManager GoalManager;
     [Export] public RacerManager RacerManager;
-    [Export] public Camera2D Camera;
     private Godot.Collections.Dictionary<int, double> StageTime = new() { [0] = 0 };
     private Godot.Collections.Dictionary<int, double> SplitTime = new() { [0] = 0 };
-    private Godot.Collections.Dictionary<int, string> RacerNames = new() { [0] = "Player" };
     private Godot.Collections.Dictionary<int, int> RacerLaps = new() { [0] = 0 };
     private Godot.Collections.Dictionary<int, int> RacerGoals = new() { [0] = 1 };
     private Godot.Collections.Dictionary<int, CharacterBody2D> Racers = new();
@@ -27,10 +41,21 @@ public partial class GameManager : Node2D
     [Signal] public delegate void SetStageTimeEventHandler(int racerId, double time);
     [Signal] public delegate void SetRacerLapEventHandler(int racerId);
     [Signal] public delegate void SetRacerGoalEventHandler(int racerId, int goal);
+    [Signal] public delegate void EndRaceEventHandler();
+
+    private int _playerRacePosition = 0;
+    public int PlayerRacePosition => _playerRacePosition;
+
+    private int raceCountdown = 5;
+    [Export] Timer RaceCountdownTimer;
     public override void _Ready()
     {
+        Instance = this;
         GD.Print("GameManager Ready!");
+    }
 
+    public void GenerateRace()
+    {
         GD.Print("starting goal gen");
         GoalManager.StartGeneration();
         GD.Print("goal gen done");
@@ -42,19 +67,25 @@ public partial class GameManager : Node2D
         RacerManager.MaxRacers = 9;
         RacerManager.GenerateRacers(GoalManager.GoalCounter);
 
-        Camera.Reparent(Player);
-
         foreach (Racer racer in RacerManager.Racers)
         {
             Racers.Add(racer.RacerNumber, racer);
 
             StageTime.Add(racer.RacerNumber, 0);
             SplitTime.Add(racer.RacerNumber, 0);
-            RacerNames.Add(racer.RacerNumber, "Racer " + racer.RacerNumber);
-
             RacerLaps.Add(racer.RacerNumber, 0);
             RacerGoals.Add(racer.RacerNumber, 1);
         }
+    }
+
+    public void StartRaceCountdown()
+    {
+        RaceCountdownTimer.Start();
+    }
+
+    public void SetGameState(State state)
+    {
+        _gameState = state;
     }
 
     public void RemoveRacer(int racerNumber)
@@ -62,44 +93,14 @@ public partial class GameManager : Node2D
         Racers.Remove(racerNumber);
     }
 
-    public void Reset()
-    {
-        GD.Print("reset!");
-        int racerCounter = 0;
-        foreach (var entry in Racers.Keys)
-        {
-            StageTime[entry] = 0;
-            SplitTime[entry] = 0;
-            RacerLaps[entry] = 0;
-            RacerGoals[entry] = 1;
-
-            var racer = Racers[entry];
-
-            if (racerCounter == 0) ((Player)racer).Reset();
-            else ((Racer)racer).Reset();
-
-            var t = Transform2D.Identity;
-            racer.GlobalTransform = t;
-            racer.GlobalPosition = new Vector2(0, 90 + 45 * racerCounter);
-
-            racerCounter++;
-        }
-    }
-
     public override void _Process(double delta)
     {
+        if (GameState != State.Racing) return;
         UpdatePositionsList();
-
-        if (Input.IsActionJustPressed("reset"))
-        {
-            Reset();
-        }
     }
 
     private void UpdatePositionsList()
     {
-        // string positions = "";
-
         int positionCounter = 0;
 
         var ordered = Racers.Keys
@@ -107,29 +108,18 @@ public partial class GameManager : Node2D
             .ThenByDescending(id => RacerGoals[id])
             .ThenBy(id => GoalManager.DistanceToGoal(
                 Racers[id].GlobalPosition, RacerGoals[id] - 1
-                )); // TODO: Sort by distance to next goal
-
-        int playerPosition = 1;
+                ));
 
         foreach (var racerId in ordered)
         {
-            // if (positionCounter == 0 && Camera.GetParent() != Racers[racerId])
-            // {
-            //     GD.Print("Camera parent changed!", Racers[racerId]);
-            //     var newCamPos = Racers[racerId].GlobalPosition;
-            //     newCamPos.Y -= 48;
-            //     Camera.Reparent(Racers[racerId]);
-            //     Camera.GlobalPosition = newCamPos;
-            // }
-            if (racerId == 0) playerPosition = positionCounter + 1;
-            // positions += positionCounter + ": " + RacerNames[racerId] + "\n";
+            if (racerId == 0) _playerRacePosition = positionCounter + 1;
 
             Racers[racerId].Set("RacePosition", positionCounter);
 
             positionCounter++;
         }
 
-        Hud.SetPosition(playerPosition + " / " + (RacerManager.MaxRacers + 1));
+        Hud.SetPosition(_playerRacePosition + " / " + (RacerManager.MaxRacers + 1));
     }
 
     public void _on_set_split_time(int racerId, double time)
@@ -151,5 +141,41 @@ public partial class GameManager : Node2D
     public void _on_set_racer_goal(int racerId, int goal)
     {
         RacerGoals[racerId] = goal;
+    }
+
+    public void StartRace()
+    {
+        GD.Print("Starting Race (Switching Scene)");
+        var nextScene = (PackedScene)ResourceLoader.Load("res://scenes/game.tscn");
+        GetTree().ChangeSceneToPacked(nextScene);
+        RaceCountdownTimer = new Timer();
+        RaceCountdownTimer.WaitTime = 1;
+        GD.Print("Goal Manager", GoalManager);
+        GenerateRace();
+        StartRaceCountdown();
+    }
+
+    public void _on_end_race()
+    {
+        SetGameState(State.Ending);
+        foreach (var racerId in Racers.Keys)
+        {
+            Racers.Remove(racerId);
+        }
+
+        GetTree().ChangeSceneToFile("res://scenes/shop.tscn");
+    }
+
+    public void _on_race_countdown_timer_timeout()
+    {
+        raceCountdown--;
+        Hud.SetCountdown(raceCountdown.ToString());
+        if (raceCountdown > 0) return;
+
+        Hud.SetCountdown("");
+        RaceCountdownTimer.Stop();
+        RaceCountdownTimer.QueueFree();
+
+        SetGameState(State.Racing);
     }
 }

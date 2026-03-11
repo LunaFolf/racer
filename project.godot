@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="racer"
-run/main_scene="uid://b5bgixivrxxmm"
+run/main_scene="uid://dewk3mmtsn03l"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="uid://crpks4fqcqaiv"
+
+[autoload]
+
+GameManager="*res://scripts/GameManager.cs"
 
 [display]
 

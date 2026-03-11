@@ -10,10 +10,11 @@ shader = ExtResource("2_fls4u")
 shader_parameter/viewport_size = Vector2(640, 480)
 shader_parameter/virtual_resolution = Vector2(320, 240)
 
-[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("Position", "Minimap")]
+[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("Position", "Minimap", "Countdown")]
 script = ExtResource("1_qpvh6")
 Position = NodePath("Control2/Label")
 Minimap = NodePath("Control2/Control/Minimap")
+Countdown = NodePath("Control/Countdown")
 
 [node name="Control2" type="Control" parent="."]
 layout_mode = 3
@@ -58,3 +59,34 @@ offset_bottom = 56.0
 theme_override_fonts/font = ExtResource("4_7hsmw")
 theme_override_font_sizes/font_size = 64
 text = "2 / 20"
+
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 3
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Countdown" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_7hsmw")
+theme_override_font_sizes/font_size = 64
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1

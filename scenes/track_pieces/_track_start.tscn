@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://tf5mwdw0ujmc"]
+[gd_scene load_steps=12 format=3 uid="uid://tf5mwdw0ujmc"]
 
 [ext_resource type="PackedScene" uid="uid://bswu77k37e7bo" path="res://scenes/goal.tscn" id="1_d8scv"]
 [ext_resource type="Script" uid="uid://d3h1rc0kdj7wc" path="res://scripts/Track/Track.cs" id="1_krw6s"]
@@ -10,11 +10,19 @@
 [ext_resource type="PackedScene" uid="uid://o5alaviq6wga" path="res://scenes/tyre_stack.tscn" id="8_tdd31"]
 [ext_resource type="Texture2D" uid="uid://b545ty5afsdr3" path="res://assets/island.png" id="9_36jem"]
 
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_36jem"]
+a = Vector2(-110, -250)
+b = Vector2(-110, 250)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_fjxhd"]
+a = Vector2(109, -250)
+b = Vector2(109, 250)
+
 [node name="TrackStart" type="Node2D" node_paths=PackedStringArray("Entrance", "Exit", "DebugCoords")]
 z_index = -100
 script = ExtResource("1_krw6s")
 Entrance = NodePath("Entrance")
-Exit = NodePath("Goal")
+Exit = NodePath("ExitGoal")
 DebugCoords = NodePath("Debug_COORDS")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -92,12 +100,13 @@ width = 8.0
 texture = ExtResource("5_mgv7o")
 texture_mode = 1
 
-[node name="Goal" parent="." instance=ExtResource("1_d8scv")]
-position = Vector2(0, -250)
-scale = Vector2(4.5, 4)
-
 [node name="Entrance" type="Node2D" parent="."]
 position = Vector2(0, 250)
+
+[node name="ExitGoal" parent="." instance=ExtResource("1_d8scv")]
+visible = true
+position = Vector2(0, -250)
+scale = Vector2(4.5, 4)
 
 [node name="Debug_COORDS" type="Label" parent="."]
 visible = false
@@ -194,3 +203,13 @@ z_index = 1
 position = Vector2(-228, -21)
 rotation = 3.14159
 texture = ExtResource("9_36jem")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 3
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("SegmentShape2D_36jem")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("SegmentShape2D_fjxhd")

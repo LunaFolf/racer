@@ -17,6 +17,6 @@ public partial class MainMenu : Control
 
 	public void _on_start_game()
 	{
-		GetTree().ChangeSceneToFile("res://scenes/game.tscn");
-	}
+        GameManager.Instance.StartRace();
+    }
 }

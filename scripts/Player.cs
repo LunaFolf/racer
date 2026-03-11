@@ -14,8 +14,7 @@ public partial class Player : CharacterBody2D
 	private static float _zoomedCameraZoom = _defaultCameraZoom + 1f;
 	private float _currentZoom;
 
-	[Export] public GameManager GameManager;
-	[Export] public HUD Hud;
+    [Export] public HUD Hud;
 	[Export] public CarParticleSystem CarParticleSystem;
 	[Signal] public delegate void GoalEnteredEventHandler(int goalNumber);
 
@@ -49,7 +48,8 @@ public partial class Player : CharacterBody2D
 
 	public override void _Ready()
 	{
-		_actualMaxAccelSpeed = MaxAccelSpeed;
+        GameManager.Instance.Player = this;
+        _actualMaxAccelSpeed = MaxAccelSpeed;
 		_currentZoom = _defaultCameraZoom;
 	}
 
@@ -61,6 +61,8 @@ public partial class Player : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
+        if (GameManager.Instance.GameState != GameManager.State.Racing) return;
+        
 		Vector2 velocity = Velocity;
 
 		// Get the input direction and handle the movement/deceleration.
@@ -112,7 +114,7 @@ public partial class Player : CharacterBody2D
 		if (goalNumber != _goalCounter) return;
 		_goalCounter++;
 
-		GameManager.EmitSignal("SetSplitTime", 0, _splitTime);
+        GameManager.Instance.EmitSignal("SetSplitTime", 0, _splitTime);
 		_splitTime = 0;
 
 		if (_goalCounter > NumberOfGoals)
@@ -120,18 +122,18 @@ public partial class Player : CharacterBody2D
 			_lapCounter++;
 
 			_goalCounter = -1;
-			GameManager.EmitSignal("SetStageTime", 0, _stageTime);
-			GameManager.EmitSignal("SetRacerLap", 0);
+            GameManager.Instance.EmitSignal("SetStageTime", 0, _stageTime);
+            GameManager.Instance.EmitSignal("SetRacerLap", 0);
 			_stageTime = 0;
 			QueueFree();
 			return;
 		}
 
-		GameManager.EmitSignal("SetRacerGoal", 0, _goalCounter);
+        GameManager.Instance.EmitSignal("SetRacerGoal", 0, _goalCounter);
 	}
 
 	public void _on_tree_exiting()
 	{
-		GameManager.RemoveRacer(0);
+        GameManager.Instance.EmitSignal("EndRace");
 	}
 }

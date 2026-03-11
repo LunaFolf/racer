@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c8baep1wl8lq5"]
+[gd_scene load_steps=12 format=3 uid="uid://c8baep1wl8lq5"]
 
 [ext_resource type="Script" uid="uid://d3h1rc0kdj7wc" path="res://scripts/Track/Track.cs" id="1_3pr3h"]
 [ext_resource type="PackedScene" uid="uid://bswu77k37e7bo" path="res://scenes/goal.tscn" id="2_qt0vn"]
@@ -10,7 +10,15 @@
 [ext_resource type="PackedScene" uid="uid://o5alaviq6wga" path="res://scenes/tyre_stack.tscn" id="8_wu6h5"]
 [ext_resource type="Texture2D" uid="uid://b545ty5afsdr3" path="res://assets/island.png" id="9_sp67p"]
 
-[node name="TrackLR" type="Node2D" node_paths=PackedStringArray("Entrance", "Exit", "DebugCoords")]
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_sp67p"]
+a = Vector2(-110, -250)
+b = Vector2(-110, 250)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_ntld6"]
+a = Vector2(109, -250)
+b = Vector2(109, 250)
+
+[node name="TrackStraight" type="Node2D" node_paths=PackedStringArray("Entrance", "Exit", "DebugCoords")]
 z_index = -100
 script = ExtResource("1_3pr3h")
 Entrance = NodePath("Entrance")
@@ -193,3 +201,13 @@ z_index = 1
 position = Vector2(220, 152)
 rotation = 6.28318
 texture = ExtResource("9_sp67p")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 3
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("SegmentShape2D_sp67p")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("SegmentShape2D_ntld6")

@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 
 public partial class Track : Node2D
@@ -6,9 +7,8 @@ public partial class Track : Node2D
 	// Called when the node enters the scene tree for the first time.
 
 	[Export] public Node2D Entrance;
-	[Export] public Node2D Exit;
+	[Export] public Goal Exit;
 	[Export] public Label DebugCoords;
-
 	private bool _debug = false;
 
 	[Flags]

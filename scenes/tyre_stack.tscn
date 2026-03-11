@@ -1,11 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://o5alaviq6wga"]
+[gd_scene load_steps=3 format=3 uid="uid://o5alaviq6wga"]
 
 [ext_resource type="Script" uid="uid://563pjtpdbxb4" path="res://scripts/AlwaysUp.cs" id="1_ehrrp"]
 [ext_resource type="Texture2D" uid="uid://b2b8lngfnfxvn" path="res://assets/tyre.png" id="1_v3mbq"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ehrrp"]
-radius = 16.0
-height = 48.0
 
 [node name="TyreStack" type="Node2D"]
 script = ExtResource("1_ehrrp")
@@ -23,12 +19,3 @@ offset = Vector2(-9, -4)
 position = Vector2(9, -1)
 texture = ExtResource("1_v3mbq")
 offset = Vector2(-9, -4)
-
-[node name="Area2D" type="StaticBody2D" parent="."]
-position = Vector2(-1, 4)
-collision_layer = 3
-collision_mask = 3
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(1, -4)
-shape = SubResource("CapsuleShape2D_ehrrp")

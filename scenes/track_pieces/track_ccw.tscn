@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://o5alaviq6wga" path="res://scenes/tyre_stack.tscn" id="9_0cfcr"]
 [ext_resource type="Texture2D" uid="uid://b545ty5afsdr3" path="res://assets/island.png" id="10_piakf"]
 
-[node name="TrackTR" type="Node2D" node_paths=PackedStringArray("Entrance", "Exit", "DebugCoords")]
+[node name="TrackCornerCW" type="Node2D" node_paths=PackedStringArray("Entrance", "Exit", "DebugCoords")]
 z_index = -100
 script = ExtResource("1_3qxt8")
 Entrance = NodePath("Entrance")
