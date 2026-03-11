@@ -10,9 +10,9 @@ shader = ExtResource("2_fls4u")
 shader_parameter/viewport_size = Vector2(640, 480)
 shader_parameter/virtual_resolution = Vector2(320, 240)
 
-[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("Ranking", "Minimap")]
+[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("Position", "Minimap")]
 script = ExtResource("1_qpvh6")
-Ranking = NodePath("")
+Position = NodePath("Control2/Label")
 Minimap = NodePath("Control2/Control/Minimap")
 
 [node name="Control2" type="Control" parent="."]

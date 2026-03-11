@@ -29,7 +29,13 @@ public partial class GameManager : Node2D
     [Signal] public delegate void SetRacerGoalEventHandler(int racerId, int goal);
     public override void _Ready()
     {
+        GD.Print("GameManager Ready!");
+
+        GD.Print("starting goal gen");
         GoalManager.StartGeneration();
+        GD.Print("goal gen done");
+
+
         Hud.Minimap.SetMap(GoalManager.TrackPoints);
         Player.NumberOfGoals = GoalManager.GoalCounter;
         Racers.Add(0, Player);
@@ -49,6 +55,11 @@ public partial class GameManager : Node2D
             RacerLaps.Add(racer.RacerNumber, 0);
             RacerGoals.Add(racer.RacerNumber, 1);
         }
+    }
+
+    public void RemoveRacer(int racerNumber)
+    {
+        Racers.Remove(racerNumber);
     }
 
     public void Reset()
@@ -118,8 +129,7 @@ public partial class GameManager : Node2D
             positionCounter++;
         }
 
-        // Hud.SetPositions(positions);
-        Hud.SetRanking(playerPosition + " / " + (RacerManager.MaxRacers + 1));
+        Hud.SetPosition(playerPosition + " / " + (RacerManager.MaxRacers + 1));
     }
 
     public void _on_set_split_time(int racerId, double time)

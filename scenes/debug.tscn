@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://bp3p75y8nltxv"]
+[gd_scene load_steps=11 format=3 uid="uid://bp3p75y8nltxv"]
 
 [ext_resource type="PackedScene" uid="uid://ddibarwjv0dnq" path="res://scenes/Player.tscn" id="1_3vd64"]
 [ext_resource type="PackedScene" uid="uid://bswu77k37e7bo" path="res://scenes/goal.tscn" id="2_hqhvd"]
 [ext_resource type="PackedScene" uid="uid://cfrv5mcxkd8cj" path="res://scenes/RacerOpponent.tscn" id="3_kayp2"]
 [ext_resource type="PackedScene" uid="uid://83oaud63kx7c" path="res://scenes/track_pieces/track_ccw.tscn" id="4_j2wbo"]
+[ext_resource type="PackedScene" uid="uid://biqkclajotyu8" path="res://scenes/track_pieces/track_cw.tscn" id="4_t48sv"]
 [ext_resource type="PackedScene" uid="uid://tf5mwdw0ujmc" path="res://scenes/track_pieces/_track_start.tscn" id="5_t48sv"]
 [ext_resource type="PackedScene" uid="uid://c8baep1wl8lq5" path="res://scenes/track_pieces/track_straight.tscn" id="6_svo7y"]
 
@@ -125,6 +126,9 @@ position = Vector2(0, 263)
 [node name="Racer5" parent="Racers" instance=ExtResource("3_kayp2")]
 position = Vector2(0, 334)
 
+[node name="TrackTL" parent="." instance=ExtResource("4_t48sv")]
+position = Vector2(-1000, 0)
+
 [node name="TrackTR" parent="." instance=ExtResource("4_j2wbo")]
 position = Vector2(0, -500)
 
@@ -132,4 +136,12 @@ position = Vector2(0, -500)
 
 [node name="TrackLR" parent="." instance=ExtResource("6_svo7y")]
 position = Vector2(-500, -500)
-rotation = 1.5708
+rotation = -1.5708
+
+[node name="TrackTR2" parent="." instance=ExtResource("4_j2wbo")]
+position = Vector2(-1000, -500)
+rotation = -1.5708
+
+[node name="TrackLR2" parent="." instance=ExtResource("6_svo7y")]
+position = Vector2(-1500, 0)
+rotation = -1.5708

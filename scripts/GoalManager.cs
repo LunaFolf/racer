@@ -19,7 +19,7 @@ public partial class GoalManager : Node2D
     [Export] public Track StartingTrack;
 
     private int _goalCounter = 1;
-    private static int _maxRandomTracks = 45;
+    private static int _maxRandomTracks = 35;
 
     public int GoalCounter => _goalCounter - 1;
 
@@ -124,6 +124,7 @@ public partial class GoalManager : Node2D
 
     public override void _Ready()
     {
+        GD.Print("GoalManager Ready!");
         _trackStraightScene ??= TrackStraightScene;
         _trackCornerCwScene ??= TrackCornerCwScene;
         _trackCornerCCwScene ??= TrackCornerCCwScene;
@@ -138,6 +139,7 @@ public partial class GoalManager : Node2D
 
         do
         {
+            GD.Print("Generating new circuit...");
             GenerateRandomTrack();
             returnPath = PathfindToStart();
 
@@ -145,8 +147,10 @@ public partial class GoalManager : Node2D
             else GD.Print("Pathfinding to start returned " + returnPath.Count + " points");
         } while (returnPath == null);
 
+        GD.Print("Pathfinding to start returned " + returnPath.Count + " points");
         GenerateReturnPathTrack(returnPath);
 
+        GD.Print("SpawnTrack");
         SpawnTrack();
     }
 

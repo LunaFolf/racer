@@ -13,7 +13,7 @@ collision_layer = 3
 collision_mask = 2
 script = ExtResource("1_j3bjo")
 RotationSpeed = 1.5
-Acceleration = 160.0
+Acceleration = 100.0
 Deceleration = 160.0
 CarParticleSystem = NodePath("CarParticleSystem")
 _currentDebugMode = 2
@@ -66,3 +66,4 @@ text = "DEBUG"
 horizontal_alignment = 1
 
 [connection signal="GoalEntered" from="." to="." method="_on_goal_entered"]
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]

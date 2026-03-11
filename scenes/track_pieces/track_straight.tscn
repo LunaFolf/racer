@@ -8,9 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://dxo4r5y5wecrf" path="res://assets/tile_straight.png" id="4_piu35"]
 [ext_resource type="Texture2D" uid="uid://co1v7dhkvh2vk" path="res://assets/fence.png" id="6_eyfce"]
 [ext_resource type="PackedScene" uid="uid://o5alaviq6wga" path="res://scenes/tyre_stack.tscn" id="8_wu6h5"]
-
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_gmwo1"]
-b = Vector2(0, 500)
+[ext_resource type="Texture2D" uid="uid://b545ty5afsdr3" path="res://assets/island.png" id="9_sp67p"]
 
 [node name="TrackLR" type="Node2D" node_paths=PackedStringArray("Entrance", "Exit", "DebugCoords")]
 z_index = -100
@@ -101,22 +99,6 @@ scale = Vector2(4.5, 4)
 [node name="Entrance" type="Node2D" parent="."]
 position = Vector2(0, 250)
 
-[node name="Wall1" type="StaticBody2D" parent="."]
-position = Vector2(-111, -250)
-collision_layer = 2
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall1"]
-shape = SubResource("SegmentShape2D_gmwo1")
-
-[node name="Wall2" type="StaticBody2D" parent="."]
-position = Vector2(111, -250)
-collision_layer = 2
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2"]
-shape = SubResource("SegmentShape2D_gmwo1")
-
 [node name="Debug_COORDS" type="Label" parent="."]
 top_level = true
 offset_left = -89.0
@@ -129,115 +111,85 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Node2D" type="Node2D" parent="."]
-position = Vector2(-139, 0)
-
-[node name="TyreStack" parent="Node2D" instance=ExtResource("8_wu6h5")]
-position = Vector2(1, -237)
+position = Vector2(-129, 0)
 
 [node name="TyreStack2" parent="Node2D" instance=ExtResource("8_wu6h5")]
-position = Vector2(3, -210)
+position = Vector2(-1, -227)
 
 [node name="TyreStack3" parent="Node2D" instance=ExtResource("8_wu6h5")]
-position = Vector2(-2, -182)
+position = Vector2(2, 227)
 
 [node name="TyreStack4" parent="Node2D" instance=ExtResource("8_wu6h5")]
-position = Vector2(0, -155)
+position = Vector2(0, -181)
 
 [node name="TyreStack5" parent="Node2D" instance=ExtResource("8_wu6h5")]
-position = Vector2(3, -125)
+position = Vector2(-1, 182)
 
 [node name="TyreStack6" parent="Node2D" instance=ExtResource("8_wu6h5")]
-position = Vector2(-2, -97)
+position = Vector2(-2, -138)
 
 [node name="TyreStack7" parent="Node2D" instance=ExtResource("8_wu6h5")]
-position = Vector2(0, -70)
+position = Vector2(1, 139)
 
 [node name="TyreStack8" parent="Node2D" instance=ExtResource("8_wu6h5")]
-position = Vector2(0, -38)
+position = Vector2(1, -93)
 
 [node name="TyreStack9" parent="Node2D" instance=ExtResource("8_wu6h5")]
-position = Vector2(2, -11)
+position = Vector2(-2, 93)
 
 [node name="TyreStack10" parent="Node2D" instance=ExtResource("8_wu6h5")]
-position = Vector2(-3, 17)
+position = Vector2(-2, -46)
 
 [node name="TyreStack11" parent="Node2D" instance=ExtResource("8_wu6h5")]
-position = Vector2(-1, 44)
+position = Vector2(-1, 49)
 
 [node name="TyreStack12" parent="Node2D" instance=ExtResource("8_wu6h5")]
-position = Vector2(2, 74)
-
-[node name="TyreStack13" parent="Node2D" instance=ExtResource("8_wu6h5")]
-position = Vector2(-3, 102)
-
-[node name="TyreStack14" parent="Node2D" instance=ExtResource("8_wu6h5")]
-position = Vector2(-1, 129)
-
-[node name="TyreStack15" parent="Node2D" instance=ExtResource("8_wu6h5")]
-position = Vector2(1, 158)
-
-[node name="TyreStack16" parent="Node2D" instance=ExtResource("8_wu6h5")]
-position = Vector2(3, 185)
-
-[node name="TyreStack17" parent="Node2D" instance=ExtResource("8_wu6h5")]
-position = Vector2(-2, 213)
-
-[node name="TyreStack18" parent="Node2D" instance=ExtResource("8_wu6h5")]
-position = Vector2(0, 240)
+position = Vector2(1, 1)
 
 [node name="Node2D2" type="Node2D" parent="."]
-position = Vector2(137, 0)
-
-[node name="TyreStack" parent="Node2D2" instance=ExtResource("8_wu6h5")]
-position = Vector2(1, -237)
+position = Vector2(129, 0)
 
 [node name="TyreStack2" parent="Node2D2" instance=ExtResource("8_wu6h5")]
-position = Vector2(3, -210)
+position = Vector2(-1, -227)
 
 [node name="TyreStack3" parent="Node2D2" instance=ExtResource("8_wu6h5")]
-position = Vector2(-2, -182)
+position = Vector2(2, 227)
 
 [node name="TyreStack4" parent="Node2D2" instance=ExtResource("8_wu6h5")]
-position = Vector2(0, -155)
+position = Vector2(0, -181)
 
 [node name="TyreStack5" parent="Node2D2" instance=ExtResource("8_wu6h5")]
-position = Vector2(3, -125)
+position = Vector2(-1, 182)
 
 [node name="TyreStack6" parent="Node2D2" instance=ExtResource("8_wu6h5")]
-position = Vector2(-2, -97)
+position = Vector2(-2, -138)
 
 [node name="TyreStack7" parent="Node2D2" instance=ExtResource("8_wu6h5")]
-position = Vector2(0, -70)
+position = Vector2(1, 139)
 
 [node name="TyreStack8" parent="Node2D2" instance=ExtResource("8_wu6h5")]
-position = Vector2(0, -38)
+position = Vector2(1, -93)
 
 [node name="TyreStack9" parent="Node2D2" instance=ExtResource("8_wu6h5")]
-position = Vector2(2, -11)
+position = Vector2(-2, 93)
 
 [node name="TyreStack10" parent="Node2D2" instance=ExtResource("8_wu6h5")]
-position = Vector2(-3, 17)
+position = Vector2(-2, -46)
 
 [node name="TyreStack11" parent="Node2D2" instance=ExtResource("8_wu6h5")]
-position = Vector2(-1, 44)
+position = Vector2(-1, 49)
 
 [node name="TyreStack12" parent="Node2D2" instance=ExtResource("8_wu6h5")]
-position = Vector2(2, 74)
+position = Vector2(1, 1)
 
-[node name="TyreStack13" parent="Node2D2" instance=ExtResource("8_wu6h5")]
-position = Vector2(-3, 102)
+[node name="Sprite2D4" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(-228, -21)
+rotation = 3.14159
+texture = ExtResource("9_sp67p")
 
-[node name="TyreStack14" parent="Node2D2" instance=ExtResource("8_wu6h5")]
-position = Vector2(-1, 129)
-
-[node name="TyreStack15" parent="Node2D2" instance=ExtResource("8_wu6h5")]
-position = Vector2(1, 158)
-
-[node name="TyreStack16" parent="Node2D2" instance=ExtResource("8_wu6h5")]
-position = Vector2(3, 185)
-
-[node name="TyreStack17" parent="Node2D2" instance=ExtResource("8_wu6h5")]
-position = Vector2(-2, 213)
-
-[node name="TyreStack18" parent="Node2D2" instance=ExtResource("8_wu6h5")]
-position = Vector2(0, 240)
+[node name="Sprite2D5" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(220, 152)
+rotation = 6.28318
+texture = ExtResource("9_sp67p")

@@ -84,6 +84,7 @@ public partial class Player : CharacterBody2D
 			Rotate(rot * actualRotSpeed * (float)delta);
 		}
 
+
 		float speedPercent = velocity.Length() / _actualMaxAccelSpeed;
 
 		if (Camera != null)
@@ -118,12 +119,19 @@ public partial class Player : CharacterBody2D
 		{
 			_lapCounter++;
 
-			_goalCounter = 1;
+			_goalCounter = -1;
 			GameManager.EmitSignal("SetStageTime", 0, _stageTime);
 			GameManager.EmitSignal("SetRacerLap", 0);
 			_stageTime = 0;
+			QueueFree();
+			return;
 		}
 
 		GameManager.EmitSignal("SetRacerGoal", 0, _goalCounter);
+	}
+
+	public void _on_tree_exiting()
+	{
+		GameManager.RemoveRacer(0);
 	}
 }

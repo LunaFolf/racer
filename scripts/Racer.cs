@@ -19,7 +19,7 @@ public partial class Racer : CharacterBody2D
 		set
 		{
 			_racePosition = value;
-			_actualMaxAccelSpeed = MaxAccelSpeed + (_racePosition - 1) * 10;
+			_actualMaxAccelSpeed = MaxAccelSpeed + _racePosition * 20;
 		}
 	}
 
@@ -185,14 +185,21 @@ public partial class Racer : CharacterBody2D
 
 		if (_goalCounter > NumberOfGoals)
 		{
-			_goalCounter = 1;
+			_goalCounter = -1;
 			GameManager.EmitSignal("SetStageTime", RacerNumber, _stageTime);
 			GameManager.EmitSignal("SetRacerLap", RacerNumber);
 			_stageTime = 0;
+			QueueFree();
+			return;
 		}
 
 		GameManager.EmitSignal("SetRacerGoal", RacerNumber, _goalCounter);
 
 		FindGoal();
+	}
+
+	public void _on_tree_exiting()
+	{
+		GameManager.RemoveRacer(RacerNumber);
 	}
 }

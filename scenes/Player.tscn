@@ -11,10 +11,10 @@ height = 29.9999
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("CarParticleSystem")]
 collision_mask = 3
 script = ExtResource("1_v6fml")
-MaxAccelSpeed = 200.0
+MaxAccelSpeed = 220.0
 RotationSpeed = 1.5
-Acceleration = 160.0
-Deceleration = 160.0
+Acceleration = 100.0
+Deceleration = 130.0
 CarParticleSystem = NodePath("CarParticleSystem")
 
 [node name="CarParticleSystem" parent="." instance=ExtResource("3_mdl7e")]
@@ -30,3 +30,4 @@ position = Vector2(5.72205e-05, 8.00006)
 shape = SubResource("CapsuleShape2D_kpjcp")
 
 [connection signal="GoalEntered" from="." to="." method="_on_goal_entered"]
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
