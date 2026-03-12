@@ -8,15 +8,21 @@ public partial class Player : CharacterBody2D
 	[Export] public float RotationSpeed = 3.0f;
 	[Export] public float Acceleration = 400.0f;
 	[Export] public float Deceleration = 400.0f;
-
+	[Export] public HUD Hud;
+	[Export] public CarParticleSystem CarParticleSystem;
 	[Export] public Camera2D Camera;
+
 	private static float _defaultCameraZoom = 1f;
 	private static float _zoomedCameraZoom = _defaultCameraZoom + 1f;
 	private float _currentZoom;
+	private double _splitTime;
+	private double _stageTime;
+	private int _lapCounter = 1;
+	private int _goalCounter = 1;
 
-    [Export] public HUD Hud;
-	[Export] public CarParticleSystem CarParticleSystem;
 	[Signal] public delegate void GoalEnteredEventHandler(int goalNumber);
+
+	private RaceScene _raceScene;
 
 	private int _racePosition;
 	public int RacePosition
@@ -29,11 +35,6 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	private double _splitTime = 0;
-	private double _stageTime = 0;
-	private int _lapCounter = 1;
-	private int _goalCounter = 1;
-
 	public void Reset()
 	{
 		_lapCounter = 1;
@@ -44,23 +45,29 @@ public partial class Player : CharacterBody2D
 		MoveAndSlide();
 	}
 
+	public void SetRaceScene(RaceScene scene)
+	{
+		_raceScene = scene;
+	}
+
 	[Export] public int NumberOfGoals { get; set; }
 
 	public override void _Ready()
 	{
-        GameManager.Instance.Player = this;
         _actualMaxAccelSpeed = MaxAccelSpeed;
 		_currentZoom = _defaultCameraZoom;
 	}
 
 	public override void _Process(double delta)
 	{
+		if (IsQueuedForDeletion()) return;
 		_splitTime += delta;
 		_stageTime += delta;
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if (IsQueuedForDeletion()) return;
         if (GameManager.Instance.GameState != GameManager.State.Racing) return;
         
 		Vector2 velocity = Velocity;
@@ -114,26 +121,25 @@ public partial class Player : CharacterBody2D
 		if (goalNumber != _goalCounter) return;
 		_goalCounter++;
 
-        GameManager.Instance.EmitSignal("SetSplitTime", 0, _splitTime);
+		_raceScene.SetSplitTime(0, _splitTime);
 		_splitTime = 0;
 
+		if (_goalCounter >= 2 && _lapCounter >= 2)
+		{
+			// Race Finished
+			_raceScene.EndRace();
+		}
 		if (_goalCounter > NumberOfGoals)
 		{
 			_lapCounter++;
 
-			_goalCounter = -1;
-            GameManager.Instance.EmitSignal("SetStageTime", 0, _stageTime);
-            GameManager.Instance.EmitSignal("SetRacerLap", 0);
+			_goalCounter = 1;
+			_raceScene.SetStageTime(0, _stageTime);
+			_raceScene.SetRacerLap(0);
 			_stageTime = 0;
-			QueueFree();
 			return;
 		}
 
-        GameManager.Instance.EmitSignal("SetRacerGoal", 0, _goalCounter);
-	}
-
-	public void _on_tree_exiting()
-	{
-        GameManager.Instance.EmitSignal("EndRace");
+		_raceScene.SetRacerGoal(0, _goalCounter);
 	}
 }

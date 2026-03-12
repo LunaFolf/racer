@@ -3,15 +3,34 @@ using System;
 
 public partial class Racer : CharacterBody2D
 {
-	// Called when the node enters the scene tree for the first time.
+	[Flags]
+	private enum DebugMode
+	{
+		TargetPos = 1 << 1,
+		Label = 1 << 2
+	}
+
 	[Export] public float MaxAccelSpeed = 200.0f;
 	[Export] private float _actualMaxAccelSpeed;
 	[Export] public float RotationSpeed = 3.0f;
 	[Export] public float Acceleration = 200.0f;
 	[Export] public float Deceleration = 400.0f;
+	[Export] public CarParticleSystem CarParticleSystem;
+	[Export] private Color _racerColor = new (GD.Randf(), GD.Randf(), GD.Randf());
+	[Export] private DebugMode _currentDebugMode;
+	[Export] private Label _debugLabel;
+	[Export] private Node2D _debugTargetPos;
+	[Export] public int NumberOfGoals { get; set; }
+	[Signal] public delegate void GoalEnteredEventHandler(int goalNumber);
+
+	private Goal _goal;
+	private Vector2 _targetPos;
+	private double _splitTime;
+	private double _stageTime;
+	private int _goalCounter = 1;
+	private RaceScene _raceScene;
 
 	public int RacerNumber;
-
 	private int _racePosition;
 	public int RacePosition
 	{
@@ -23,29 +42,6 @@ public partial class Racer : CharacterBody2D
 		}
 	}
 
-	[Export] public CarParticleSystem CarParticleSystem;
-
-	[Export] private Color _racerColor = new (GD.Randf(), GD.Randf(), GD.Randf());
-
-	[Signal] public delegate void GoalEnteredEventHandler(int goalNumber);
-
-	[Flags]
-	private enum DebugMode
-	{
-		TargetPos = 1 << 1,
-		Label = 1 << 2
-	}
-	[Export] private DebugMode _currentDebugMode;
-	[Export] private Label _debugLabel;
-	[Export] private Node2D _debugTargetPos;
-
-	private Goal _goal;
-	private Vector2 _targetPos;
-	private double _splitTime = 0;
-	private double _stageTime = 0;
-	private int _goalCounter = 1;
-	[Export] public int NumberOfGoals { get; set; }
-
 	public void Reset()
 	{
 		_goalCounter = 1;
@@ -54,6 +50,11 @@ public partial class Racer : CharacterBody2D
 		Velocity = Vector2.Zero;
 		MoveAndSlide();
 		FindGoal();
+	}
+
+	public void SetRaceScene(RaceScene scene)
+	{
+		_raceScene = scene;
 	}
 
 	public override void _Ready()
@@ -86,13 +87,14 @@ public partial class Racer : CharacterBody2D
 
 	public override void _Process(double delta)
 	{
+		if (IsQueuedForDeletion()) return;
 		_splitTime += delta;
 		_stageTime += delta;
 	}
 
 	public void FindGoal()
 	{
-		Goal goal = GetTree().GetRoot().GetNodeOrNull<Goal>("Game/Goals/Goal" + _goalCounter);
+		Goal goal = GetTree().GetRoot().GetNodeOrNull<Goal>("RaceScene/Goals/Goal" + _goalCounter);
 
 		if (goal != null)
 		{
@@ -122,6 +124,7 @@ public partial class Racer : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if (IsQueuedForDeletion()) return;
 		string debugText = "";
 		if ((_currentDebugMode & DebugMode.Label) != 0 && _debugLabel != null) debugText = "Racer " + RacerNumber + " " + _goalCounter + "/" + NumberOfGoals;
 		Vector2 velocity = Velocity;
@@ -181,26 +184,19 @@ public partial class Racer : CharacterBody2D
 		if (goalNumber != _goalCounter) return;
 		_goalCounter++;
 
-        GameManager.Instance.EmitSignal("SetSplitTime", RacerNumber, _splitTime);
+		_raceScene.SetSplitTime(RacerNumber, _splitTime);
 		_splitTime = 0;
 
 		if (_goalCounter > NumberOfGoals)
 		{
-			_goalCounter = -1;
-            GameManager.Instance.EmitSignal("SetStageTime", RacerNumber, _stageTime);
-            GameManager.Instance.EmitSignal("SetRacerLap", RacerNumber);
+			_goalCounter = 1;
+			_raceScene.SetStageTime(RacerNumber, _stageTime);
+			_raceScene.SetRacerLap(RacerNumber);
 			_stageTime = 0;
-			QueueFree();
-			return;
 		}
 
-        GameManager.Instance.EmitSignal("SetRacerGoal", RacerNumber, _goalCounter);
+		_raceScene.SetRacerGoal(RacerNumber, _goalCounter);
 
 		FindGoal();
-	}
-
-	public void _on_tree_exiting()
-	{
-        GameManager.Instance.RemoveRacer(RacerNumber);
 	}
 }

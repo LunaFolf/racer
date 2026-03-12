@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://b5bgixivrxxmm"]
+[gd_scene load_steps=13 format=3 uid="uid://b5bgixivrxxmm"]
 
 [ext_resource type="PackedScene" uid="uid://ddibarwjv0dnq" path="res://scenes/Player.tscn" id="1_80nbo"]
+[ext_resource type="Script" uid="uid://bp6ydahnmkp81" path="res://scenes/RaceScene.cs" id="1_dinhu"]
 [ext_resource type="Texture2D" uid="uid://cblko4w44h0o" path="res://assets/water.png" id="2_kvpfn"]
 [ext_resource type="Script" uid="uid://kbxceqpd5hcx" path="res://scripts/GoalManager.cs" id="2_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://tf5mwdw0ujmc" path="res://scenes/track_pieces/_track_start.tscn" id="3_u5sy4"]
@@ -12,7 +13,13 @@
 [ext_resource type="PackedScene" uid="uid://db04xgn52pj5d" path="res://scenes/HUD.tscn" id="8_gee14"]
 [ext_resource type="Script" uid="uid://563pjtpdbxb4" path="res://scripts/AlwaysUp.cs" id="11_dinhu"]
 
-[node name="Game" type="Node2D"]
+[node name="RaceScene" type="Node2D" node_paths=PackedStringArray("Hud", "GoalManager", "RacerManager", "Player", "Timer")]
+script = ExtResource("1_dinhu")
+Hud = NodePath("HUD")
+GoalManager = NodePath("Goals")
+RacerManager = NodePath("Racers")
+Player = NodePath("Player")
+Timer = NodePath("RaceCountdownTimer")
 
 [node name="TrackStart" parent="." instance=ExtResource("3_u5sy4")]
 
@@ -28,10 +35,10 @@ StartingTrack = NodePath("../TrackStart")
 script = ExtResource("7_vtaks")
 RacerScene = ExtResource("7_0tnpc")
 
-[node name="Player" parent="." node_paths=PackedStringArray("Camera", "Hud") instance=ExtResource("1_80nbo")]
+[node name="Player" parent="." node_paths=PackedStringArray("Hud", "Camera") instance=ExtResource("1_80nbo")]
 z_as_relative = false
-Camera = NodePath("Camera2D")
 Hud = NodePath("../HUD")
+Camera = NodePath("Camera2D")
 
 [node name="Sprite2D2" type="Sprite2D" parent="Player"]
 z_index = -102
@@ -52,3 +59,7 @@ rotation_smoothing_speed = 1.0
 drag_vertical_enabled = true
 
 [node name="HUD" parent="." instance=ExtResource("8_gee14")]
+
+[node name="RaceCountdownTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="RaceCountdownTimer" to="." method="_on_race_countdown_timer_timeout"]

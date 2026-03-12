@@ -9,7 +9,6 @@ public partial class Track : Node2D
 	[Export] public Node2D Entrance;
 	[Export] public Goal Exit;
 	[Export] public Label DebugCoords;
-	private bool _debug = false;
 
 	[Flags]
 	public enum TrackDir
@@ -60,17 +59,5 @@ public partial class Track : Node2D
 		}
 
 		return direction;
-	}
-	public override void _Ready()
-	{
-		if (!_debug) DebugCoords.QueueFree();
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-		if (!_debug) return;
-		DebugCoords.SetPosition(GlobalPosition - new Vector2(90, 90));
-		DebugCoords.SetText(GlobalPosition.X / 500 + ", " + -(GlobalPosition.Y / 500));
 	}
 }

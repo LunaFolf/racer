@@ -18,12 +18,11 @@ b = Vector2(-110, 250)
 a = Vector2(109, -250)
 b = Vector2(109, 250)
 
-[node name="TrackStart" type="Node2D" node_paths=PackedStringArray("Entrance", "Exit", "DebugCoords")]
+[node name="TrackStart" type="Node2D" node_paths=PackedStringArray("Entrance", "Exit")]
 z_index = -100
 script = ExtResource("1_krw6s")
 Entrance = NodePath("Entrance")
 Exit = NodePath("ExitGoal")
-DebugCoords = NodePath("Debug_COORDS")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
@@ -104,21 +103,8 @@ texture_mode = 1
 position = Vector2(0, 250)
 
 [node name="ExitGoal" parent="." instance=ExtResource("1_d8scv")]
-visible = true
 position = Vector2(0, -250)
 scale = Vector2(4.5, 4)
-
-[node name="Debug_COORDS" type="Label" parent="."]
-visible = false
-top_level = true
-offset_left = -89.0
-offset_top = -94.0
-offset_right = 89.0
-offset_bottom = 78.0
-theme_override_font_sizes/font_size = 126
-text = "0,0"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="Node2D" type="Node2D" parent="."]
 position = Vector2(-129, 0)

@@ -9,6 +9,7 @@ public partial class AlwaysUp : Node2D
     }
     public override void _PhysicsProcess(double delta)
     {
+        if (IsQueuedForDeletion()) return;
         GlobalRotation = 0;
     }
 }

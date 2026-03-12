@@ -125,7 +125,6 @@ public partial class GoalManager : Node2D
     public override void _Ready()
     {
         GD.Print("GoalManager Ready!");
-        GameManager.Instance.GoalManager = this;
         _trackStraightScene ??= TrackStraightScene;
         _trackCornerCwScene ??= TrackCornerCwScene;
         _trackCornerCCwScene ??= TrackCornerCCwScene;
