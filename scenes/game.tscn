@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://b5bgixivrxxmm"]
 
 [ext_resource type="PackedScene" uid="uid://ddibarwjv0dnq" path="res://scenes/Player.tscn" id="1_80nbo"]
-[ext_resource type="Script" uid="uid://bp6ydahnmkp81" path="res://scenes/RaceScene.cs" id="1_dinhu"]
+[ext_resource type="Script" uid="uid://bp6ydahnmkp81" path="res://scripts/RaceScene.cs" id="1_dinhu"]
 [ext_resource type="Texture2D" uid="uid://cblko4w44h0o" path="res://assets/water.png" id="2_kvpfn"]
 [ext_resource type="Script" uid="uid://kbxceqpd5hcx" path="res://scripts/GoalManager.cs" id="2_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://tf5mwdw0ujmc" path="res://scenes/track_pieces/_track_start.tscn" id="3_u5sy4"]
