@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6ldfseuefsg7"]
+
+[ext_resource type="Script" uid="uid://c1d8bwn2fn4t6" path="res://scripts/MainCamera.cs" id="1_bvy3c"]
+
+[node name="Camera2D" type="Camera2D"]
+ignore_rotation = false
+process_callback = 0
+rotation_smoothing_enabled = true
+rotation_smoothing_speed = 1.0
+drag_vertical_enabled = true
+script = ExtResource("1_bvy3c")

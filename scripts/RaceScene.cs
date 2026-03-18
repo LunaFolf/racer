@@ -7,7 +7,9 @@ public partial class RaceScene : Node2D
     [Export] public HUD Hud;
     [Export] public GoalManager GoalManager;
     [Export] public RacerManager RacerManager;
-    [Export] public Player Player;
+    [Export] PackedScene PlayerPackedScene;
+    [Export] PackedScene MainCameraScene;
+    private Player _player;
     [Export] public Timer Timer;
 
     private Godot.Collections.Dictionary<int, double> StageTime = new() { [0] = 0 };
@@ -18,7 +20,13 @@ public partial class RaceScene : Node2D
     private int raceCountdown = 5;
     public override void _Ready()
     {
-        Player.SetRaceScene(this);
+        _player = new Player();
+        _player.Camera = MainCameraScene.Instantiate<MainCamera>();
+        _player.SetRaceScene(this);
+        _player.Hud = Hud;
+        AddChild( _player );
+        _player.AddChild(_player.Camera);
+
         GenerateRace();
         StartRaceCountdown();
     }
@@ -102,10 +110,11 @@ public partial class RaceScene : Node2D
         GoalManager.StartGeneration();
         GD.Print("goal gen done");
 
+        GD.Print("player: ", _player);
 
         Hud.Minimap.SetMap(GoalManager.TrackPoints);
-        Player.NumberOfGoals = GoalManager.GoalCounter;
-        Racers.Add(0, Player);
+        _player.NumberOfGoals = GoalManager.GoalCounter;
+        Racers.Add(0, _player);
         RacerManager.MaxRacers = 9;
         RacerManager.GenerateRacers(GoalManager.GoalCounter, this);
 

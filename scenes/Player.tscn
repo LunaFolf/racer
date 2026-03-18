@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://ddibarwjv0dnq"]
+[gd_scene load_steps=7 format=3 uid="uid://ddibarwjv0dnq"]
 
 [ext_resource type="Script" uid="uid://chny11e8uug28" path="res://scripts/Player.cs" id="1_v6fml"]
 [ext_resource type="Texture2D" uid="uid://crpks4fqcqaiv" path="res://assets/temp-car.png" id="1_xhfnw"]
 [ext_resource type="PackedScene" uid="uid://bdlpr56xw4u6o" path="res://scenes/car_particle_system.tscn" id="3_mdl7e"]
+[ext_resource type="Texture2D" uid="uid://cblko4w44h0o" path="res://assets/water.png" id="4_qu4a1"]
+[ext_resource type="Script" uid="uid://563pjtpdbxb4" path="res://scripts/AlwaysUp.cs" id="5_70d11"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kpjcp"]
 radius = 8.99994
@@ -19,7 +21,7 @@ CarParticleSystem = NodePath("CarParticleSystem")
 
 [node name="CarParticleSystem" parent="." instance=ExtResource("3_mdl7e")]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="CarSprite" type="Sprite2D" parent="."]
 texture_filter = 1
 position = Vector2(5.72205e-05, 8.00006)
 rotation = -1.5708
@@ -28,6 +30,16 @@ texture = ExtResource("1_xhfnw")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(5.72205e-05, 8.00006)
 shape = SubResource("CapsuleShape2D_kpjcp")
+
+[node name="BackgroundWater" type="Sprite2D" parent="."]
+z_index = -102
+texture_filter = 1
+texture_repeat = 2
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_qu4a1")
+region_enabled = true
+region_rect = Rect2(0, 0, 4000, 4000)
+script = ExtResource("5_70d11")
 
 [connection signal="GoalEntered" from="." to="." method="_on_goal_entered"]
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]

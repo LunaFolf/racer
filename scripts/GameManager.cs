@@ -1,4 +1,5 @@
 using Godot;
+using System.Collections.Generic;
 
 // Notes
 // 1. Collisions are fucked lol
@@ -27,10 +28,13 @@ public partial class GameManager : Node2D
     public int PlayerRacePosition;
 
     public Camera2D MainCamera;
+
+    public List<PlayerUpgrade> PlayerUpgrades;
     public override void _Ready()
     {
         Instance = this;
         GD.Print("GameManager Ready!");
+        GD.Randomize();
     }
 
     public void SetGameState(State state)

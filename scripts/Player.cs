@@ -4,7 +4,7 @@ using System;
 public partial class Player : CharacterBody2D
 {
 	[Export] public float MaxAccelSpeed = 500.0f;
-	[Export] private float _actualMaxAccelSpeed;
+	private float _actualMaxAccelSpeed;
 	[Export] public float RotationSpeed = 3.0f;
 	[Export] public float Acceleration = 400.0f;
 	[Export] public float Deceleration = 400.0f;
@@ -56,7 +56,7 @@ public partial class Player : CharacterBody2D
 	{
         _actualMaxAccelSpeed = MaxAccelSpeed;
 		_currentZoom = _defaultCameraZoom;
-	}
+    }
 
 	public override void _Process(double delta)
 	{
