@@ -19,7 +19,7 @@ public partial class GoalManager : Node2D
     [Export] public Track StartingTrack;
 
     private int _goalCounter = 1;
-    private static int _maxRandomTracks = 5;
+    private static int _maxRandomTracks = 35;
 
     public int GoalCounter => _goalCounter - 1;
 

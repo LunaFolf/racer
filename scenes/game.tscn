@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b5bgixivrxxmm"]
+[gd_scene load_steps=14 format=3 uid="uid://b5bgixivrxxmm"]
 
 [ext_resource type="PackedScene" uid="uid://ddibarwjv0dnq" path="res://scenes/Player.tscn" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://bp6ydahnmkp81" path="res://scripts/RaceScene.cs" id="1_dinhu"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://dnqkyh6qrn7fg" path="res://scripts/RacerManager.cs" id="7_vtaks"]
 [ext_resource type="PackedScene" uid="uid://db04xgn52pj5d" path="res://scenes/HUD.tscn" id="8_gee14"]
 [ext_resource type="Script" uid="uid://563pjtpdbxb4" path="res://scripts/AlwaysUp.cs" id="11_dinhu"]
+[ext_resource type="Script" uid="uid://c1d8bwn2fn4t6" path="res://scenes/MainCamera.cs" id="12_kvuet"]
 
 [node name="RaceScene" type="Node2D" node_paths=PackedStringArray("Hud", "GoalManager", "RacerManager", "Player", "Timer")]
 script = ExtResource("1_dinhu")
@@ -49,6 +50,7 @@ texture = ExtResource("2_kvpfn")
 region_enabled = true
 region_rect = Rect2(0, 0, 4000, 4000)
 script = ExtResource("11_dinhu")
+_followCameraRotation = false
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(0, -48)
@@ -57,6 +59,7 @@ process_callback = 0
 rotation_smoothing_enabled = true
 rotation_smoothing_speed = 1.0
 drag_vertical_enabled = true
+script = ExtResource("12_kvuet")
 
 [node name="HUD" parent="." instance=ExtResource("8_gee14")]
 

@@ -25,6 +25,8 @@ public partial class GameManager : Node2D
     public State GameState => _gameState;
 
     public int PlayerRacePosition;
+
+    public Camera2D MainCamera;
     public override void _Ready()
     {
         Instance = this;
