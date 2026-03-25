@@ -18,15 +18,22 @@ public partial class RaceScene : Node2D
     private Godot.Collections.Dictionary<int, int> RacerGoals = new() { [0] = 1 };
     private Godot.Collections.Dictionary<int, CharacterBody2D> Racers = new();
     private int raceCountdown = 5;
+
     public override void _Ready()
     {
-        _player = new Player();
+        GD.Print("Turn off HUD");
+        Hud.SetPositionVisible(false);
+
+        GD.Print("Get Player");
+        _player = PlayerPackedScene.Instantiate<Player>();
+        GD.Print("Get Camera");
         _player.Camera = MainCameraScene.Instantiate<MainCamera>();
         _player.SetRaceScene(this);
         _player.Hud = Hud;
         AddChild( _player );
         _player.AddChild(_player.Camera);
 
+        GD.Print("Going to gen");
         GenerateRace();
         StartRaceCountdown();
     }
@@ -101,14 +108,16 @@ public partial class RaceScene : Node2D
             positionCounter++;
         }
 
-        Hud.SetPosition(GameManager.Instance.PlayerRacePosition + " / " + (RacerManager.MaxRacers + 1));
+        Hud.SetPositionText(GameManager.Instance.PlayerRacePosition + " / " + (RacerManager.MaxRacers + 1));
     }
 
     public void GenerateRace()
     {
         GD.Print("starting goal gen");
         GoalManager.StartGeneration();
+        GD.Print("============================================");
         GD.Print("goal gen done");
+        GD.Print("============================================");
 
         GD.Print("player: ", _player);
 
@@ -127,17 +136,22 @@ public partial class RaceScene : Node2D
             RacerLaps.Add(racer.RacerNumber, 0);
             RacerGoals.Add(racer.RacerNumber, 1);
         }
+
+        Hud.Minimap.SetPlayer(_player);
+        Hud.Minimap.SetRaceManager(RacerManager);
     }
 
     public void _on_race_countdown_timer_timeout()
     {
         raceCountdown--;
-        Hud.SetCountdown(raceCountdown.ToString());
+        Hud.SetCountdownText(raceCountdown.ToString());
         if (raceCountdown > 0) return;
 
-        Hud.SetCountdown("");
+        Hud.SetCountdownText("");
         Timer.Stop();
         Timer.QueueFree();
+
+        Hud.SetPositionVisible(true);
 
         GameManager.Instance.SetGameState(GameManager.State.Racing);
     }

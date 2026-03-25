@@ -55,6 +55,10 @@ public partial class Player : CharacterBody2D
 	public override void _Ready()
 	{
         _actualMaxAccelSpeed = MaxAccelSpeed;
+		foreach (var upgrade in GameManager.Instance.PlayerUpgrades)
+		{
+			GD.Print("upgrade ", upgrade);
+		}
 		_currentZoom = _defaultCameraZoom;
     }
 

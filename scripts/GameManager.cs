@@ -7,7 +7,7 @@ using System.Collections.Generic;
 // 3. Minimap?
 // 4. Ramps and Obstacles?
 
-public partial class GameManager : Node2D
+public partial class GameManager : Node
 {
     public static GameManager Instance;
 
@@ -29,12 +29,13 @@ public partial class GameManager : Node2D
 
     public Camera2D MainCamera;
 
-    public List<PlayerUpgrade> PlayerUpgrades;
+    public List<PlayerUpgrade> PlayerUpgrades = new();
     public override void _Ready()
     {
         Instance = this;
         GD.Print("GameManager Ready!");
-        GD.Randomize();
+        //GD.Randomize();
+        GD.Seed("Protogen".Hash());
     }
 
     public void SetGameState(State state)

@@ -9,15 +9,21 @@ public partial class HUD : CanvasLayer
 
 	public override void _Ready()
 	{
-
+		
 	}
 
-	public void SetPosition(string positions)
+
+    public void SetPositionVisible(bool state)
 	{
+		Position.Visible = state;
+	}
+
+	public void SetPositionText(string positions)
+	{ 
 		Position.Text = positions;
 	}
 
-	public void SetCountdown(string countdown)
+	public void SetCountdownText(string countdown)
 	{
 		Countdown.Text = countdown;
 	}

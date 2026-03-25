@@ -40,8 +40,10 @@ public partial class ShopMenu : Control
     public void AddPlayerUpgrade(PlayerUpgrade upgrade)
     {
         GD.Print(upgrade.type, upgrade.name, upgrade.multiplier);
+        GD.Print(GameManager.Instance);
 
         GameManager.Instance.PlayerUpgrades.Add(upgrade);
+        GD.Print(GameManager.Instance.PlayerUpgrades.Count);
     }
 
     public void _on_next_race()

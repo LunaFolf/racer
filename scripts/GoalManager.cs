@@ -132,13 +132,14 @@ public partial class GoalManager : Node2D
 
     public void StartGeneration()
     {
-        _tracks[0] = new TrackTile(Track.TrackType.Start);
-        _tracks[0].TrackScene = TrackStartScene;
-
         List<Vector2I> returnPath;
 
         do
         {
+            _tracks = new TrackTile[_maxRandomTracks];
+            _tracks[0] = new TrackTile(Track.TrackType.Start);
+            _tracks[0].TrackScene = TrackStartScene;
+
             GD.Print("Generating new circuit...");
             GenerateRandomTrack();
             returnPath = PathfindToStart();

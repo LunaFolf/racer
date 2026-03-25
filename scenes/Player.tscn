@@ -22,6 +22,7 @@ CarParticleSystem = NodePath("CarParticleSystem")
 [node name="CarParticleSystem" parent="." instance=ExtResource("3_mdl7e")]
 
 [node name="CarSprite" type="Sprite2D" parent="."]
+z_index = 10
 texture_filter = 1
 position = Vector2(5.72205e-05, 8.00006)
 rotation = -1.5708

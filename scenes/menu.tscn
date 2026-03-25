@@ -19,5 +19,4 @@ offset_right = 192.0
 offset_bottom = 85.0
 text = "Debug Start :3"
 
-[connection signal="StartGame" from="." to="." method="_on_start_game"]
 [connection signal="pressed" from="Button" to="." method="_on_start_game"]
