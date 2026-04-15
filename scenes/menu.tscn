@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dpjkyw8jsmxbn" path="res://scripts/MainMenu.cs" id="1_yqeox"]
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" node_paths=PackedStringArray("StartButton", "QuitButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,13 +10,28 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_yqeox")
+StartButton = NodePath("BoxContainer/StartButton")
+QuitButton = NodePath("BoxContainer/QuitButton")
 
-[node name="Button" type="Button" parent="."]
-layout_mode = 0
-offset_left = 74.0
-offset_top = 54.0
-offset_right = 192.0
-offset_bottom = 85.0
-text = "Debug Start :3"
+[node name="BoxContainer" type="BoxContainer" parent="."]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = 18.0
+offset_right = 146.0
+offset_bottom = -18.0
+grow_vertical = 2
+vertical = true
 
-[connection signal="pressed" from="Button" to="." method="_on_start_game"]
+[node name="StartButton" type="Button" parent="BoxContainer"]
+layout_mode = 2
+text = "Start"
+
+[node name="QuitButton" type="Button" parent="BoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="BoxContainer/StartButton" to="." method="_on_start_game"]
+[connection signal="pressed" from="BoxContainer/QuitButton" to="." method="_on_quit_game"]

@@ -29,6 +29,7 @@ public partial class Racer : CharacterBody2D
 	private double _stageTime;
 	private int _goalCounter = 1;
 	private RaceScene _raceScene;
+	private float laneOffset;
 
 	public int RacerNumber;
 	private int _racePosition;
@@ -103,10 +104,13 @@ public partial class Racer : CharacterBody2D
 			_targetPos = _goal.GlobalPosition; // TODO: Randomise a position on the goal, so each car races a little differently
 			Vector2 dir = _goal.GlobalTransform.X;
 
-			var goalWidth = _goal.Width - 8;
+			if (laneOffset == 0)
+			{
+                var goalWidth = _goal.Width - 8;
+                laneOffset = GD.RandRange(-(goalWidth / 4), goalWidth / 4) * 2;
+            }
 
-			var laneOffset = GD.RandRange(-(goalWidth/4), goalWidth/4) * 2;
-			_targetPos += dir * (float)laneOffset;
+			_targetPos += dir * laneOffset;
 			if ((_currentDebugMode & DebugMode.TargetPos) != 0 && _debugTargetPos != null) _debugTargetPos.Position = _targetPos;
 
 			GD.Print("Target: " + _targetPos);
@@ -161,14 +165,18 @@ public partial class Racer : CharacterBody2D
 			}
 
 			float speedPercent = velocity.Length() / _actualMaxAccelSpeed;
-			CarParticleSystem.DebrisParticles.AmountRatio = speedPercent;
-			CarParticleSystem.TireProcessMaterial.Gravity = new Vector3(GlobalTransform.Y.X * 94, GlobalTransform.Y.Y * 94, 0);
 
-			float driftPercent = Math.Abs(velocity.Dot(GlobalTransform.X)) / _actualMaxAccelSpeed;
+            CarParticleSystem.ThrusterSpeed = speedPercent;
+            CarParticleSystem.ThrusterAngle = RotationDegrees;
+
+            //CarParticleSystem.DebrisParticles.AmountRatio = speedPercent;
+            //CarParticleSystem.TireProcessMaterial.Gravity = new Vector3(GlobalTransform.Y.X * 94, GlobalTransform.Y.Y * 94, 0);
+
+            float driftPercent = Math.Abs(velocity.Dot(GlobalTransform.X)) / _actualMaxAccelSpeed;
 			float tireMarkLifetime = Math.Max(0.01f, driftPercent);
 
-			CarParticleSystem.LeftTireParticles.Lifetime = tireMarkLifetime;
-			CarParticleSystem.RightTireParticles.Lifetime = tireMarkLifetime;
+			//CarParticleSystem.LeftTireParticles.Lifetime = tireMarkLifetime;
+			//CarParticleSystem.RightTireParticles.Lifetime = tireMarkLifetime;
 
 			if ((_currentDebugMode & DebugMode.Label) != 0 && _debugLabel != null) debugText += "\n" + "Accel: " + accel + "\nRot: " + rot + "\nSpeed: " + velocity.Length() + "";
 		}

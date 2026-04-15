@@ -1,15 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://83oaud63kx7c"]
+[gd_scene load_steps=5 format=3 uid="uid://83oaud63kx7c"]
 
 [ext_resource type="Script" uid="uid://d3h1rc0kdj7wc" path="res://scripts/Track/Track.cs" id="1_3qxt8"]
 [ext_resource type="PackedScene" uid="uid://bswu77k37e7bo" path="res://scenes/goal.tscn" id="2_s1ht6"]
-[ext_resource type="Texture2D" uid="uid://cmbmnoc3j2mpw" path="res://assets/grass.png" id="2_yga1n"]
-[ext_resource type="Texture2D" uid="uid://47wcx8030kbi" path="res://assets/road.png" id="3_53ok6"]
-[ext_resource type="Texture2D" uid="uid://gvtbytq25i64" path="res://assets/kerb.png" id="4_xv0ur"]
-[ext_resource type="Texture2D" uid="uid://co1v7dhkvh2vk" path="res://assets/fence.png" id="5_53ok6"]
 [ext_resource type="Texture2D" uid="uid://cuul764fh5dhh" path="res://assets/tile_cw.png" id="6_yfn43"]
 [ext_resource type="Texture2D" uid="uid://dkterpq6fiyub" path="res://assets/arrow-left.png" id="7_xv0ur"]
-[ext_resource type="PackedScene" uid="uid://o5alaviq6wga" path="res://scenes/tyre_stack.tscn" id="9_0cfcr"]
-[ext_resource type="Texture2D" uid="uid://b545ty5afsdr3" path="res://assets/island.png" id="10_piakf"]
 
 [node name="TrackCornerCW" type="Node2D" node_paths=PackedStringArray("Entrance", "Exit")]
 z_index = -100
@@ -17,66 +11,8 @@ script = ExtResource("1_3qxt8")
 Entrance = NodePath("Entrance")
 Exit = NodePath("Goal")
 
-[node name="TempTile5" type="Sprite2D" parent="."]
-visible = false
-z_index = -1
-texture_filter = 1
-texture_repeat = 2
-texture = ExtResource("2_yga1n")
-region_enabled = true
-region_rect = Rect2(0, 0, 500, 500)
-
-[node name="Polygon2D" type="Polygon2D" parent="."]
-visible = false
-texture_filter = 1
-texture_repeat = 2
-rotation = -1.57079
-texture = ExtResource("3_53ok6")
-polygon = PackedVector2Array(96, 96, -250, 96, -250, -96, -96, -250, 96, -250)
-uv = PackedVector2Array(96, 96, -250, 96, -250, -96, -96, -250, 96, -250)
-polygons = [PackedInt32Array(3, 4, 0, 1, 2)]
-
-[node name="Line2D" type="Line2D" parent="."]
-visible = false
-z_index = 1
-texture_filter = 1
-texture_repeat = 2
-rotation = -1.57079
-points = PackedVector2Array(96, -250, 96, 96, -250, 96)
-width = 8.0
-texture = ExtResource("4_xv0ur")
-texture_mode = 1
-joint_mode = 1
-begin_cap_mode = 2
-end_cap_mode = 2
-
-[node name="Line2D2" type="Line2D" parent="."]
-visible = false
-z_index = 1
-texture_filter = 1
-texture_repeat = 2
-rotation = -1.57079
-points = PackedVector2Array(-96, -250, -250, -96)
-width = 8.0
-texture = ExtResource("4_xv0ur")
-texture_mode = 1
-begin_cap_mode = 2
-end_cap_mode = 2
-sharp_limit = 0.0
-
-[node name="Line2D4" type="Line2D" parent="."]
-visible = false
-z_index = 1
-texture_filter = 1
-texture_repeat = 2
-position = Vector2(500, 154)
-points = PackedVector2Array(-750, -404, -250, -404, -250, 96)
-width = 8.0
-texture = ExtResource("5_53ok6")
-texture_mode = 1
-joint_mode = 1
-
 [node name="Sprite2D3" type="Sprite2D" parent="."]
+visible = false
 texture_filter = 1
 texture_repeat = 2
 texture = ExtResource("6_yfn43")
@@ -92,66 +28,10 @@ scale = Vector2(4.5, 4)
 position = Vector2(0, 250)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture_filter = 1
 position = Vector2(0, 314)
 texture = ExtResource("7_xv0ur")
-
-[node name="Node2D" type="Node2D" parent="."]
-
-[node name="TyreStack" parent="Node2D" instance=ExtResource("9_0cfcr")]
-position = Vector2(-215, -131)
-
-[node name="TyreStack19" parent="Node2D" instance=ExtResource("9_0cfcr")]
-position = Vector2(-224, 139)
-
-[node name="TyreStack22" parent="Node2D" instance=ExtResource("9_0cfcr")]
-position = Vector2(-139, 226)
-
-[node name="TyreStack12" parent="Node2D" instance=ExtResource("9_0cfcr")]
-position = Vector2(137, 219)
-
-[node name="Node2D2" type="Node2D" parent="."]
-
-[node name="Sprite2D2" type="Sprite2D" parent="Node2D2"]
-z_index = 1
-position = Vector2(-211, 255)
-rotation = 1.57079
-texture = ExtResource("10_piakf")
-
-[node name="Sprite2D4" type="Sprite2D" parent="Node2D2"]
-z_index = 1
-position = Vector2(217, 254)
-texture = ExtResource("10_piakf")
-
-[node name="Sprite2D5" type="Sprite2D" parent="Node2D2"]
-z_index = 1
-position = Vector2(-261, 213)
-rotation = 1.27205
-texture = ExtResource("10_piakf")
-
-[node name="Sprite2D6" type="Sprite2D" parent="Node2D2"]
-z_index = 1
-position = Vector2(-245, -214)
-rotation = -2.96422
-texture = ExtResource("10_piakf")
-
-[node name="Sprite2D7" type="Sprite2D" parent="Node2D2"]
-z_index = 1
-position = Vector2(-65, -130)
-rotation = 2.1859
-texture = ExtResource("10_piakf")
-
-[node name="Sprite2D8" type="Sprite2D" parent="Node2D2"]
-z_index = 1
-position = Vector2(132, 52)
-rotation = 0.822538
-texture = ExtResource("10_piakf")
-
-[node name="Sprite2D9" type="Sprite2D" parent="Node2D2"]
-z_index = 1
-position = Vector2(100, -109)
-rotation = -0.438205
-texture = ExtResource("10_piakf")
 
 [node name="Node2D3" type="Node2D" parent="."]
 
@@ -164,3 +44,12 @@ polygon = PackedVector2Array(-250, -109, -239, -109, -222, -108, -201, -107, -17
 
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Node2D3/StaticBody2D"]
 polygon = PackedVector2Array(-250, 110, -229, 111, -213, 114, -189, 124, -169, 135, -151, 152, -134, 170, -117, 202, -111, 226, -110, 250)
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(-250, 110, -232, 110, -207, 116, -190, 123, -174, 132, -159, 144, -144, 160, -132, 174, -124, 189, -117, 202, -114, 215, -111, 228, -110, 239, -110, 251)
+width = 2.0
+
+[node name="Line2D2" type="Line2D" parent="."]
+points = PackedVector2Array(-250, -109, -236, -109, -199, -107, -179, -102, -143, -94, -108, -80, -61, -57, -10, -18, 31, 26, 65, 75, 95, 146, 105, 195, 109, 231, 109, 250)
+width = 2.0
+joint_mode = 2

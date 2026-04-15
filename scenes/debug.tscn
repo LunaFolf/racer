@@ -1,8 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://bp3p75y8nltxv"]
+[gd_scene load_steps=7 format=3 uid="uid://bp3p75y8nltxv"]
 
 [ext_resource type="PackedScene" uid="uid://ddibarwjv0dnq" path="res://scenes/Player.tscn" id="1_3vd64"]
-[ext_resource type="Texture2D" uid="uid://cblko4w44h0o" path="res://assets/water.png" id="2_t48sv"]
-[ext_resource type="Script" uid="uid://563pjtpdbxb4" path="res://scripts/AlwaysUp.cs" id="3_svo7y"]
 [ext_resource type="PackedScene" uid="uid://83oaud63kx7c" path="res://scenes/track_pieces/track_ccw.tscn" id="4_j2wbo"]
 [ext_resource type="PackedScene" uid="uid://biqkclajotyu8" path="res://scenes/track_pieces/track_cw.tscn" id="4_t48sv"]
 [ext_resource type="PackedScene" uid="uid://tf5mwdw0ujmc" path="res://scenes/track_pieces/_track_start.tscn" id="5_t48sv"]
@@ -15,16 +13,6 @@
 z_as_relative = false
 Hud = NodePath("../HUD")
 Camera = NodePath("Camera2D")
-
-[node name="Sprite2D3" type="Sprite2D" parent="Player"]
-z_index = -102
-texture_filter = 1
-texture_repeat = 2
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_t48sv")
-region_enabled = true
-region_rect = Rect2(0, 0, 4000, 4000)
-script = ExtResource("3_svo7y")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(0, -48)

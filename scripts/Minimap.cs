@@ -9,7 +9,7 @@ public partial class Minimap : Node2D
     [Export] public Vector2[] TrackPoints = [];
     [Export] public Line2D TrackLine;
     [Export] public Sprite2D PlayerDot;
-    [Export] public float RotationSpeed = 1f;
+    [Export] public float RotationSpeed = 2f;
     private Player _player;
     private List<Sprite2D> RacerDots;
     private RacerManager RaceManager;

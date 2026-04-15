@@ -4,6 +4,7 @@ using System;
 public partial class AlwaysUp : Node2D
 {
     [Export] private bool _followCameraRotation = true;
+    [Export] public float RotationSpeed = .5f;
     private Camera2D _camera;
     public override void _Ready()
     {
@@ -19,6 +20,6 @@ public partial class AlwaysUp : Node2D
         }
 
         if (_camera == null && GameManager.Instance.MainCamera != null) _camera = GameManager.Instance.MainCamera;
-        GlobalRotation = _camera == null ? 0 : _camera.GlobalRotation;
+        GlobalRotation = Mathf.Lerp(GlobalRotation, _camera.GlobalRotation, (float)delta * RotationSpeed);
     }
 }

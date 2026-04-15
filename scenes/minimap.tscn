@@ -12,7 +12,6 @@ position = Vector2(96, 96)
 script = ExtResource("1_yfyr0")
 TrackLine = NodePath("Node2D/Line2D")
 PlayerDot = NodePath("Node2D/Line2D/PlayerDot")
-RotationSpeed = 2.0
 
 [node name="Node2D" type="Node2D" parent="."]
 position = Vector2(-96, -96)
@@ -30,7 +29,7 @@ region_rect = Rect2(0, 0, 192, 192)
 position = Vector2(0, 192)
 closed = true
 width = 5.0
-default_color = Color(1, 1, 1, 0.607843)
+default_color = Color(1, 1, 1, 0.215686)
 joint_mode = 2
 
 [node name="PlayerDot" type="Sprite2D" parent="Node2D/Line2D"]

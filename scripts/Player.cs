@@ -8,6 +8,7 @@ public partial class Player : CharacterBody2D
 	[Export] public float RotationSpeed = 3.0f;
 	[Export] public float Acceleration = 400.0f;
 	[Export] public float Deceleration = 400.0f;
+	[Export] public AlwaysUp BackgroundSprite;
 	[Export] public HUD Hud;
 	[Export] public CarParticleSystem CarParticleSystem;
 	[Export] public Camera2D Camera;
@@ -19,6 +20,7 @@ public partial class Player : CharacterBody2D
 	private double _stageTime;
 	private int _lapCounter = 1;
 	private int _goalCounter = 1;
+	private float bgOffset = 10f;
 
 	[Signal] public delegate void GoalEnteredEventHandler(int goalNumber);
 
@@ -90,15 +92,30 @@ public partial class Player : CharacterBody2D
 			velocity = velocity.MoveToward(Vector2.Zero, Deceleration * (float)delta);
 		}
 
+		float actualRotSpeed = 0;
+
 		if (rot != 0 && !velocity.IsZeroApprox())
 		{
 			float forwardSpeed = velocity.Dot(GlobalTransform.Y);
-			float actualRotSpeed = 2 + (Math.Abs(forwardSpeed) / _actualMaxAccelSpeed) * RotationSpeed;
+			actualRotSpeed = 2 + (Math.Abs(forwardSpeed) / _actualMaxAccelSpeed) * RotationSpeed;
 			Rotate(rot * actualRotSpeed * (float)delta);
 		}
 
-
 		float speedPercent = velocity.Length() / _actualMaxAccelSpeed;
+
+		//var bgPos = BackgroundSprite.GlobalPosition;
+		//bgPos.Y = speedPercent * bgOffset;
+		//bgPos.X = actualRotSpeed * bgOffset;
+  //      BackgroundSprite.GlobalPosition = bgPos;
+
+		CarParticleSystem.ThrusterSpeed = speedPercent;
+		CarParticleSystem.ThrusterAngle = RotationDegrees;
+
+		float vibrationStrength = 0.5f;
+		float weakVibration = Math.Clamp(speedPercent, 0, 1) * vibrationStrength;
+		float strongVibration = Math.Clamp(actualRotSpeed - 2, 0, 1) * vibrationStrength;
+
+		Input.StartJoyVibration(0, weakVibration, strongVibration, 0);
 
 		if (Camera != null)
 		{
@@ -107,14 +124,14 @@ public partial class Player : CharacterBody2D
 			Camera.Zoom = new Vector2(_currentZoom, _currentZoom);
 		}
 
-		CarParticleSystem.DebrisParticles.AmountRatio = speedPercent;
-		CarParticleSystem.TireProcessMaterial.Gravity = new Vector3(GlobalTransform.Y.X * 94, GlobalTransform.Y.Y * 94, 0);
+		//CarParticleSystem.DebrisParticles.AmountRatio = speedPercent;
+		//CarParticleSystem.TireProcessMaterial.Gravity = new Vector3(GlobalTransform.Y.X * 94, GlobalTransform.Y.Y * 94, 0);
 
 		float driftPercent = Math.Abs(velocity.Dot(GlobalTransform.X)) / _actualMaxAccelSpeed;
 		float tireMarkLifetime = Math.Max(0.01f, driftPercent);
 
-		CarParticleSystem.LeftTireParticles.Lifetime = tireMarkLifetime;
-		CarParticleSystem.RightTireParticles.Lifetime = tireMarkLifetime;
+		//CarParticleSystem.LeftTireParticles.Lifetime = tireMarkLifetime;
+		//CarParticleSystem.RightTireParticles.Lifetime = tireMarkLifetime;
 
 		Velocity = velocity;
 		MoveAndSlide();

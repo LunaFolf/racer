@@ -1,12 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cfrv5mcxkd8cj"]
+[gd_scene load_steps=5 format=3 uid="uid://cfrv5mcxkd8cj"]
 
 [ext_resource type="Script" uid="uid://bbmo4y554w56c" path="res://scripts/Racer.cs" id="1_j3bjo"]
 [ext_resource type="PackedScene" uid="uid://bdlpr56xw4u6o" path="res://scenes/car_particle_system.tscn" id="2_3bsvd"]
 [ext_resource type="Texture2D" uid="uid://crpks4fqcqaiv" path="res://assets/temp-car.png" id="2_oj5pt"]
 [ext_resource type="Script" uid="uid://563pjtpdbxb4" path="res://scripts/AlwaysUp.cs" id="4_3bsvd"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kpjcp"]
-radius = 9.0
 
 [node name="Racer" type="CharacterBody2D" node_paths=PackedStringArray("CarParticleSystem", "_debugLabel", "_debugTargetPos")]
 collision_layer = 3
@@ -21,17 +18,18 @@ _debugLabel = NodePath("Node2D/DebugText")
 _debugTargetPos = NodePath("Debug_TargetCross")
 
 [node name="CarParticleSystem" parent="." instance=ExtResource("2_3bsvd")]
+position = Vector2(0, 16)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture_filter = 1
 use_parent_material = true
 position = Vector2(0, 8)
 rotation = -1.5708
 texture = ExtResource("2_oj5pt")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 8)
-shape = SubResource("CapsuleShape2D_kpjcp")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(0, -7, 9, 16, -9, 16)
 
 [node name="Debug_TargetCross" type="Node2D" parent="."]
 top_level = true
@@ -64,6 +62,10 @@ grow_horizontal = 2
 grow_vertical = 0
 text = "DEBUG"
 horizontal_alignment = 1
+
+[node name="Polygon2D2" type="Polygon2D" parent="."]
+scale = Vector2(3, 3)
+polygon = PackedVector2Array(0, -2.33333, 3, 5.33333, 0, 4.33333, -3, 5.33333)
 
 [connection signal="GoalEntered" from="." to="." method="_on_goal_entered"]
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]

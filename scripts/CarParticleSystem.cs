@@ -3,22 +3,27 @@ using System;
 
 public partial class CarParticleSystem : Node2D
 {
-	[Export] public GpuParticles2D DebrisParticles;
-	[Export] public GpuParticles2D LeftTireParticles, RightTireParticles;
-	[Export] private ParticleProcessMaterial _tireProcessMaterial;
-
-	public ParticleProcessMaterial TireProcessMaterial;
+	[Export] public GpuParticles2D ThrusterParticles;
+	public float ThrusterSpeed;
+	public float ThrusterAngle;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		TireProcessMaterial = (ParticleProcessMaterial)_tireProcessMaterial.Duplicate(true);
-		LeftTireParticles.ProcessMaterial = TireProcessMaterial;
-		 RightTireParticles.ProcessMaterial = TireProcessMaterial;
-	}
+		ThrusterParticles.ProcessMaterial = (ParticleProcessMaterial)ThrusterParticles.ProcessMaterial.Duplicate(true);
+    }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-	}
+		ParticleProcessMaterial Material = (ParticleProcessMaterial)ThrusterParticles.ProcessMaterial;
+		Material.InitialVelocityMin = 98 * ThrusterSpeed;
+		Material.InitialVelocityMax = 98 * ThrusterSpeed;
+
+		Material.AngleMax = ThrusterAngle;
+		Material.AngleMin = ThrusterAngle;
+
+		ThrusterParticles.ProcessMaterial = Material;
+
+    }
 }

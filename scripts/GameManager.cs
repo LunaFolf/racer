@@ -1,12 +1,5 @@
 using Godot;
 using System.Collections.Generic;
-
-// Notes
-// 1. Collisions are fucked lol
-// 2. Need markers on floor for when a corner is coming
-// 3. Minimap?
-// 4. Ramps and Obstacles?
-
 public partial class GameManager : Node
 {
     public static GameManager Instance;
@@ -34,7 +27,6 @@ public partial class GameManager : Node
     {
         Instance = this;
         GD.Print("GameManager Ready!");
-        //GD.Randomize();
         GD.Seed("Protogen".Hash());
     }
 

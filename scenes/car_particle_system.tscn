@@ -1,31 +1,56 @@
-[gd_scene load_steps=4 format=3 uid="uid://bdlpr56xw4u6o"]
+[gd_scene load_steps=10 format=3 uid="uid://bdlpr56xw4u6o"]
 
 [ext_resource type="Script" uid="uid://bh624r8mfaig7" path="res://scripts/CarParticleSystem.cs" id="1_5q2wo"]
-[ext_resource type="Material" uid="uid://b5ldkho74uac5" path="res://assets/Debris Particle.tres" id="1_ith0h"]
-[ext_resource type="Material" uid="uid://2eocj8kpjlty" path="res://assets/Tire Particle.tres" id="2_5q2wo"]
+[ext_resource type="Texture2D" uid="uid://cyi0wm2h8fmil" path="res://assets/bit_particles.png" id="2_ith0h"]
 
-[node name="CarParticleSystem" type="Node2D" node_paths=PackedStringArray("DebrisParticles", "LeftTireParticles", "RightTireParticles")]
+[sub_resource type="Curve" id="Curve_ith0h"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_5q2wo"]
+curve = SubResource("Curve_ith0h")
+
+[sub_resource type="Curve" id="Curve_nn0aw"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_iex6w"]
+curve = SubResource("Curve_nn0aw")
+
+[sub_resource type="Curve" id="Curve_5q2wo"]
+_data = [Vector2(0, 0.683295), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_nn0aw"]
+curve = SubResource("Curve_5q2wo")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ith0h"]
+particle_flag_disable_z = true
+angle_min = 1.07288e-05
+angle_max = 1.07288e-05
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 98.0
+initial_velocity_max = 98.0
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -2.23517e-06
+linear_accel_max = -2.23517e-06
+attractor_interaction_enabled = false
+scale_min = 0.5
+scale_curve = SubResource("CurveTexture_nn0aw")
+alpha_curve = SubResource("CurveTexture_5q2wo")
+emission_curve = SubResource("CurveTexture_iex6w")
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 0.0
+
+[node name="CarParticleSystem" type="Node2D" node_paths=PackedStringArray("ThrusterParticles")]
 script = ExtResource("1_5q2wo")
-DebrisParticles = NodePath("Debris")
-LeftTireParticles = NodePath("TireL")
-RightTireParticles = NodePath("TireR")
-_tireProcessMaterial = ExtResource("2_5q2wo")
+ThrusterParticles = NodePath("GPUParticles2D")
 
-[node name="Debris" type="GPUParticles2D" parent="."]
-modulate = Color(0, 0, 0, 0.141176)
-position = Vector2(0, 17)
-amount = 32
-amount_ratio = 0.0
-process_material = ExtResource("1_ith0h")
-
-[node name="TireL" type="GPUParticles2D" parent="."]
-modulate = Color(0, 0, 0, 0.333333)
-position = Vector2(-6, 20)
-amount = 64
-lifetime = 0.01
-
-[node name="TireR" type="GPUParticles2D" parent="."]
-modulate = Color(0, 0, 0, 0.333333)
-position = Vector2(5, 20)
-amount = 64
-lifetime = 0.01
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+texture_filter = 1
+texture_repeat = 1
+amount = 12
+texture = ExtResource("2_ith0h")
+visibility_rect = Rect2(-100, -100, 100, 200)
+process_material = SubResource("ParticleProcessMaterial_ith0h")

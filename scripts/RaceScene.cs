@@ -84,6 +84,8 @@ public partial class RaceScene : Node2D
             racer.QueueFree();
         }
 
+        Input.StopJoyVibration(0);
+
         GetTree().ChangeSceneToFile("res://scenes/shop.tscn");
     }
 
