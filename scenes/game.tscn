@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b5bgixivrxxmm"]
+[gd_scene load_steps=13 format=3 uid="uid://b5bgixivrxxmm"]
 
 [ext_resource type="PackedScene" uid="uid://ddibarwjv0dnq" path="res://scenes/Player.tscn" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://bp6ydahnmkp81" path="res://scripts/RaceScene.cs" id="1_dinhu"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://dnqkyh6qrn7fg" path="res://scripts/RacerManager.cs" id="7_vtaks"]
 [ext_resource type="PackedScene" uid="uid://db04xgn52pj5d" path="res://scenes/HUD.tscn" id="8_gee14"]
 [ext_resource type="PackedScene" uid="uid://c6ldfseuefsg7" path="res://scenes/MainCamera.tscn" id="10_kvpfn"]
+[ext_resource type="Texture2D" uid="uid://dmc1gmqo18chn" path="res://assets/bg_grid.png" id="12_dinhu"]
 
 [node name="RaceScene" type="Node2D" node_paths=PackedStringArray("Hud", "GoalManager", "RacerManager", "Timer")]
 script = ExtResource("1_dinhu")
@@ -34,9 +35,19 @@ StartingTrack = NodePath("../TrackStart")
 [node name="Racers" type="Node" parent="."]
 script = ExtResource("7_vtaks")
 RacerScene = ExtResource("7_0tnpc")
+MaxRacers = 0
 
 [node name="HUD" parent="." instance=ExtResource("8_gee14")]
 
 [node name="RaceCountdownTimer" type="Timer" parent="."]
+
+[node name="BackgroundWater" type="Sprite2D" parent="."]
+z_index = -102
+texture_filter = 1
+texture_repeat = 2
+scale = Vector2(3, 3)
+texture = ExtResource("12_dinhu")
+region_enabled = true
+region_rect = Rect2(0, 0, 50000, 50000)
 
 [connection signal="timeout" from="RaceCountdownTimer" to="." method="_on_race_countdown_timer_timeout"]

@@ -27,7 +27,7 @@ public partial class GameManager : Node
     {
         Instance = this;
         GD.Print("GameManager Ready!");
-        GD.Seed("Protogen".Hash());
+        //GD.Seed("Protogen".Hash());
     }
 
     public void SetGameState(State state)

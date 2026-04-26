@@ -19,7 +19,7 @@ public partial class ShopMenu : Control
 
         for (int i = 0; i < 3; i++)
         {
-            var upgradeType = (PlayerUpgrade.Type)GD.RandRange(0, 3);
+            var upgradeType = (PlayerUpgrade.Type)GD.RandRange(0, 2);
             var multiplier = -1f;
 
             while (multiplier <= 0f)

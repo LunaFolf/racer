@@ -4,6 +4,7 @@ using System;
 public partial class Player : CharacterBody2D
 {
 	[Export] public float MaxAccelSpeed = 500.0f;
+	private float upgradeSpeedMultiplier = 1f;
 	private float _actualMaxAccelSpeed;
 	[Export] public float RotationSpeed = 3.0f;
 	[Export] public float Acceleration = 400.0f;
@@ -33,7 +34,7 @@ public partial class Player : CharacterBody2D
 		set
 		{
 			_racePosition = value;
-			_actualMaxAccelSpeed = MaxAccelSpeed + (_racePosition - 1) * 10;
+			_actualMaxAccelSpeed = (MaxAccelSpeed * upgradeSpeedMultiplier) + (_racePosition - 1) * 10;
 		}
 	}
 
@@ -56,12 +57,20 @@ public partial class Player : CharacterBody2D
 
 	public override void _Ready()
 	{
-        _actualMaxAccelSpeed = MaxAccelSpeed;
 		foreach (var upgrade in GameManager.Instance.PlayerUpgrades)
 		{
 			GD.Print("upgrade ", upgrade);
+			if (upgrade.type == PlayerUpgrade.Type.SPEED)
+			{
+				upgradeSpeedMultiplier += upgrade.multiplier;
+			}
 		}
-		_currentZoom = _defaultCameraZoom;
+
+        _actualMaxAccelSpeed = MaxAccelSpeed * upgradeSpeedMultiplier;
+
+        _currentZoom = _defaultCameraZoom;
+
+		GD.Print(MaxAccelSpeed, _actualMaxAccelSpeed);
     }
 
 	public override void _Process(double delta)
@@ -85,7 +94,10 @@ public partial class Player : CharacterBody2D
 
 		if (accel != 0)
 		{
+			var oldVelocity = velocity;
 			velocity = velocity.MoveToward(GlobalTransform.Y * _actualMaxAccelSpeed * accel, Acceleration * (float)delta);
+			// TODO: Calculate drift lag and offset by traction control upgrades
+			GD.Print(Math.Abs(velocity.Aspect()));
 		}
 		else
 		{

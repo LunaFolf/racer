@@ -126,7 +126,6 @@ public partial class RaceScene : Node2D
         Hud.Minimap.SetMap(GoalManager.TrackPoints);
         _player.NumberOfGoals = GoalManager.GoalCounter;
         Racers.Add(0, _player);
-        RacerManager.MaxRacers = 9;
         RacerManager.GenerateRacers(GoalManager.GoalCounter, this);
 
         foreach (Racer racer in RacerManager.Racers)
