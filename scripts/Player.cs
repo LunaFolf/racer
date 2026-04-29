@@ -12,7 +12,7 @@ public partial class Player : CharacterBody2D
 	[Export] public AlwaysUp BackgroundSprite;
 	[Export] public HUD Hud;
 	[Export] public CarParticleSystem CarParticleSystem;
-	[Export] public Camera2D Camera;
+	[Export] public MainCamera Camera;
 
 	private static float _defaultCameraZoom = 1f;
 	private static float _zoomedCameraZoom = _defaultCameraZoom + 1f;
@@ -57,6 +57,7 @@ public partial class Player : CharacterBody2D
 
 	public override void _Ready()
 	{
+		Camera.Hud = Hud;
 		foreach (var upgrade in GameManager.Instance.PlayerUpgrades)
 		{
 			GD.Print("upgrade ", upgrade);
@@ -78,7 +79,9 @@ public partial class Player : CharacterBody2D
 		if (IsQueuedForDeletion()) return;
 		_splitTime += delta;
 		_stageTime += delta;
-	}
+
+        CalculateScore();
+    }
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -97,7 +100,7 @@ public partial class Player : CharacterBody2D
 			var oldVelocity = velocity;
 			velocity = velocity.MoveToward(GlobalTransform.Y * _actualMaxAccelSpeed * accel, Acceleration * (float)delta);
 			// TODO: Calculate drift lag and offset by traction control upgrades
-			GD.Print(Math.Abs(velocity.Aspect()));
+			//GD.Print(Math.Abs(velocity.Aspect()));
 		}
 		else
 		{
@@ -113,14 +116,17 @@ public partial class Player : CharacterBody2D
 			Rotate(rot * actualRotSpeed * (float)delta);
 		}
 
-		float speedPercent = velocity.Length() / _actualMaxAccelSpeed;
+		float speedPercent = velocity.Length() / MaxAccelSpeed;
 
-		//var bgPos = BackgroundSprite.GlobalPosition;
-		//bgPos.Y = speedPercent * bgOffset;
-		//bgPos.X = actualRotSpeed * bgOffset;
-  //      BackgroundSprite.GlobalPosition = bgPos;
+		if (speedPercent > 1)
+		{
+			GD.Print(speedPercent);
+        }
+        Camera.shake = speedPercent - 1;
+		Hud.Bloom.SetShaderParameter("bloom_spread", 1 + Math.Max(0, speedPercent - 1));
+		Hud.Bloom.SetShaderParameter("bloom_intensity", 1 + Math.Max(0, speedPercent - 1) * 0.5);
 
-		CarParticleSystem.ThrusterSpeed = speedPercent;
+        CarParticleSystem.ThrusterSpeed = speedPercent;
 		CarParticleSystem.ThrusterAngle = RotationDegrees;
 
 		float vibrationStrength = 0.5f;
@@ -136,17 +142,24 @@ public partial class Player : CharacterBody2D
 			Camera.Zoom = new Vector2(_currentZoom, _currentZoom);
 		}
 
-		//CarParticleSystem.DebrisParticles.AmountRatio = speedPercent;
-		//CarParticleSystem.TireProcessMaterial.Gravity = new Vector3(GlobalTransform.Y.X * 94, GlobalTransform.Y.Y * 94, 0);
-
 		float driftPercent = Math.Abs(velocity.Dot(GlobalTransform.X)) / _actualMaxAccelSpeed;
 		float tireMarkLifetime = Math.Max(0.01f, driftPercent);
 
-		//CarParticleSystem.LeftTireParticles.Lifetime = tireMarkLifetime;
-		//CarParticleSystem.RightTireParticles.Lifetime = tireMarkLifetime;
-
 		Velocity = velocity;
 		MoveAndSlide();
+	}
+
+	private void CalculateScore()
+	{
+		var distanceFromNextGoal = _raceScene.GoalManager.DistanceToGoal(Position, _goalCounter - 1);
+		float score = (_goalCounter - 1) * 500; // Count number of goals passed
+		score += (500 - distanceFromNextGoal); // Add distance travelled so far to next goal
+		score -= 250; // offset starting goal being 750 instead of 500
+		score += (_lapCounter - 1) * (NumberOfGoals * 500); // Add offset for laps
+
+		GameManager.Instance.PlayerScore = (int)score;
+
+		Hud.SetScoreText(Math.Max(score, 0));
 	}
 
 	public void _on_goal_entered(int goalNumber)
@@ -157,13 +170,10 @@ public partial class Player : CharacterBody2D
 		_raceScene.SetSplitTime(0, _splitTime);
 		_splitTime = 0;
 
-		if (_goalCounter >= 2 && _lapCounter >= 2)
+		GD.Print("GoalCounter: " + _goalCounter + " | NumberOfGoals: " + NumberOfGoals);
+		if (_goalCounter >= NumberOfGoals)
 		{
-			// Race Finished
-			_raceScene.EndRace();
-		}
-		if (_goalCounter > NumberOfGoals)
-		{
+			GD.Print("Lapped");
 			_lapCounter++;
 
 			_goalCounter = 1;
@@ -173,6 +183,13 @@ public partial class Player : CharacterBody2D
 			return;
 		}
 
-		_raceScene.SetRacerGoal(0, _goalCounter);
+        if (_lapCounter >= 2)
+        {
+            GD.Print("Game Ended");
+            // Race Finished
+            _raceScene.EndRace();
+        }
+
+        _raceScene.SetRacerGoal(0, _goalCounter);
 	}
 }

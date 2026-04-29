@@ -35,7 +35,7 @@ StartingTrack = NodePath("../TrackStart")
 [node name="Racers" type="Node" parent="."]
 script = ExtResource("7_vtaks")
 RacerScene = ExtResource("7_0tnpc")
-MaxRacers = 0
+MaxRacers = 9
 
 [node name="HUD" parent="." instance=ExtResource("8_gee14")]
 

@@ -23,6 +23,7 @@ public partial class RaceScene : Node2D
     {
         GD.Print("Turn off HUD");
         Hud.SetPositionVisible(false);
+        Hud.SetScoreVisible(false);
 
         GD.Print("Get Player");
         _player = PlayerPackedScene.Instantiate<Player>();
@@ -153,6 +154,7 @@ public partial class RaceScene : Node2D
         Timer.QueueFree();
 
         Hud.SetPositionVisible(true);
+        Hud.SetScoreVisible(true);
 
         GameManager.Instance.SetGameState(GameManager.State.Racing);
     }

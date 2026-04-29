@@ -9,8 +9,8 @@ a = Vector2(-110, -250)
 b = Vector2(-110, 250)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_ntld6"]
-a = Vector2(109, -250)
-b = Vector2(109, 250)
+a = Vector2(110, -250)
+b = Vector2(110, 250)
 
 [node name="TrackStraight" type="Node2D" node_paths=PackedStringArray("Entrance", "Exit")]
 z_index = -100

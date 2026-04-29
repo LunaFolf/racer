@@ -23,6 +23,10 @@ public partial class GameManager : Node
     public Camera2D MainCamera;
 
     public List<PlayerUpgrade> PlayerUpgrades = new();
+
+    public int RaceCount = 1;
+    public int PlayerScore = 6000;
+    public int PlayerPoints = 0;
     public override void _Ready()
     {
         Instance = this;

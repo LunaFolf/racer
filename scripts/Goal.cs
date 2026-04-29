@@ -8,8 +8,8 @@ public partial class Goal : Area2D
     public int Width => 48;
     public void _on_body_entered(Node2D body)
     {
-        GD.Print("Goal " + GoalNumber + " entered!");
-        GD.Print(body);
+        //GD.Print("Goal " + GoalNumber + " entered!");
+        //GD.Print(body);
         body.EmitSignal("GoalEntered", GoalNumber);
     }
 }

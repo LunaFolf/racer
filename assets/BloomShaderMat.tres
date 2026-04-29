@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://brinromnhmhce"]
+
+[ext_resource type="Shader" uid="uid://dcxumy76kny37" path="res://shaders/Bloom.gdshader" id="1_id4mf"]
+
+[resource]
+shader = ExtResource("1_id4mf")
+shader_parameter/bloom_spread = 1.0
+shader_parameter/bloom_intensity = 1.0

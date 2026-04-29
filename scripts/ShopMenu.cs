@@ -4,19 +4,69 @@ using System.Collections.Generic;
 
 public partial class ShopMenu : Control
 {
-    [Export] public Label FinishLabel;
+    [Export] public Label ScoreLabel;
+    [Export] public Label PointsLabel;
+    [Export] public GpuParticles2D PointsParticles;
     [Export] public BoxContainer ButtonList;
+    [Export] public Button NextRaceButton;
     [Signal] public delegate void NextRaceEventHandler();
+
+    private int removalCounter;
+    private bool _countdown = false;
 
     private List<PlayerUpgrade> availableUpgrades = new ();
 
     public override void _Ready()
     {
         GameManager.Instance.SetGameState(GameManager.State.Shop);
-        if (FinishLabel != null) {
-            FinishLabel.Text = "Congrats, you finished: " + GameManager.Instance.PlayerRacePosition;
+        if (ScoreLabel != null) {
+            ScoreLabel.Text = "Data Transfered: " + GameManager.Instance.PlayerScore + "mb";
+        }
+        if (PointsLabel != null) {
+            PointsLabel.Text = GameManager.Instance.PlayerPoints.ToString();
+        }
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        if (!_countdown) return;
+
+        if (GameManager.Instance.PlayerScore <= 0)
+        {
+            if (GameManager.Instance.PlayerScore < 0)
+            {
+                GameManager.Instance.PlayerScore = 0;
+                ScoreLabel.Text = "Data Transfered: " + GameManager.Instance.PlayerScore + "mb";
+            }
+            _countdown = false;
+            GenerateShop();
+            return;
         }
 
+        int deliminator = GameManager.Instance.RaceCount * 16;
+
+        GameManager.Instance.PlayerScore -= deliminator;
+        removalCounter += deliminator;
+
+        ScoreLabel.Text = "Data Transfered: " + GameManager.Instance.PlayerScore + "mb";
+
+        if (removalCounter >= 1024)
+        {
+            PointsParticles.Restart();
+            PointsParticles.Emitting = true;
+            removalCounter = 0;
+            GameManager.Instance.PlayerPoints++;
+            PointsLabel.Text = GameManager.Instance.PlayerPoints.ToString();
+        }
+    }
+
+    public void StartCountdown()
+    {
+        _countdown = true;
+    }
+
+    private void GenerateShop()
+    {
         for (int i = 0; i < 3; i++)
         {
             var upgradeType = (PlayerUpgrade.Type)GD.RandRange(0, 2);
@@ -31,16 +81,25 @@ public partial class ShopMenu : Control
             availableUpgrades.Add(new PlayerUpgrade(upgradeType, multiplier));
         }
 
-        foreach (PlayerUpgrade upgrade in availableUpgrades) {
+        foreach (PlayerUpgrade upgrade in availableUpgrades)
+        {
             var button = new UpgradeButton(upgrade, this);
             ButtonList.AddChild(button);
         }
 
         ButtonList.GetChild<Button>(0).GrabFocus();
+
+        NextRaceButton.Visible = true;
     }
 
     public void AddPlayerUpgrade(PlayerUpgrade upgrade)
     {
+        if (GameManager.Instance.PlayerPoints < (2 * GameManager.Instance.RaceCount)) return;
+        GameManager.Instance.PlayerPoints -= (2 * GameManager.Instance.RaceCount);
+        PointsLabel.Text = GameManager.Instance.PlayerPoints.ToString();
+        PointsParticles.Restart();
+        PointsParticles.Emitting = true;
+
         GD.Print(upgrade.type, upgrade.name, upgrade.multiplier);
         GD.Print(GameManager.Instance);
 
@@ -50,6 +109,7 @@ public partial class ShopMenu : Control
 
     public void _on_next_race()
     {
+        GameManager.Instance.RaceCount++;
         GameManager.Instance.SwitchToRaceScene();
     }
 }

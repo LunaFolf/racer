@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\25813979\\OneDrive - The University of Northampton\\Documents\\GitHub\\racer\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\onedrive - the university of northampton\\documents\\github\\racer\\scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\onedrive - the university of northampton\\documents\\github\\racer\\scripts\\playerupgrade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\playerupgrade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -39,10 +43,6 @@
       "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\racer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\onedrive - the university of northampton\\documents\\github\\racer\\scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\onedrive - the university of northampton\\documents\\github\\racer\\scripts\\carparticlesystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\carparticlesystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -62,11 +62,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "AlwaysUp.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\OneDrive - The University of Northampton\\Documents\\GitHub\\racer\\scripts\\AlwaysUp.cs",
               "RelativeDocumentMoniker": "scripts\\AlwaysUp.cs",
@@ -74,8 +74,7 @@
               "RelativeToolTip": "scripts\\AlwaysUp.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-15T16:40:41.786Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-15T16:40:41.786Z"
             },
             {
               "$type": "Document",
@@ -91,19 +90,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 0,
               "Title": "Player.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\OneDrive - The University of Northampton\\Documents\\GitHub\\racer\\scripts\\Player.cs",
               "RelativeDocumentMoniker": "scripts\\Player.cs",
               "ToolTip": "C:\\Users\\25813979\\OneDrive - The University of Northampton\\Documents\\GitHub\\racer\\scripts\\Player.cs",
               "RelativeToolTip": "scripts\\Player.cs",
-              "ViewState": "AgIAAGIAAAAAAAAAAIAwwG8AAAACAAAAAAAAAA==",
+              "ViewState": "AgIAAFwAAAAAAAAAAAAuwHMAAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-15T13:47:07.694Z"
+              "WhenOpened": "2026-04-15T13:47:07.694Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "GoalManager.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\OneDrive - The University of Northampton\\Documents\\GitHub\\racer\\scripts\\GoalManager.cs",
               "RelativeDocumentMoniker": "scripts\\GoalManager.cs",
@@ -111,8 +111,7 @@
               "RelativeToolTip": "scripts\\GoalManager.cs",
               "ViewState": "AgIAACkAAAAAAAAAAAAIwD8AAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-25T17:36:58.243Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-25T17:36:58.243Z"
             },
             {
               "$type": "Document",
@@ -128,7 +127,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Minimap.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\OneDrive - The University of Northampton\\Documents\\GitHub\\racer\\scripts\\Minimap.cs",
               "RelativeDocumentMoniker": "scripts\\Minimap.cs",
@@ -136,8 +135,7 @@
               "RelativeToolTip": "scripts\\Minimap.cs",
               "ViewState": "AgIAADgAAAAAAAAAAAAwwFAAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-25T15:26:07.951Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-25T15:26:07.951Z"
             },
             {
               "$type": "Document",
@@ -153,46 +151,46 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "ShopMenu.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\OneDrive - The University of Northampton\\Documents\\GitHub\\racer\\scripts\\ShopMenu.cs",
               "RelativeDocumentMoniker": "scripts\\ShopMenu.cs",
               "ToolTip": "C:\\Users\\25813979\\OneDrive - The University of Northampton\\Documents\\GitHub\\racer\\scripts\\ShopMenu.cs",
               "RelativeToolTip": "scripts\\ShopMenu.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAgwCsAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAB8AAAAAAAAAAIAwwC4AAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-18T15:48:07.646Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "PlayerUpgrade.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\OneDrive - The University of Northampton\\Documents\\GitHub\\racer\\scripts\\PlayerUpgrade.cs",
               "RelativeDocumentMoniker": "scripts\\PlayerUpgrade.cs",
               "ToolTip": "C:\\Users\\25813979\\OneDrive - The University of Northampton\\Documents\\GitHub\\racer\\scripts\\PlayerUpgrade.cs",
               "RelativeToolTip": "scripts\\PlayerUpgrade.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABIAAABbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-18T15:31:54.883Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "GameManager.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\OneDrive - The University of Northampton\\Documents\\GitHub\\racer\\scripts\\GameManager.cs",
               "RelativeDocumentMoniker": "scripts\\GameManager.cs",
               "ToolTip": "C:\\Users\\25813979\\OneDrive - The University of Northampton\\Documents\\GitHub\\racer\\scripts\\GameManager.cs",
               "RelativeToolTip": "scripts\\GameManager.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAArwB0AAAAlAAAAAAAAAA==",
+              "ViewState": "AgIAAAUAAAAAAAAAAAArwBgAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-18T15:31:24.261Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "RaceScene.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\OneDrive - The University of Northampton\\Documents\\GitHub\\racer\\scripts\\RaceScene.cs",
               "RelativeDocumentMoniker": "scripts\\RaceScene.cs",
@@ -200,12 +198,11 @@
               "RelativeToolTip": "scripts\\RaceScene.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAH8AAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-18T14:50:33.37Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-18T14:50:33.37Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "RacerManager.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\OneDrive - The University of Northampton\\Documents\\GitHub\\racer\\scripts\\RacerManager.cs",
               "RelativeDocumentMoniker": "scripts\\RacerManager.cs",
@@ -213,12 +210,11 @@
               "RelativeToolTip": "scripts\\RacerManager.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-18T14:50:31.225Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-18T14:50:31.225Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Racer.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\OneDrive - The University of Northampton\\Documents\\GitHub\\racer\\scripts\\Racer.cs",
               "RelativeDocumentMoniker": "scripts\\Racer.cs",

@@ -9,8 +9,8 @@ a = Vector2(-110, -250)
 b = Vector2(-110, 250)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_fjxhd"]
-a = Vector2(109, -250)
-b = Vector2(109, 250)
+a = Vector2(110, -250)
+b = Vector2(110, 250)
 
 [node name="TrackStart" type="Node2D" node_paths=PackedStringArray("Entrance", "Exit")]
 z_index = -100
@@ -42,6 +42,11 @@ shape = SubResource("SegmentShape2D_36jem")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
 shape = SubResource("SegmentShape2D_fjxhd")
+
+[node name="Line2D3" type="Line2D" parent="."]
+points = PackedVector2Array(-111, -250, 111, -250)
+width = 2.0
+default_color = Color(1, 1, 1, 0.313726)
 
 [node name="Line2D" type="Line2D" parent="."]
 points = PackedVector2Array(-110, -250, -110, 250)

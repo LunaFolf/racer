@@ -19,7 +19,9 @@ public partial class GoalManager : Node2D
     [Export] public Track StartingTrack;
 
     private int _goalCounter = 1;
-    private static int _maxRandomTracks = 5; //OG: 35
+    private static int _minimumTrackPieces = 5; //OG: 35
+
+    public int TrackPieceCount => _minimumTrackPieces + (GameManager.Instance.RaceCount * 5);
 
     public int GoalCounter => _goalCounter - 1;
 
@@ -90,7 +92,7 @@ public partial class GoalManager : Node2D
         new (Track.TrackType.CornerCCw)
     ];
 
-    private TrackTile[] _tracks = new TrackTile[_maxRandomTracks];
+    private TrackTile[] _tracks;
 
     public Vector2[] TrackPoints => _tracks.Select((tile, index) => new Vector2(tile.x, tile.y)).ToArray();
 
@@ -136,7 +138,7 @@ public partial class GoalManager : Node2D
 
         do
         {
-            _tracks = new TrackTile[_maxRandomTracks];
+            _tracks = new TrackTile[TrackPieceCount];
             _tracks[0] = new TrackTile(Track.TrackType.Start);
             _tracks[0].TrackScene = TrackStartScene;
 
@@ -157,7 +159,7 @@ public partial class GoalManager : Node2D
 
     public void GenerateReturnPathTrack(List<Vector2I> path)
     {
-        Array.Resize(ref _tracks, _maxRandomTracks + path.Count);
+        Array.Resize(ref _tracks, TrackPieceCount + path.Count);
 
         for (int i = 0; i < path.Count; i++) // Using for loop instead of foreach, so I can grab "next" track piece easily.
         {
@@ -165,9 +167,9 @@ public partial class GoalManager : Node2D
 
             TrackTile prev;
             if (i == 0)
-                prev = _tracks[_maxRandomTracks - 1];
+                prev = _tracks[TrackPieceCount - 1];
             else
-                prev = _tracks[_maxRandomTracks + i - 1];
+                prev = _tracks[TrackPieceCount + i - 1];
 
             var prevExitOpposite = Track.Opposite(prev.GetExitDir());
             var nextEntrance = GetTrackDir(current, new Vector2I(0, 0));
@@ -200,7 +202,7 @@ public partial class GoalManager : Node2D
             newTrackPiece.x = current.X;
             newTrackPiece.y = current.Y;
 
-            _tracks[_maxRandomTracks + i] = newTrackPiece;
+            _tracks[TrackPieceCount + i] = newTrackPiece;
         }
     }
 
@@ -266,7 +268,7 @@ public partial class GoalManager : Node2D
     {
         int localX = 0, localY = 1;
         TrackTile lastTile = _tracks[0];
-        for (int i = 1; i < _maxRandomTracks; i++)
+        for (int i = 1; i < TrackPieceCount; i++)
         {
             GD.Print("Generating Track Piece ", i);
             bool newTrackExitBlocked = false;
@@ -340,7 +342,7 @@ public partial class GoalManager : Node2D
     // so that we have a complete circuit for our race.
     public List<Vector2I> PathfindToStart()
     {
-        var lastTrack = _tracks[_maxRandomTracks - 1];
+        var lastTrack = _tracks[TrackPieceCount - 1];
         var firstTrack = _tracks[0];
         GD.Print("Last Track " + lastTrack.x + " " + lastTrack.y);
         GD.Print("First Track " + firstTrack.x + " " + firstTrack.y);

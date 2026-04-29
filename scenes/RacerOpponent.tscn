@@ -13,7 +13,6 @@ RotationSpeed = 1.5
 Acceleration = 100.0
 Deceleration = 160.0
 CarParticleSystem = NodePath("CarParticleSystem")
-_currentDebugMode = 2
 _debugLabel = NodePath("Node2D/DebugText")
 _debugTargetPos = NodePath("Debug_TargetCross")
 
