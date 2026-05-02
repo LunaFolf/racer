@@ -74,7 +74,7 @@ public partial class ShopMenu : Control
 
             while (multiplier <= 0f)
             {
-                multiplier = (float)Math.Round((GD.Randf() * 25) / 100, 2);
+                multiplier = GD.RandRange(1,25) / 100f;
                 GD.Print(multiplier);
             }
 

@@ -42,4 +42,5 @@ rotation = -1.5708
 position = Vector2(-1500, 0)
 rotation = -1.5708
 
-[node name="HUD" parent="." instance=ExtResource("9_5ph7u")]
+[node name="HUD" parent="." node_paths=PackedStringArray("Score") instance=ExtResource("9_5ph7u")]
+Score = NodePath("MainHUD/PositionLabel")

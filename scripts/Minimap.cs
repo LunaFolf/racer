@@ -8,10 +8,11 @@ public partial class Minimap : Node2D
 {
 	[Export] public Vector2[] TrackPoints = [];
 	[Export] public Line2D TrackLine;
-	[Export] public Sprite2D PlayerDot;
+	[Export] public Polygon2D PlayerDot;
+	[Export] public Sprite2D FinishLine;
 	[Export] public float RotationSpeed = 2f;
 	private Player _player;
-	private List<Sprite2D> RacerDots;
+	private List<Polygon2D> RacerDots;
 	private RacerManager RaceManager;
 	private Vector2 _startingPoint;
 	private float _scale;
@@ -43,12 +44,10 @@ public partial class Minimap : Node2D
 			var color = racer.Modulate;
 			color.A = .75f;
 
-			var sprite = new Sprite2D();
+			var sprite = PlayerDot.Duplicate() as Polygon2D;
 			sprite.Name = racer.Name;
 			sprite.Modulate = color;
-			sprite.Texture = new CanvasTexture();
-			sprite.RegionEnabled = true;
-			sprite.RegionRect = new Rect2(0, 0, 5, 5);
+
 			TrackLine.AddChild(sprite);
 			RacerDots.Add(sprite);
 		}
@@ -69,9 +68,10 @@ public partial class Minimap : Node2D
 
 		if (_player != null)
 		{
+			// RotationDegrees = Mathf.Lerp(RotationDegrees, -_player.RotationDegrees, (float)delta * RotationSpeed);
 			PlayerDot.Position = _startingPoint + (_player.Position / playerMovementScale);
-			RotationDegrees = Mathf.Lerp(RotationDegrees, -_player.RotationDegrees, (float)delta * RotationSpeed);
-			//RotationDegrees = -_player.RotationDegrees;
+			PlayerDot.RotationDegrees = _player.RotationDegrees;
+			RotationDegrees = -_player.RotationDegrees;
 		}
 
 		if (RaceManager.Racers != null)
@@ -80,6 +80,7 @@ public partial class Minimap : Node2D
 			{
 				var index = racer.RacerNumber - 1;
 				RacerDots[index].Position = _startingPoint + (racer.Position / playerMovementScale);
+				RacerDots[index].RotationDegrees = racer.RotationDegrees;
 			}
 		}
 
@@ -108,26 +109,20 @@ public partial class Minimap : Node2D
 		var xMult = _targetMapSize / pointWidth;
 		var yMult = _targetMapSize / pointHeight;
 		_scale = Mathf.Min(xMult, yMult);
-		var scaledWidth = pointWidth * _scale;
-		var scaledHeight = pointHeight * _scale;
-
-		var offsetX = (_targetMapSize - scaledWidth) / 2f;
-		var offsetY = (_targetMapSize - scaledHeight) / 2f;
 
 		var first = true;
 		foreach (var point in TrackPoints)
 		{
 			var normalized = new Vector2(point.X - smallX, -(point.Y - smallY));
 			var scaled = normalized * _scale;
-			var centered = scaled + new Vector2(offsetX, offsetY);
 
-			TrackLine.AddPoint(centered);
+			TrackLine.AddPoint(scaled);
 
-			if (first)
-			{
-				first = false;
-				_startingPoint = centered;
-			}
+			if (!first) continue;
+			first = false;
+			_startingPoint = scaled;
 		}
+
+		FinishLine.Position = _startingPoint + (TrackPoints[TrackPoints.Length - 1] / _scale);
 	}
 }

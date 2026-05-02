@@ -41,6 +41,7 @@ public partial class RaceScene : Node2D
 
     public void StartRaceCountdown()
     {
+        _player.Camera.shake = 0;
         Timer.Start();
     }
 

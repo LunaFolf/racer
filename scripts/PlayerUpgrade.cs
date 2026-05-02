@@ -11,10 +11,6 @@ public class PlayerUpgrade
     }
 
     private Dictionary<Type, String[]> _upgradeNames = new() {
-        //[Type.SPEED] = ["Two Hamster Wheels", "V67 Engine", "Racing Stripes"],
-        //[Type.TRACTION] = ["Glue Tyres", "MAGNETS!!", "Artificial Gravity"],
-        //[Type.TURNING] = ["PIVOT!", "361 Degrees", "A.I Ball-joints"],
-        //[Type.BOOST] = ["Yeet Fuel", "Literal Rocket Fuel", "Monster Energy™"]
         [Type.SPEED] = ["Fibre Optics", "Wifi 9.0", "Compressed Packets"],
         [Type.TRACTION] = ["Ad-block", "Improved Routing", "Ferrite Core"], // DOT product?
         [Type.TURNING] = ["Improved Bitrate", "Anti-lag", "Handshake"]

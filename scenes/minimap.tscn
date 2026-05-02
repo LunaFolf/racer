@@ -1,17 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://cyh1x665ocifv"]
+[gd_scene load_steps=5 format=3 uid="uid://cyh1x665ocifv"]
 
 [ext_resource type="Script" uid="uid://dnvpjbcr885o4" path="res://scripts/Minimap.cs" id="1_yfyr0"]
+[ext_resource type="Texture2D" uid="uid://cirjvkqbsb485" path="res://assets/mapLine.png" id="2_o13pn"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_lj7mc"]
 size = Vector2(192, 192)
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_lj7mc"]
 
-[node name="Minimap" type="Node2D" node_paths=PackedStringArray("TrackLine", "PlayerDot")]
+[node name="Minimap" type="Node2D" node_paths=PackedStringArray("TrackLine", "PlayerDot", "FinishLine")]
 position = Vector2(96, 96)
 script = ExtResource("1_yfyr0")
 TrackLine = NodePath("Node2D/Line2D")
-PlayerDot = NodePath("Node2D/Line2D/PlayerDot")
+PlayerDot = NodePath("Node2D/Line2D/Polygon2D")
+FinishLine = NodePath("Node2D/Line2D/FinishLine")
 
 [node name="Node2D" type="Node2D" parent="."]
 position = Vector2(-96, -96)
@@ -28,12 +30,19 @@ region_rect = Rect2(0, 0, 192, 192)
 [node name="Line2D" type="Line2D" parent="Node2D"]
 position = Vector2(0, 192)
 closed = true
-width = 5.0
-default_color = Color(1, 1, 1, 0.215686)
+width = 15.0
+default_color = Color(1, 1, 1, 0.352941)
+texture = ExtResource("2_o13pn")
+texture_mode = 2
 joint_mode = 2
 
-[node name="PlayerDot" type="Sprite2D" parent="Node2D/Line2D"]
+[node name="Polygon2D" type="Polygon2D" parent="Node2D/Line2D"]
+position = Vector2(0, -1)
+polygon = PackedVector2Array(0, -2.33333, 3, 5.33333, 0, 4.33333, -3, 5.33333)
+
+[node name="FinishLine" type="Sprite2D" parent="Node2D/Line2D"]
+modulate = Color(1, 1, 1, 0.678431)
 z_index = 100
 texture = SubResource("CanvasTexture_lj7mc")
 region_enabled = true
-region_rect = Rect2(0, 0, 5.5, 5.5)
+region_rect = Rect2(0, 0, 11, 2.75)
