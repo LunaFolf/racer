@@ -17,6 +17,11 @@ public partial class MainMenu : Control
 	public void _on_start_game()
 	{
 		GD.Print("Start button pressed");
+        if (GameManager.Instance.GameSeed.Length > 0)
+        {
+            GD.Print("Using Seed: " + GameManager.Instance.GameSeed);
+            GD.Seed(GameManager.Instance.GameSeed.Hash());
+        }
         GameManager.Instance.SwitchToRaceScene();
     }
 
@@ -26,4 +31,9 @@ public partial class MainMenu : Control
         GetTree().Root.PropagateNotification((int)NotificationWMCloseRequest);
 		GetTree().Quit();
     }
+
+	public void _on_seed_change(string newText)
+	{
+		GameManager.Instance.GameSeed = newText;
+	}
 }

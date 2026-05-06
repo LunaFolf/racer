@@ -1,8 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://dxnxgc2k2sq5t"]
+[gd_scene load_steps=11 format=3 uid="uid://dxnxgc2k2sq5t"]
 
+[ext_resource type="Theme" uid="uid://cfusmwt3g4c1p" path="res://assets/ui_font.tres" id="1_1l46r"]
 [ext_resource type="Script" uid="uid://dbl27hveivg71" path="res://scripts/ShopMenu.cs" id="1_lx5au"]
 [ext_resource type="FontFile" uid="uid://dshvdimtf4tuv" path="res://assets/fonts/ithaca.ttf" id="2_xfvoa"]
 [ext_resource type="Texture2D" uid="uid://lpen7bvp67uq" path="res://assets/thruster_particle.png" id="3_1l46r"]
+[ext_resource type="Texture2D" uid="uid://dmc1gmqo18chn" path="res://assets/bg_grid.png" id="4_032fp"]
+[ext_resource type="Shader" uid="uid://dtov263rxa8jv" path="res://shaders/ps1_post_processing.gdshader" id="5_2fc2m"]
 
 [sub_resource type="Curve" id="Curve_032fp"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.88563, 0), 0.0, 0.0, 0, 0]
@@ -16,6 +19,11 @@ particle_flag_disable_z = true
 gravity = Vector3(49, -98, 0)
 alpha_curve = SubResource("CurveTexture_2fc2m")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8r1wq"]
+shader = ExtResource("5_2fc2m")
+shader_parameter/viewport_size = Vector2(640, 480)
+shader_parameter/virtual_resolution = Vector2(320, 240)
+
 [node name="Control" type="Control" node_paths=PackedStringArray("ScoreLabel", "PointsLabel", "PointsParticles", "ButtonList", "NextRaceButton")]
 layout_mode = 3
 anchors_preset = 15
@@ -23,28 +31,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_1l46r")
 script = ExtResource("1_lx5au")
 ScoreLabel = NodePath("Label2")
-PointsLabel = NodePath("Label3/Label4")
-PointsParticles = NodePath("Label3/Label4/GPUParticles2D")
-ButtonList = NodePath("UpgradeList")
-NextRaceButton = NodePath("Button")
-
-[node name="Button" type="Button" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -134.0
-offset_top = -47.0
-offset_right = -16.0
-offset_bottom = -16.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "NEXT RACE!!!"
+PointsLabel = NodePath("HBoxContainer/Label4")
+PointsParticles = NodePath("HBoxContainer/Label4/GPUParticles2D")
+ButtonList = NodePath("VBoxContainer/UpgradeList")
+NextRaceButton = NodePath("VBoxContainer/Button")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
@@ -52,7 +45,6 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 56.0
 grow_horizontal = 2
-theme_override_fonts/font = ExtResource("2_xfvoa")
 theme_override_font_sizes/font_size = 64
 text = "TRANSFER COMPLETE"
 horizontal_alignment = 1
@@ -67,40 +59,33 @@ offset_top = 59.0
 offset_right = 92.0
 offset_bottom = 115.0
 grow_horizontal = 2
-theme_override_fonts/font = ExtResource("2_xfvoa")
 theme_override_font_sizes/font_size = 32
 text = "Data Transfered:"
 horizontal_alignment = 3
 vertical_alignment = 1
 
-[node name="Label3" type="Label" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -10.0
-offset_top = 119.0
-offset_right = 10.0
-offset_bottom = 147.0
+offset_left = -96.0
+offset_top = 100.0
+offset_right = 96.0
+offset_bottom = 140.0
 grow_horizontal = 2
-theme_override_fonts/font = ExtResource("2_xfvoa")
-theme_override_font_sizes/font_size = 32
-text = "<>"
 
-[node name="Label4" type="Label" parent="Label3"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = 15.0
-offset_right = 35.0
-offset_bottom = 28.0
-grow_horizontal = 2
-theme_override_fonts/font = ExtResource("2_xfvoa")
+[node name="Label3" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Upgrade Bits: "
+
+[node name="Label4" type="Label" parent="HBoxContainer"]
+layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "0"
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="Label3/Label4"]
+[node name="GPUParticles2D" type="GPUParticles2D" parent="HBoxContainer/Label4"]
 position = Vector2(5, 15)
 emitting = false
 amount = 1
@@ -109,25 +94,155 @@ one_shot = true
 trail_lifetime = 1.0
 process_material = SubResource("ParticleProcessMaterial_8r1wq")
 
-[node name="UpgradeList" type="BoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -85.0
-offset_top = -15.5
-offset_right = 85.0
-offset_bottom = 15.5
+offset_left = -264.0
+offset_top = -66.0
+offset_right = 264.0
+offset_bottom = 66.0
 grow_horizontal = 2
 grow_vertical = 2
+alignment = 1
+
+[node name="UpgradeList" type="BoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Button" type="Button" parent="VBoxContainer/UpgradeList"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Handshake
++17% Turning
+2 Bits"
+
+[node name="Button2" type="Button" parent="VBoxContainer/UpgradeList"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Ferrite Core
++6% Traction
+2 Bits"
+
+[node name="Button3" type="Button" parent="VBoxContainer/UpgradeList"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Ferrite Core
++9% Traction
+2 Bits"
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Start Next Race"
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 1.5
 one_shot = true
 autostart = true
 
+[node name="BackgroundWater" type="Sprite2D" parent="."]
+z_index = -102
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(34, 193)
+scale = Vector2(3, 3)
+texture = ExtResource("4_032fp")
+region_enabled = true
+region_rect = Rect2(0, 0, 50000, 50000)
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_top = -124.0
+offset_right = -64.0
+offset_bottom = -96.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="Speed" type="Label" parent="HBoxContainer2/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xfvoa")
+theme_override_font_sizes/font_size = 32
+text = "Speed:"
+
+[node name="Value" type="Label" parent="HBoxContainer2/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xfvoa")
+theme_override_font_sizes/font_size = 32
+text = "+0%"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="Traction" type="Label" parent="HBoxContainer2/HBoxContainer2"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xfvoa")
+theme_override_font_sizes/font_size = 32
+text = "Traction:"
+
+[node name="Value" type="Label" parent="HBoxContainer2/HBoxContainer2"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xfvoa")
+theme_override_font_sizes/font_size = 32
+text = "+0%"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="Turning" type="Label" parent="HBoxContainer2/HBoxContainer3"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xfvoa")
+theme_override_font_sizes/font_size = 32
+text = "Turning:"
+
+[node name="Value" type="Label" parent="HBoxContainer2/HBoxContainer3"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xfvoa")
+theme_override_font_sizes/font_size = 32
+text = "+0%"
+
+[node name="PS1" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_8r1wq")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [connection signal="NextRace" from="." to="." method="_on_next_race"]
-[connection signal="pressed" from="Button" to="." method="_on_next_race"]
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_next_race"]
 [connection signal="timeout" from="Timer" to="." method="StartCountdown"]

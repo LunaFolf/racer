@@ -59,7 +59,7 @@ public partial class Minimap : Node2D
 		UpdateLine();
 	}
 
-	public override void _Process(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
 		
 
@@ -123,6 +123,6 @@ public partial class Minimap : Node2D
 			_startingPoint = scaled;
 		}
 
-		FinishLine.Position = _startingPoint + (TrackPoints[TrackPoints.Length - 1] / _scale);
+		FinishLine.Position = TrackLine.Points[1] + (TrackPoints[TrackPoints.Length - 1] / _scale);
 	}
 }

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://83oaud63kx7c"]
+[gd_scene load_steps=6 format=3 uid="uid://83oaud63kx7c"]
 
 [ext_resource type="Script" uid="uid://d3h1rc0kdj7wc" path="res://scripts/Track/Track.cs" id="1_3qxt8"]
 [ext_resource type="PackedScene" uid="uid://bswu77k37e7bo" path="res://scenes/goal.tscn" id="2_s1ht6"]
+[ext_resource type="PhysicsMaterial" uid="uid://da7iabiync0su" path="res://assets/MapWallsPhysicsMat.tres" id="5_yga1n"]
 [ext_resource type="Texture2D" uid="uid://cuul764fh5dhh" path="res://assets/tile_cw.png" id="6_yfn43"]
 [ext_resource type="Texture2D" uid="uid://dkterpq6fiyub" path="res://assets/arrow-left.png" id="7_xv0ur"]
 
@@ -38,6 +39,7 @@ texture = ExtResource("7_xv0ur")
 [node name="StaticBody2D" type="StaticBody2D" parent="Node2D3"]
 collision_layer = 3
 collision_mask = 0
+physics_material_override = ExtResource("5_yga1n")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Node2D3/StaticBody2D"]
 polygon = PackedVector2Array(-250, -109, -239, -109, -222, -108, -201, -107, -178, -102, -144, -94, -108, -80, -61, -57, -10, -18, 31, 25, 65, 75, 95, 147, 105, 195, 109, 232, 109, 250, 120, 251, 116, -117, -250, -123)

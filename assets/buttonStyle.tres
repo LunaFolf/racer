@@ -1,0 +1,14 @@
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://c7hmgo3atji1r"]
+
+[ext_resource type="Texture2D" uid="uid://hgmk8sg0rmmw" path="res://assets/pcb.png" id="1_26e4o"]
+
+[resource]
+content_margin_left = 4.0
+content_margin_top = 2.0
+content_margin_right = 4.0
+content_margin_bottom = 2.0
+texture = ExtResource("1_26e4o")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 0, 32, 32)
+modulate_color = Color(0.71, 0.71, 0.71, 1)

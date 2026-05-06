@@ -19,6 +19,14 @@ public partial class ShopMenu : Control
     public override void _Ready()
     {
         GameManager.Instance.SetGameState(GameManager.State.Shop);
+
+        NextRaceButton.Visible = false;
+
+        foreach (var child in ButtonList.GetChildren())
+        {
+            child.Free();
+        }
+
         if (ScoreLabel != null) {
             ScoreLabel.Text = "Data Transfered: " + GameManager.Instance.PlayerScore + "mb";
         }
@@ -65,11 +73,28 @@ public partial class ShopMenu : Control
         _countdown = true;
     }
 
+    private int availableTypeCount(PlayerUpgrade.Type type)
+    {
+        int count = 0;
+        foreach (PlayerUpgrade upgrade in availableUpgrades)
+        {
+            if (upgrade.type == type) count++;
+        }
+
+        return count;
+    }
+
     private void GenerateShop()
     {
         for (int i = 0; i < 3; i++)
         {
-            var upgradeType = (PlayerUpgrade.Type)GD.RandRange(0, 2);
+            PlayerUpgrade.Type upgradeType;
+
+            do
+            {
+                upgradeType = (PlayerUpgrade.Type)GD.RandRange(0, 2);
+            } while (availableTypeCount(upgradeType) >= 2);
+
             var multiplier = -1f;
 
             while (multiplier <= 0f)
@@ -92,10 +117,18 @@ public partial class ShopMenu : Control
         NextRaceButton.Visible = true;
     }
 
-    public void AddPlayerUpgrade(PlayerUpgrade upgrade)
+    public void UpdateButtons()
     {
-        if (GameManager.Instance.PlayerPoints < (2 * GameManager.Instance.RaceCount)) return;
-        GameManager.Instance.PlayerPoints -= (2 * GameManager.Instance.RaceCount);
+        foreach (UpgradeButton button in ButtonList.GetChildren())
+        {
+            button.Refresh();
+        }
+    }
+
+    public bool AddPlayerUpgrade(PlayerUpgrade upgrade, int cost)
+    {
+        if (GameManager.Instance.PlayerPoints < cost) return false;
+        GameManager.Instance.PlayerPoints -= cost;
         PointsLabel.Text = GameManager.Instance.PlayerPoints.ToString();
         PointsParticles.Restart();
         PointsParticles.Emitting = true;
@@ -105,6 +138,10 @@ public partial class ShopMenu : Control
 
         GameManager.Instance.PlayerUpgrades.Add(upgrade);
         GD.Print(GameManager.Instance.PlayerUpgrades.Count);
+
+        CallDeferred("UpdateButtons");
+
+        return true;
     }
 
     public void _on_next_race()

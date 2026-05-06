@@ -3,16 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\25813979\\GitHub\\racer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\github\\racer\\scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\github\\racer\\scripts\\upgradebutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\upgradebutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\github\\racer\\scripts\\shopmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\shopmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\github\\racer\\scripts\\minimap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\minimap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\github\\racer\\scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\github\\racer\\scripts\\goalmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\goalmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\github\\racer\\scripts\\playerupgrade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\playerupgrade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\github\\racer\\scripts\\mainmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\mainmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\github\\racer\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\github\\racer\\scripts\\hud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -27,32 +47,12 @@
       "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\racescene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\github\\racer\\scripts\\upgradebutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\upgradebutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\github\\racer\\scripts\\goalmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\goalmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\github\\racer\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\github\\racer\\scripts\\mainmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\mainmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\github\\racer\\scripts\\goal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\goal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\github\\racer\\scripts\\racermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\racermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\github\\racer\\scripts\\minimap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|solutionrelative:scripts\\minimap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7C8582A2-6B3C-45EF-B50B-841845EF54A5}|racer.csproj|c:\\users\\25813979\\github\\racer\\scripts\\alwaysup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -74,11 +74,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
               "Title": "MainCamera.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\GitHub\\racer\\scripts\\MainCamera.cs",
               "RelativeDocumentMoniker": "scripts\\MainCamera.cs",
@@ -86,25 +86,24 @@
               "RelativeToolTip": "scripts\\MainCamera.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAAQwBsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-29T15:42:50.292Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-29T15:42:50.292Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
               "Title": "UpgradeButton.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\GitHub\\racer\\scripts\\UpgradeButton.cs",
               "RelativeDocumentMoniker": "scripts\\UpgradeButton.cs",
               "ToolTip": "C:\\Users\\25813979\\GitHub\\racer\\scripts\\UpgradeButton.cs",
               "RelativeToolTip": "scripts\\UpgradeButton.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAACeAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAAAowB0AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-29T15:11:10.844Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "Goal.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\GitHub\\racer\\scripts\\Goal.cs",
               "RelativeDocumentMoniker": "scripts\\Goal.cs",
@@ -112,8 +111,7 @@
               "RelativeToolTip": "scripts\\Goal.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-29T14:16:58.115Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-29T14:16:58.115Z"
             },
             {
               "$type": "Document",
@@ -141,7 +139,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Player.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\GitHub\\racer\\scripts\\Player.cs",
               "RelativeDocumentMoniker": "scripts\\Player.cs",
@@ -154,7 +152,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 4,
               "Title": "GoalManager.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\GitHub\\racer\\scripts\\GoalManager.cs",
               "RelativeDocumentMoniker": "scripts\\GoalManager.cs",
@@ -167,32 +165,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 6,
               "Title": "MainMenu.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\GitHub\\racer\\scripts\\MainMenu.cs",
               "RelativeDocumentMoniker": "scripts\\MainMenu.cs",
               "ToolTip": "C:\\Users\\25813979\\GitHub\\racer\\scripts\\MainMenu.cs",
               "RelativeToolTip": "scripts\\MainMenu.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAACAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-25T17:36:20.929Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 2,
               "Title": "Minimap.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\GitHub\\racer\\scripts\\Minimap.cs",
               "RelativeDocumentMoniker": "scripts\\Minimap.cs",
               "ToolTip": "C:\\Users\\25813979\\GitHub\\racer\\scripts\\Minimap.cs",
               "RelativeToolTip": "scripts\\Minimap.cs",
-              "ViewState": "AgIAADgAAAAAAAAAAAAwwFAAAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAAGQAAAAAAAAAAAAcwHwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-25T15:26:07.951Z"
+              "WhenOpened": "2026-03-25T15:26:07.951Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
               "Title": "HUD.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\GitHub\\racer\\scripts\\HUD.cs",
               "RelativeDocumentMoniker": "scripts\\HUD.cs",
@@ -200,8 +199,7 @@
               "RelativeToolTip": "scripts\\HUD.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-25T15:17:50.274Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-25T15:17:50.274Z"
             },
             {
               "$type": "Document",
@@ -211,40 +209,40 @@
               "RelativeDocumentMoniker": "scripts\\ShopMenu.cs",
               "ToolTip": "C:\\Users\\25813979\\GitHub\\racer\\scripts\\ShopMenu.cs",
               "RelativeToolTip": "scripts\\ShopMenu.cs",
-              "ViewState": "AgIAAFMAAAAAAAAAAAAIwGEAAABRAAAAAAAAAA==",
+              "ViewState": "AgIAAHMAAAAAAAAAAAAawIAAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-18T15:48:07.646Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "PlayerUpgrade.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\GitHub\\racer\\scripts\\PlayerUpgrade.cs",
               "RelativeDocumentMoniker": "scripts\\PlayerUpgrade.cs",
               "ToolTip": "C:\\Users\\25813979\\GitHub\\racer\\scripts\\PlayerUpgrade.cs",
               "RelativeToolTip": "scripts\\PlayerUpgrade.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-18T15:31:54.883Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 7,
               "Title": "GameManager.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\GitHub\\racer\\scripts\\GameManager.cs",
               "RelativeDocumentMoniker": "scripts\\GameManager.cs",
               "ToolTip": "C:\\Users\\25813979\\GitHub\\racer\\scripts\\GameManager.cs",
               "RelativeToolTip": "scripts\\GameManager.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAgwBwAAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAuwCIAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-18T15:31:24.261Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 10,
               "Title": "RaceScene.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\GitHub\\racer\\scripts\\RaceScene.cs",
               "RelativeDocumentMoniker": "scripts\\RaceScene.cs",
@@ -252,12 +250,11 @@
               "RelativeToolTip": "scripts\\RaceScene.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAABOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-18T14:50:33.37Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-18T14:50:33.37Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "RacerManager.cs",
               "DocumentMoniker": "C:\\Users\\25813979\\GitHub\\racer\\scripts\\RacerManager.cs",
               "RelativeDocumentMoniker": "scripts\\RacerManager.cs",
@@ -265,8 +262,7 @@
               "RelativeToolTip": "scripts\\RacerManager.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-18T14:50:31.225Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-18T14:50:31.225Z"
             },
             {
               "$type": "Document",

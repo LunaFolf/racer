@@ -1,14 +1,25 @@
-[gd_scene load_steps=2 format=3 uid="uid://dewk3mmtsn03l"]
+[gd_scene load_steps=6 format=3 uid="uid://dewk3mmtsn03l"]
 
 [ext_resource type="Script" uid="uid://dpjkyw8jsmxbn" path="res://scripts/MainMenu.cs" id="1_yqeox"]
+[ext_resource type="Theme" uid="uid://cfusmwt3g4c1p" path="res://assets/ui_font.tres" id="2_vjb58"]
+[ext_resource type="Texture2D" uid="uid://dmc1gmqo18chn" path="res://assets/bg_grid.png" id="3_con2f"]
+[ext_resource type="Shader" uid="uid://dtov263rxa8jv" path="res://shaders/ps1_post_processing.gdshader" id="4_mhnvy"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4ytvr"]
+shader = ExtResource("4_mhnvy")
+shader_parameter/viewport_size = Vector2(640, 480)
+shader_parameter/virtual_resolution = Vector2(320, 240)
 
 [node name="Control" type="Control" node_paths=PackedStringArray("StartButton", "QuitButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_vjb58")
 script = ExtResource("1_yqeox")
 StartButton = NodePath("BoxContainer/StartButton")
 QuitButton = NodePath("BoxContainer/QuitButton")
@@ -20,7 +31,7 @@ anchors_preset = 9
 anchor_bottom = 1.0
 offset_left = 18.0
 offset_top = 18.0
-offset_right = 146.0
+offset_right = 269.0
 offset_bottom = -18.0
 grow_vertical = 2
 vertical = true
@@ -33,5 +44,47 @@ text = "Start"
 layout_mode = 2
 text = "Quit"
 
+[node name="BoxContainer2" type="BoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 32.0
+offset_top = -112.0
+offset_right = -32.0
+offset_bottom = -74.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="BoxContainer2"]
+layout_mode = 2
+text = "Game Seed: "
+
+[node name="LineEdit" type="LineEdit" parent="BoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "<Random>"
+expand_to_text_length = true
+
+[node name="BackgroundWater" type="Sprite2D" parent="."]
+z_index = -102
+texture_filter = 1
+texture_repeat = 2
+scale = Vector2(3, 3)
+texture = ExtResource("3_con2f")
+region_enabled = true
+region_rect = Rect2(0, 0, 50000, 50000)
+
+[node name="PS1" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_4ytvr")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [connection signal="pressed" from="BoxContainer/StartButton" to="." method="_on_start_game"]
 [connection signal="pressed" from="BoxContainer/QuitButton" to="." method="_on_quit_game"]
+[connection signal="text_changed" from="BoxContainer2/LineEdit" to="." method="_on_seed_change"]

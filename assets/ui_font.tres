@@ -1,0 +1,53 @@
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://cfusmwt3g4c1p"]
+
+[ext_resource type="Texture2D" uid="uid://cgow3be050pjw" path="res://assets/pcb_on.png" id="1_06mjm"]
+[ext_resource type="Texture2D" uid="uid://hgmk8sg0rmmw" path="res://assets/pcb.png" id="1_gopwh"]
+[ext_resource type="FontFile" uid="uid://h8k04agn5cmi" path="res://assets/fonts/rainyhearts.ttf" id="1_hwd0l"]
+[ext_resource type="StyleBox" uid="uid://c7hmgo3atji1r" path="res://assets/buttonStyle.tres" id="2_gopwh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_06mjm"]
+content_margin_left = 4.0
+content_margin_top = 2.0
+content_margin_right = 4.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.729412)
+shadow_color = Color(1, 1, 1, 0.588235)
+shadow_size = 4
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_r1ldf"]
+content_margin_left = 4.0
+content_margin_top = 2.0
+content_margin_right = 4.0
+content_margin_bottom = 2.0
+texture = ExtResource("1_gopwh")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 0, 32, 32)
+modulate_color = Color(0.89, 0.89, 0.89, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oq37a"]
+content_margin_left = 4.0
+content_margin_top = 2.0
+content_margin_right = 4.0
+content_margin_bottom = 2.0
+texture = ExtResource("1_06mjm")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[resource]
+default_font = ExtResource("1_hwd0l")
+default_font_size = 32
+Button/colors/font_color = Color(0.886275, 0.870588, 0.862745, 1)
+Button/colors/font_focus_color = Color(1, 1, 1, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 0.486275)
+Button/constants/outline_size = 3
+Button/styles/focus = SubResource("StyleBoxFlat_06mjm")
+Button/styles/hover = SubResource("StyleBoxTexture_r1ldf")
+Button/styles/normal = ExtResource("2_gopwh")
+Button/styles/pressed = SubResource("StyleBoxTexture_oq37a")

@@ -27,11 +27,12 @@ public partial class GameManager : Node
     public int RaceCount = 1;
     public int PlayerScore = 6000;
     public int PlayerPoints = 0;
+
+    public string GameSeed = "";
     public override void _Ready()
     {
         Instance = this;
         GD.Print("GameManager Ready!");
-        //GD.Seed("Protogen".Hash());
     }
 
     public void SetGameState(State state)
