@@ -10,7 +10,7 @@ shader = ExtResource("4_mhnvy")
 shader_parameter/viewport_size = Vector2(640, 480)
 shader_parameter/virtual_resolution = Vector2(320, 240)
 
-[node name="Control" type="Control" node_paths=PackedStringArray("StartButton", "QuitButton")]
+[node name="Control" type="Control" node_paths=PackedStringArray("StartButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,7 +22,6 @@ grow_vertical = 2
 theme = ExtResource("2_vjb58")
 script = ExtResource("1_yqeox")
 StartButton = NodePath("BoxContainer/StartButton")
-QuitButton = NodePath("BoxContainer/QuitButton")
 
 [node name="BoxContainer" type="BoxContainer" parent="."]
 custom_minimum_size = Vector2(128, 0)
@@ -40,32 +39,13 @@ vertical = true
 layout_mode = 2
 text = "Start"
 
-[node name="QuitButton" type="Button" parent="BoxContainer"]
+[node name="OptionsButton" type="Button" parent="BoxContainer"]
 layout_mode = 2
-text = "Quit"
+text = "Options"
 
-[node name="BoxContainer2" type="BoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = 32.0
-offset_top = -112.0
-offset_right = -32.0
-offset_bottom = -74.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Label" type="Label" parent="BoxContainer2"]
+[node name="CreditsButton" type="Button" parent="BoxContainer"]
 layout_mode = 2
-text = "Game Seed: "
-
-[node name="LineEdit" type="LineEdit" parent="BoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-placeholder_text = "<Random>"
-expand_to_text_length = true
+text = "Credits"
 
 [node name="BackgroundWater" type="Sprite2D" parent="."]
 z_index = -102
@@ -84,7 +64,21 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+
+[node name="QuitButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -50.0
+offset_right = 92.57
+offset_bottom = -16.0
+grow_vertical = 0
+text = "Quit"
 
 [connection signal="pressed" from="BoxContainer/StartButton" to="." method="_on_start_game"]
-[connection signal="pressed" from="BoxContainer/QuitButton" to="." method="_on_quit_game"]
-[connection signal="text_changed" from="BoxContainer2/LineEdit" to="." method="_on_seed_change"]
+[connection signal="pressed" from="BoxContainer/OptionsButton" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="BoxContainer/CreditsButton" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="QuitButton" to="." method="_on_quit_game"]

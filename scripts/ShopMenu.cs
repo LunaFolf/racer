@@ -9,6 +9,12 @@ public partial class ShopMenu : Control
     [Export] public GpuParticles2D PointsParticles;
     [Export] public BoxContainer ButtonList;
     [Export] public Button NextRaceButton;
+    [Export] public Label SpeedLabel;
+    [Export] public Label TractionLabel;
+    [Export] public Label TurningLabel;
+
+    [Export] public AudioStreamPlayer DataDownSFX;
+    [Export] public AudioStreamPlayer BitsUpSFX;
     [Signal] public delegate void NextRaceEventHandler();
 
     private int removalCounter;
@@ -19,6 +25,8 @@ public partial class ShopMenu : Control
     public override void _Ready()
     {
         GameManager.Instance.SetGameState(GameManager.State.Shop);
+
+        GameManager.Instance.MusicPlayer.VolumeDb = -32;
 
         NextRaceButton.Visible = false;
 
@@ -33,6 +41,8 @@ public partial class ShopMenu : Control
         if (PointsLabel != null) {
             PointsLabel.Text = GameManager.Instance.PlayerPoints.ToString();
         }
+
+        UpdateStats();
     }
 
     public override void _PhysicsProcess(double delta)
@@ -46,6 +56,7 @@ public partial class ShopMenu : Control
                 GameManager.Instance.PlayerScore = 0;
                 ScoreLabel.Text = "Data Transfered: " + GameManager.Instance.PlayerScore + "mb";
             }
+            DataDownSFX.Stop();
             _countdown = false;
             GenerateShop();
             return;
@@ -56,10 +67,13 @@ public partial class ShopMenu : Control
         GameManager.Instance.PlayerScore -= deliminator;
         removalCounter += deliminator;
 
+        DataDownSFX.Play(0.18f);
+
         ScoreLabel.Text = "Data Transfered: " + GameManager.Instance.PlayerScore + "mb";
 
         if (removalCounter >= 1024)
         {
+            BitsUpSFX.Play();
             PointsParticles.Restart();
             PointsParticles.Emitting = true;
             removalCounter = 0;
@@ -99,7 +113,7 @@ public partial class ShopMenu : Control
 
             while (multiplier <= 0f)
             {
-                multiplier = GD.RandRange(1,25) / 100f;
+                multiplier = GD.RandRange(1,10) / 100f;
                 GD.Print(multiplier);
             }
 
@@ -125,9 +139,21 @@ public partial class ShopMenu : Control
         }
     }
 
+    private void UpdateStats()
+    {
+        SpeedLabel.Text = "+" + (int)(GameManager.Instance.PlayerUpgradesMults.Speed * 100f) + "%";
+        TractionLabel.Text = "+" + (int)(GameManager.Instance.PlayerUpgradesMults.Traction * 100f) + "%";
+        TurningLabel.Text = "+" + (int)(GameManager.Instance.PlayerUpgradesMults.Turning * 100f) + "%";
+    }
+
     public bool AddPlayerUpgrade(PlayerUpgrade upgrade, int cost)
     {
-        if (GameManager.Instance.PlayerPoints < cost) return false;
+        GD.Print("PP: " + GameManager.Instance.PlayerPoints + ", cost: " + cost + "");
+        if (GameManager.Instance.PlayerPoints < cost)
+        {
+            GameManager.Instance.UiDeny();
+            return false;
+        }
         GameManager.Instance.PlayerPoints -= cost;
         PointsLabel.Text = GameManager.Instance.PlayerPoints.ToString();
         PointsParticles.Restart();
@@ -136,16 +162,21 @@ public partial class ShopMenu : Control
         GD.Print(upgrade.type, upgrade.name, upgrade.multiplier);
         GD.Print(GameManager.Instance);
 
-        GameManager.Instance.PlayerUpgrades.Add(upgrade);
+        // GameManager.Instance.PlayerUpgrades.Add(upgrade);
+        GameManager.Instance.AddPlayerUpgrade(upgrade);
         GD.Print(GameManager.Instance.PlayerUpgrades.Count);
 
         CallDeferred("UpdateButtons");
+
+        UpdateStats();
+        GameManager.Instance.UiAccept();
 
         return true;
     }
 
     public void _on_next_race()
     {
+        GameManager.Instance.UiAccept();
         GameManager.Instance.RaceCount++;
         GameManager.Instance.SwitchToRaceScene();
     }

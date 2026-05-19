@@ -20,6 +20,7 @@ public partial class Racer : CharacterBody2D
 	[Export] private DebugMode _currentDebugMode;
 	[Export] private Label _debugLabel;
 	[Export] private Node2D _debugTargetPos;
+	[Export] public AudioStreamPlayer2D RacingSFX;
 	[Export] public int NumberOfGoals { get; set; }
 	[Signal] public delegate void GoalEnteredEventHandler(int goalNumber);
 
@@ -165,6 +166,8 @@ public partial class Racer : CharacterBody2D
 			}
 
 			float speedPercent = velocity.Length() / _actualMaxAccelSpeed;
+
+			RacingSFX.VolumeDb = Math.Min(-20, -80 + (60 * speedPercent));
 
             CarParticleSystem.ThrusterSpeed = speedPercent;
             CarParticleSystem.ThrusterAngle = RotationDegrees;

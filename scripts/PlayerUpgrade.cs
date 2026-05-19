@@ -1,5 +1,6 @@
 using Godot.Collections;
 using System;
+using Godot;
 
 public class PlayerUpgrade
 {
@@ -26,6 +27,6 @@ public class PlayerUpgrade
         multiplier = _multiplier;
 
         var possibleNames = _upgradeNames[type];
-        name = possibleNames[possibleNames.Length - 1];
+        name = possibleNames[GD.RandRange(0, possibleNames.Length - 1)];
     }
 }

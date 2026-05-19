@@ -11,6 +11,7 @@ public partial class RaceScene : Node2D
     [Export] PackedScene MainCameraScene;
     private Player _player;
     [Export] public Timer Timer;
+    [Export] public AudioStreamPlayer CountdownSound;
 
     private Godot.Collections.Dictionary<int, double> StageTime = new() { [0] = 0 };
     private Godot.Collections.Dictionary<int, double> SplitTime = new() { [0] = 0 };
@@ -78,6 +79,7 @@ public partial class RaceScene : Node2D
 
     public void EndRace()
     {
+        CountdownSound.Play();
         GameManager.Instance.SetGameState(GameManager.State.Ending);
         foreach (var racerId in Racers.Keys)
         {
@@ -148,7 +150,11 @@ public partial class RaceScene : Node2D
     {
         raceCountdown--;
         Hud.SetCountdownText(raceCountdown.ToString());
-        if (raceCountdown > 0) return;
+        if (raceCountdown > 0)
+        {
+            CountdownSound.Play();
+            return;
+        }
 
         Hud.SetCountdownText("");
         Timer.Stop();
@@ -156,6 +162,9 @@ public partial class RaceScene : Node2D
 
         Hud.SetPositionVisible(true);
         Hud.SetScoreVisible(true);
+
+        CountdownSound.SetPitchScale(2);
+        CountdownSound.Play();
 
         GameManager.Instance.SetGameState(GameManager.State.Racing);
     }

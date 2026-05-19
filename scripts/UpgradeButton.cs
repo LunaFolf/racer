@@ -31,13 +31,12 @@ public partial class UpgradeButton : Button
 
 	private void UpdateText()
 	{
-        Text = upgrade.name + "\n+" + upgrade.multiplier * 100f + "% " + upgrade.type.ToString().Capitalize() + "\n" + Cost + " Bits";
+        Text = upgrade.name + "\n+" + (int)(upgrade.multiplier * 100f) + "% " + upgrade.type.ToString().Capitalize() + "\n" + Cost + " Bits";
     }
 
     public void OnPressed()
     {
-		timesBought++;
-        if (!shopMenu.AddPlayerUpgrade(upgrade, Cost)) timesBought--;
+        if (shopMenu.AddPlayerUpgrade(upgrade, Cost)) timesBought++;
     }
 
     public void Refresh()

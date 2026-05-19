@@ -34,7 +34,7 @@ scale = Vector2(3, 3)
 polygon = PackedVector2Array(0, -2.33333, 3, 5.33333, 0, 4.33333, -3, 5.33333)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(0, -7, 9, 16, -9, 16)
+polygon = PackedVector2Array(0, -7, 9, 16, 0, 13, -9, 16)
 
 [node name="BackgroundWater" type="Sprite2D" parent="."]
 visible = false
@@ -46,6 +46,9 @@ texture = ExtResource("4_qu4a1")
 region_enabled = true
 region_rect = Rect2(0, 0, 500, 500)
 script = ExtResource("5_70d11")
+
+[node name="AudioListener2D" type="AudioListener2D" parent="."]
+current = true
 
 [connection signal="GoalEntered" from="." to="." method="_on_goal_entered"]
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]

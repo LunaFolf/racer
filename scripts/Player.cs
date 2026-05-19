@@ -86,7 +86,12 @@ public partial class Player : CharacterBody2D
 	public override void _PhysicsProcess(double delta)
 	{
 		if (IsQueuedForDeletion()) return;
-        if (GameManager.Instance.GameState != GameManager.State.Racing) return;
+
+		if (GameManager.Instance.GameState != GameManager.State.Racing)
+		{
+			Hud.Bloom.SetShaderParameter("bloom_spread", 1 + GameManager.Instance.BeatBloom);
+			return;
+		}
         
 		Vector2 velocity = Velocity;
 
@@ -118,12 +123,9 @@ public partial class Player : CharacterBody2D
 
 		float speedPercent = velocity.Length() / MaxAccelSpeed;
 
-		if (speedPercent > 1)
-		{
-			GD.Print(speedPercent);
-        }
+		GameManager.Instance.MusicPlayer.VolumeDb = Math.Min(-20, -32 + 12 * speedPercent);
         Camera.shake = speedPercent - 1;
-		Hud.Bloom.SetShaderParameter("bloom_spread", 1 + Math.Max(0, speedPercent - 1));
+		Hud.Bloom.SetShaderParameter("bloom_spread", 1 + Math.Max(0, speedPercent - 1) + GameManager.Instance.BeatBloom * 2);
 		Hud.Bloom.SetShaderParameter("bloom_intensity", 1 + Math.Max(0, speedPercent - 1) * 0.5);
 
         CarParticleSystem.ThrusterSpeed = speedPercent;

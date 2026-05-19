@@ -54,7 +54,7 @@ public partial class HUD : CanvasLayer
     }
 
 
-    public void SetPositionVisible(bool state)
+	public void SetPositionVisible(bool state)
 	{
 		Position.Visible = state;
 	}

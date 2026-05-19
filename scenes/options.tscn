@@ -1,0 +1,159 @@
+[gd_scene load_steps=6 format=3 uid="uid://davykrlijj2kf"]
+
+[ext_resource type="Theme" uid="uid://cfusmwt3g4c1p" path="res://assets/ui_font.tres" id="1_kv8mn"]
+[ext_resource type="Script" uid="uid://dlgb3yi0qenol" path="res://scenes/Options.cs" id="2_kv8mn"]
+[ext_resource type="Texture2D" uid="uid://dmc1gmqo18chn" path="res://assets/bg_grid.png" id="3_e6vpq"]
+[ext_resource type="Shader" uid="uid://dtov263rxa8jv" path="res://shaders/ps1_post_processing.gdshader" id="4_o7i7e"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4ytvr"]
+shader = ExtResource("4_o7i7e")
+shader_parameter/viewport_size = Vector2(640, 480)
+shader_parameter/virtual_resolution = Vector2(320, 240)
+
+[node name="Control" type="Control" node_paths=PackedStringArray("SeedInput", "MasterSlider", "MusicSlider", "SFXSlider", "WindowButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_kv8mn")
+script = ExtResource("2_kv8mn")
+SeedInput = NodePath("VBoxContainer2/BoxContainer2/LineEdit")
+MasterSlider = NodePath("VBoxContainer2/BoxContainer3/HSlider")
+MusicSlider = NodePath("VBoxContainer2/BoxContainer5/HSlider")
+SFXSlider = NodePath("VBoxContainer2/BoxContainer4/HSlider")
+WindowButton = NodePath("VBoxContainer2/BoxContainer6/OptionButton")
+
+[node name="BackgroundWater" type="Sprite2D" parent="."]
+z_index = -102
+texture_filter = 1
+texture_repeat = 2
+scale = Vector2(3, 3)
+texture = ExtResource("3_e6vpq")
+region_enabled = true
+region_rect = Rect2(0, 0, 50000, 50000)
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BoxContainer2" type="BoxContainer" parent="VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer2/BoxContainer2"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Game Seed: "
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer2/BoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "<Random>"
+expand_to_text_length = true
+
+[node name="BoxContainer3" type="BoxContainer" parent="VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer2/BoxContainer3"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Master Volume: "
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer2/BoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="BoxContainer4" type="BoxContainer" parent="VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer2/BoxContainer4"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "SFX Volume: "
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer2/BoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+value = 0.62
+
+[node name="BoxContainer5" type="BoxContainer" parent="VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer2/BoxContainer5"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Music Volume: "
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer2/BoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+value = 0.78
+
+[node name="BoxContainer6" type="BoxContainer" parent="VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer2/BoxContainer6"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Window Mode:"
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer2/BoxContainer6"]
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 3
+popup/item_0/text = "Window"
+popup/item_0/id = 0
+popup/item_1/text = "Borderless Fullscreen"
+popup/item_1/id = 3
+popup/item_2/text = "Exclusive Fullscreen"
+popup/item_2/id = 4
+
+[node name="QuitButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -50.0
+offset_right = 92.57
+offset_bottom = -16.0
+grow_vertical = 0
+text = "Back"
+
+[node name="PS1" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_4ytvr")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[connection signal="text_changed" from="VBoxContainer2/BoxContainer2/LineEdit" to="." method="_on_seed_change"]
+[connection signal="value_changed" from="VBoxContainer2/BoxContainer3/HSlider" to="." method="_on_master_volume_change"]
+[connection signal="value_changed" from="VBoxContainer2/BoxContainer4/HSlider" to="." method="_on_sfx_volume_change"]
+[connection signal="value_changed" from="VBoxContainer2/BoxContainer5/HSlider" to="." method="_on_music_volume_change"]
+[connection signal="item_selected" from="VBoxContainer2/BoxContainer6/OptionButton" to="." method="_on_window_mode_changed"]
+[connection signal="pressed" from="QuitButton" to="." method="_on_back_pressed"]
