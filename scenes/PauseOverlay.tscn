@@ -1,0 +1,108 @@
+[gd_scene load_steps=3 format=3 uid="uid://c720uuaffhclp"]
+
+[ext_resource type="Script" uid="uid://b5hqoimrtsh1k" path="res://scripts/PauseOverlay.cs" id="1_whw7d"]
+[ext_resource type="Theme" uid="uid://cfusmwt3g4c1p" path="res://assets/ui_font.tres" id="3_fphdq"]
+
+[node name="PauseOverlay" type="CanvasLayer" node_paths=PackedStringArray("ResumeButton", "MasterSlider", "MusicSlider", "SFXSlider")]
+script = ExtResource("1_whw7d")
+ResumeButton = NodePath("MainHUD/Control/Button")
+MasterSlider = NodePath("MainHUD/Control/BoxContainer3/HSlider")
+MusicSlider = NodePath("MainHUD/Control/BoxContainer5/HSlider")
+SFXSlider = NodePath("MainHUD/Control/BoxContainer4/HSlider")
+
+[node name="MainHUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_fphdq")
+
+[node name="ColorRect" type="ColorRect" parent="MainHUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.654902)
+
+[node name="Control" type="VBoxContainer" parent="MainHUD"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 32.0
+offset_top = 32.0
+offset_right = -32.0
+offset_bottom = 202.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="MainHUD/Control"]
+layout_mode = 2
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="MainHUD/Control"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Resume Game"
+
+[node name="BoxContainer3" type="BoxContainer" parent="MainHUD/Control"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MainHUD/Control/BoxContainer3"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Master Volume: "
+
+[node name="HSlider" type="HSlider" parent="MainHUD/Control/BoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="BoxContainer4" type="BoxContainer" parent="MainHUD/Control"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MainHUD/Control/BoxContainer4"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "SFX Volume: "
+
+[node name="HSlider" type="HSlider" parent="MainHUD/Control/BoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+value = 0.62
+
+[node name="BoxContainer5" type="BoxContainer" parent="MainHUD/Control"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MainHUD/Control/BoxContainer5"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Music Volume: "
+
+[node name="HSlider" type="HSlider" parent="MainHUD/Control/BoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+value = 0.78
+
+[node name="Button2" type="Button" parent="MainHUD/Control"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Abandon Race (Return to Main Menu)"
+
+[connection signal="pressed" from="MainHUD/Control/Button" to="." method="_on_resume_pressed"]
+[connection signal="value_changed" from="MainHUD/Control/BoxContainer3/HSlider" to="." method="_on_master_volume_change"]
+[connection signal="value_changed" from="MainHUD/Control/BoxContainer4/HSlider" to="." method="_on_sfx_volume_change"]
+[connection signal="value_changed" from="MainHUD/Control/BoxContainer5/HSlider" to="." method="_on_music_volume_change"]
+[connection signal="pressed" from="MainHUD/Control/Button2" to="." method="_on_quit_pressed"]

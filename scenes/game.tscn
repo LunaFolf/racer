@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://b5bgixivrxxmm"]
+[gd_scene load_steps=15 format=3 uid="uid://b5bgixivrxxmm"]
 
 [ext_resource type="PackedScene" uid="uid://ddibarwjv0dnq" path="res://scenes/Player.tscn" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://bp6ydahnmkp81" path="res://scripts/RaceScene.cs" id="1_dinhu"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://dnqkyh6qrn7fg" path="res://scripts/RacerManager.cs" id="7_vtaks"]
 [ext_resource type="PackedScene" uid="uid://db04xgn52pj5d" path="res://scenes/HUD.tscn" id="8_gee14"]
 [ext_resource type="PackedScene" uid="uid://c6ldfseuefsg7" path="res://scenes/MainCamera.tscn" id="10_kvpfn"]
+[ext_resource type="PackedScene" uid="uid://c720uuaffhclp" path="res://scenes/PauseOverlay.tscn" id="11_trtic"]
 [ext_resource type="Texture2D" uid="uid://dmc1gmqo18chn" path="res://assets/bg_grid.png" id="12_dinhu"]
 [ext_resource type="AudioStream" uid="uid://bdn8k8cjnn3kg" path="res://assets/sounds/freesound_community-short-beep-tone-47916.mp3" id="13_kvuet"]
 
@@ -40,6 +41,9 @@ RacerScene = ExtResource("7_0tnpc")
 MaxRacers = 9
 
 [node name="HUD" parent="." instance=ExtResource("8_gee14")]
+
+[node name="PauseOverlay" parent="." instance=ExtResource("11_trtic")]
+visible = false
 
 [node name="RaceCountdownTimer" type="Timer" parent="."]
 

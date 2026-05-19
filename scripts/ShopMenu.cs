@@ -157,6 +157,8 @@ public partial class ShopMenu : Control
         {
             var button = new UpgradeButton(upgrade, this);
             ButtonList.AddChild(button);
+
+            GameManager.Instance.AddBotUpgrade(upgrade);
         }
 
         ButtonList.GetChild<Button>(0).GrabFocus();

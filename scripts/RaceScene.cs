@@ -38,6 +38,12 @@ public partial class RaceScene : Node2D
         GD.Print("Going to gen");
         GenerateRace();
         StartRaceCountdown();
+
+        GD.Print("Bot Upgrades:");
+        // GD.Print(GameManager.Instance.BotUpgradeMults);
+        GD.Print("Speed: " + GameManager.Instance.BotUpgradeMults.Speed + ", Traction: " +
+                 GameManager.Instance.BotUpgradeMults.Traction + ", Turning: " +
+                 GameManager.Instance.BotUpgradeMults.Turning + "");
     }
 
     public void StartRaceCountdown()
@@ -77,9 +83,8 @@ public partial class RaceScene : Node2D
         RacerGoals[racerId] = goal;
     }
 
-    public void EndRace()
+    public void EndRace(bool playerWon)
     {
-        CountdownSound.Play();
         GameManager.Instance.SetGameState(GameManager.State.Ending);
         foreach (var racerId in Racers.Keys)
         {
@@ -90,7 +95,8 @@ public partial class RaceScene : Node2D
 
         Input.StopJoyVibration(0);
 
-        GetTree().ChangeSceneToFile("res://scenes/shop.tscn");
+        if (playerWon) GetTree().ChangeSceneToFile("res://scenes/shop.tscn");
+        else GetTree().ChangeSceneToFile("res://scenes/gameover.tscn");
     }
 
     private void UpdatePositionsList()

@@ -1,0 +1,101 @@
+[gd_scene load_steps=7 format=3 uid="uid://bi68b7c6ofgud"]
+
+[ext_resource type="Theme" uid="uid://cfusmwt3g4c1p" path="res://assets/ui_font.tres" id="1_mt7yr"]
+[ext_resource type="Script" uid="uid://d0a37xx6n7ta3" path="res://scripts/GameOver.cs" id="2_mt7yr"]
+[ext_resource type="Texture2D" uid="uid://dmc1gmqo18chn" path="res://assets/bg_grid.png" id="3_3gj0k"]
+[ext_resource type="Shader" uid="uid://dtov263rxa8jv" path="res://shaders/ps1_post_processing.gdshader" id="4_ke020"]
+[ext_resource type="Script" uid="uid://ctrc6b5tnufcy" path="res://scripts/Ps1.cs" id="5_r8puk"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4ytvr"]
+shader = ExtResource("4_ke020")
+shader_parameter/viewport_size = Vector2(640, 480)
+shader_parameter/virtual_resolution = Vector2(320, 240)
+
+[node name="Control" type="Control" node_paths=PackedStringArray("BackButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_mt7yr")
+script = ExtResource("2_mt7yr")
+BackButton = NodePath("VBoxContainer/QuitButton")
+
+[node name="BackgroundWater" type="Sprite2D" parent="."]
+z_index = -102
+texture_filter = 1
+texture_repeat = 2
+scale = Vector2(3, 3)
+texture = ExtResource("3_3gj0k")
+region_enabled = true
+region_rect = Rect2(0, 0, 50000, 50000)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 16.0
+offset_right = -9.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 48
+text = "Game Over"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Another bit finished before you."
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Better luck next time . . ."
+horizontal_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 16
+text = "Return to the main menu to see your newest stats!"
+horizontal_alignment = 1
+
+[node name="QuitButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Return to Main Menu"
+
+[node name="PS1" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_4ytvr")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("5_r8puk")
+
+[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_back_pressed"]

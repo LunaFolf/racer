@@ -143,6 +143,7 @@ grow_vertical = 0
 text = "Back"
 
 [node name="PS1" type="ColorRect" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_4ytvr")
 layout_mode = 1
 anchors_preset = 15

@@ -11,7 +11,7 @@ shader = ExtResource("5_i3x63")
 shader_parameter/viewport_size = Vector2(640, 480)
 shader_parameter/virtual_resolution = Vector2(320, 240)
 
-[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("TutorialText", "ProgressBar", "MainHUDGroup")]
+[node name="TutorialHUD" type="CanvasLayer" node_paths=PackedStringArray("TutorialText", "ProgressBar", "MainHUDGroup")]
 script = ExtResource("1_dk57u")
 TutorialText = NodePath("MainHUD/Control/VBoxContainer/TutorialMessage")
 ProgressBar = NodePath("MainHUD/Control/VBoxContainer/ProgressBar")
@@ -70,6 +70,7 @@ color = Color(0, 0, 0, 1)
 copy_mode = 2
 
 [node name="PS1" type="ColorRect" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_1etfg")
 anchors_preset = 15
 anchor_right = 1.0

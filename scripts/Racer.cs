@@ -11,9 +11,12 @@ public partial class Racer : CharacterBody2D
 	}
 
 	[Export] public float MaxAccelSpeed = 200.0f;
+	private float upgradeSpeedMultiplier = 1f;
 	[Export] private float _actualMaxAccelSpeed;
 	[Export] public float RotationSpeed = 3.0f;
+	private float upgradeRotMultiplier = 1f;
 	[Export] public float Acceleration = 200.0f;
+	private float upgradeAccelMultiplier = 1f;
 	[Export] public float Deceleration = 400.0f;
 	[Export] public CarParticleSystem CarParticleSystem;
 	[Export] private Color _racerColor = new (GD.Randf(), GD.Randf(), GD.Randf());
@@ -28,6 +31,7 @@ public partial class Racer : CharacterBody2D
 	private Vector2 _targetPos;
 	private double _splitTime;
 	private double _stageTime;
+	private int _lapCounter = 1;
 	private int _goalCounter = 1;
 	private RaceScene _raceScene;
 	private float laneOffset;
@@ -40,7 +44,7 @@ public partial class Racer : CharacterBody2D
 		set
 		{
 			_racePosition = value;
-			_actualMaxAccelSpeed = MaxAccelSpeed + _racePosition * 20;
+			_actualMaxAccelSpeed = (MaxAccelSpeed * upgradeSpeedMultiplier) + _racePosition * 20;
 		}
 	}
 
@@ -61,6 +65,12 @@ public partial class Racer : CharacterBody2D
 
 	public override void _Ready()
 	{
+		upgradeSpeedMultiplier += GameManager.Instance.BotUpgradeMults.Speed;
+		upgradeRotMultiplier += GameManager.Instance.BotUpgradeMults.Turning;
+		upgradeAccelMultiplier += GameManager.Instance.BotUpgradeMults.Traction;
+
+		_actualMaxAccelSpeed = MaxAccelSpeed * upgradeSpeedMultiplier;
+
 		FindGoal();
 		GD.Print("RacerController Ready!");
 		GD.Print("Goal: " + _goal);
@@ -116,15 +126,7 @@ public partial class Racer : CharacterBody2D
 
 			GD.Print("Target: " + _targetPos);
 		}
-		else
-		{
-			// Error out, can't race without a goal!
-			// GD.PrintErr("No goal found!");
-			_goal = null;
-		}
-
-		_actualMaxAccelSpeed = MaxAccelSpeed;
-		// _actualMaxAccelSpeed = MaxAccelSpeed - (GD.Randf() - .5f) * 100;
+		else _goal = null;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -151,17 +153,19 @@ public partial class Racer : CharacterBody2D
 
 			if (!Mathf.IsEqualApprox(accel, 0f))
 			{
-				velocity = velocity.MoveToward(forward * _actualMaxAccelSpeed * accel, Acceleration * (float)delta);
+				velocity = velocity.MoveToward(forward * _actualMaxAccelSpeed * accel,
+					(Acceleration * upgradeAccelMultiplier) * (float)delta);
 			}
 			else
 			{
-				velocity = velocity.MoveToward(Vector2.Zero, Deceleration * (float)delta);
+				velocity = velocity.MoveToward(Vector2.Zero, (Deceleration * upgradeAccelMultiplier) * (float)delta);
 			}
 
 			if (rot != 0 && !velocity.IsZeroApprox())
 			{
 				float forwardSpeed = velocity.Dot(GlobalTransform.Y);
-				float actualRotSpeed = 2 + (Math.Abs(forwardSpeed) / _actualMaxAccelSpeed) * RotationSpeed;
+				float actualRotSpeed = 2 + (Math.Abs(forwardSpeed) / _actualMaxAccelSpeed) *
+					(RotationSpeed * upgradeRotMultiplier);
 				Rotate(rot * actualRotSpeed * (float)delta);
 			}
 
@@ -187,7 +191,21 @@ public partial class Racer : CharacterBody2D
 		if ((_currentDebugMode & DebugMode.Label) != 0 && _debugLabel != null) _debugLabel.Text = debugText;
 
 		Velocity = velocity;
-		MoveAndSlide();
+		var collide = MoveAndSlide();
+
+		if (!collide) return;
+
+		var move = false;
+
+		for (int i = 0; i < GetSlideCollisionCount(); i++)
+		{
+			var collision = GetSlideCollision(i);
+			if (collision.GetCollider() is not (Player or Racer)) continue;
+			move = true;
+			Velocity = Velocity.Bounce(collision.GetNormal());
+		}
+
+		if (move) MoveAndSlide();
 	}
 
 	public void _on_goal_entered(int goalNumber)
@@ -198,12 +216,22 @@ public partial class Racer : CharacterBody2D
 		_raceScene.SetSplitTime(RacerNumber, _splitTime);
 		_splitTime = 0;
 
-		if (_goalCounter > NumberOfGoals)
+		if (_goalCounter >= NumberOfGoals)
 		{
+			_lapCounter++;
+
 			_goalCounter = 1;
 			_raceScene.SetStageTime(RacerNumber, _stageTime);
 			_raceScene.SetRacerLap(RacerNumber);
 			_stageTime = 0;
+			FindGoal();
+			return;
+		}
+
+		if (_lapCounter >= 2)
+		{
+			_raceScene.EndRace(false);
+			return;
 		}
 
 		_raceScene.SetRacerGoal(RacerNumber, _goalCounter);

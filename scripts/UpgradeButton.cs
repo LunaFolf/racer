@@ -8,13 +8,7 @@ public partial class UpgradeButton : Button
 	public int baseCost = 2;
 	public int timesBought = 0;
 
-	public int Cost
-	{
-		get
-		{
-			return (baseCost * GameManager.Instance.RaceCount) * (timesBought + 1);
-		}
-	}
+	private int Cost => baseCost * (timesBought + 1);
 
 	public UpgradeButton(PlayerUpgrade upgrade, ShopMenu shopMenu)
 	{

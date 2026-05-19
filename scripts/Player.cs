@@ -7,7 +7,9 @@ public partial class Player : CharacterBody2D
 	private float upgradeSpeedMultiplier = 1f;
 	private float _actualMaxAccelSpeed;
 	[Export] public float RotationSpeed = 3.0f;
+	private float upgradeRotMultiplier = 1f;
 	[Export] public float Acceleration = 400.0f;
+	private float upgradeAccelMultiplier = 1f;
 	[Export] public float Deceleration = 400.0f;
 	[Export] public AlwaysUp BackgroundSprite;
 	[Export] public HUD Hud;
@@ -58,14 +60,9 @@ public partial class Player : CharacterBody2D
 	public override void _Ready()
 	{
 		Camera.Hud = Hud;
-		foreach (var upgrade in GameManager.Instance.PlayerUpgrades)
-		{
-			GD.Print("upgrade ", upgrade);
-			if (upgrade.type == PlayerUpgrade.Type.SPEED)
-			{
-				upgradeSpeedMultiplier += upgrade.multiplier;
-			}
-		}
+		upgradeSpeedMultiplier += GameManager.Instance.PlayerUpgradesMults.Speed;
+		upgradeRotMultiplier += GameManager.Instance.PlayerUpgradesMults.Turning;
+		upgradeAccelMultiplier += GameManager.Instance.PlayerUpgradesMults.Traction;
 
         _actualMaxAccelSpeed = MaxAccelSpeed * upgradeSpeedMultiplier;
 
@@ -113,13 +110,14 @@ public partial class Player : CharacterBody2D
 		if (accel != 0)
 		{
 			var oldVelocity = velocity;
-			velocity = velocity.MoveToward(GlobalTransform.Y * _actualMaxAccelSpeed * accel, Acceleration * (float)delta);
+			velocity = velocity.MoveToward(GlobalTransform.Y * _actualMaxAccelSpeed * accel,
+				(Acceleration * upgradeAccelMultiplier) * (float)delta);
 			// TODO: Calculate drift lag and offset by traction control upgrades
 			//GD.Print(Math.Abs(velocity.Aspect()));
 		}
 		else
 		{
-			velocity = velocity.MoveToward(Vector2.Zero, Deceleration * (float)delta);
+			velocity = velocity.MoveToward(Vector2.Zero, (Deceleration * upgradeAccelMultiplier) * (float)delta);
 		}
 
 		float actualRotSpeed = 0;
@@ -127,7 +125,8 @@ public partial class Player : CharacterBody2D
 		if (rot != 0 && !velocity.IsZeroApprox())
 		{
 			float forwardSpeed = velocity.Dot(GlobalTransform.Y);
-			actualRotSpeed = 2 + (Math.Abs(forwardSpeed) / _actualMaxAccelSpeed) * RotationSpeed;
+			actualRotSpeed = 2 + (Math.Abs(forwardSpeed) / _actualMaxAccelSpeed) *
+				(RotationSpeed * upgradeRotMultiplier);
 			Rotate(rot * actualRotSpeed * (float)delta);
 		}
 
@@ -158,7 +157,21 @@ public partial class Player : CharacterBody2D
 		float tireMarkLifetime = Math.Max(0.01f, driftPercent);
 
 		Velocity = velocity;
-		MoveAndSlide();
+		var collide = MoveAndSlide();
+
+		if (!collide) return;
+
+		var move = false;
+
+		for (int i = 0; i < GetSlideCollisionCount(); i++)
+		{
+			var collision = GetSlideCollision(i);
+			if (collision.GetCollider() is not (Player or Racer)) continue;
+			move = true;
+			Velocity = Velocity.Bounce(collision.GetNormal());
+		}
+
+		if (move) MoveAndSlide();
 	}
 
 	private void CalculateScore()
@@ -200,7 +213,8 @@ public partial class Player : CharacterBody2D
         {
             GD.Print("Game Ended");
             // Race Finished
-            _raceScene.EndRace();
+            _raceScene.EndRace(true);
+            return;
         }
 
         _raceScene.SetRacerGoal(0, _goalCounter);

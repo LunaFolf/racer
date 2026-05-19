@@ -8,7 +8,7 @@
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("Hud")]
 script = ExtResource("1_ph3nu")
-Hud = NodePath("HUD")
+Hud = NodePath("TutorialHUD")
 PlayerPackedScene = ExtResource("1_3vd64")
 MainCameraScene = ExtResource("3_cq4me")
 
@@ -21,4 +21,4 @@ texture = ExtResource("2_8ho6b")
 region_enabled = true
 region_rect = Rect2(0, 0, 50000, 50000)
 
-[node name="HUD" parent="." instance=ExtResource("5_cq4me")]
+[node name="TutorialHUD" parent="." instance=ExtResource("5_cq4me")]
