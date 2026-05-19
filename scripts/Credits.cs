@@ -9,6 +9,11 @@ public partial class Credits : Control
 		BackButton.GrabFocus();
 	}
 
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		if (@event.IsActionPressed("ui_back")) _on_back_pressed();
+	}
+
 	public void _on_back_pressed()
 	{
 		GameManager.Instance.UiAccept();

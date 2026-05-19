@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://davykrlijj2kf"]
+[gd_scene load_steps=7 format=3 uid="uid://davykrlijj2kf"]
 
 [ext_resource type="Theme" uid="uid://cfusmwt3g4c1p" path="res://assets/ui_font.tres" id="1_kv8mn"]
-[ext_resource type="Script" uid="uid://dlgb3yi0qenol" path="res://scenes/Options.cs" id="2_kv8mn"]
+[ext_resource type="Script" uid="uid://dlgb3yi0qenol" path="res://scripts/Options.cs" id="2_kv8mn"]
 [ext_resource type="Texture2D" uid="uid://dmc1gmqo18chn" path="res://assets/bg_grid.png" id="3_e6vpq"]
 [ext_resource type="Shader" uid="uid://dtov263rxa8jv" path="res://shaders/ps1_post_processing.gdshader" id="4_o7i7e"]
+[ext_resource type="Script" uid="uid://ctrc6b5tnufcy" path="res://scripts/Ps1.cs" id="5_1sggn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4ytvr"]
 shader = ExtResource("4_o7i7e")
@@ -150,6 +151,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("5_1sggn")
 
 [connection signal="text_changed" from="VBoxContainer2/BoxContainer2/LineEdit" to="." method="_on_seed_change"]
 [connection signal="value_changed" from="VBoxContainer2/BoxContainer3/HSlider" to="." method="_on_master_volume_change"]

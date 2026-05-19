@@ -5,7 +5,7 @@ public partial class MainMenu : Control
 {
 
 	[Export] private Button StartButton;
-	[Export] private Button OptionsButton;
+	[Export] private Button QuitButton;
 
 	public override void _Ready()
 	{
@@ -18,14 +18,14 @@ public partial class MainMenu : Control
 	public void _on_start_game()
 	{
 		GameManager.Instance.UiAccept();
-		GD.Print("Start button pressed");
-        if (GameManager.Instance.GameSeed.Length > 0)
-        {
-            GD.Print("Using Seed: " + GameManager.Instance.GameSeed);
-            GD.Seed(GameManager.Instance.GameSeed.Hash());
-        }
-        GameManager.Instance.SwitchToRaceScene();
+		GetTree().ChangeSceneToFile("res://scenes/mode.tscn");
     }
+
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		if (@event.IsActionPressed("quit")) _on_quit_game();
+		if (@event.IsActionPressed("ui_back")) QuitButton.GrabFocus();
+	}
 
 	public void _on_quit_game()
 	{

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dxnxgc2k2sq5t"]
+[gd_scene load_steps=15 format=3 uid="uid://dxnxgc2k2sq5t"]
 
 [ext_resource type="Theme" uid="uid://cfusmwt3g4c1p" path="res://assets/ui_font.tres" id="1_1l46r"]
 [ext_resource type="Script" uid="uid://dbl27hveivg71" path="res://scripts/ShopMenu.cs" id="1_lx5au"]
@@ -7,7 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://dmc1gmqo18chn" path="res://assets/bg_grid.png" id="4_032fp"]
 [ext_resource type="Shader" uid="uid://dtov263rxa8jv" path="res://shaders/ps1_post_processing.gdshader" id="5_2fc2m"]
 [ext_resource type="AudioStream" uid="uid://ci53q16dlndur" path="res://assets/sounds/samuelfjohanns-computer-processing-sound-effect-01-122131.mp3" id="7_ajxib"]
+[ext_resource type="Script" uid="uid://ctrc6b5tnufcy" path="res://scripts/Ps1.cs" id="7_m4ofw"]
 [ext_resource type="AudioStream" uid="uid://bdn8k8cjnn3kg" path="res://assets/sounds/freesound_community-short-beep-tone-47916.mp3" id="8_y6sft"]
+[ext_resource type="AudioStream" uid="uid://b6uejvootg2nr" path="res://assets/sounds/ui/complete.ogg" id="10_heatd"]
 
 [sub_resource type="Curve" id="Curve_032fp"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.88563, 0), 0.0, 0.0, 0, 0]
@@ -26,7 +28,7 @@ shader = ExtResource("5_2fc2m")
 shader_parameter/viewport_size = Vector2(640, 480)
 shader_parameter/virtual_resolution = Vector2(320, 240)
 
-[node name="Control" type="Control" node_paths=PackedStringArray("ScoreLabel", "PointsLabel", "PointsParticles", "ButtonList", "NextRaceButton", "SpeedLabel", "TractionLabel", "TurningLabel", "DataDownSFX", "BitsUpSFX")]
+[node name="Control" type="Control" node_paths=PackedStringArray("ScoreLabel", "PointsLabel", "PointsParticles", "ButtonList", "NextRaceButton", "QuitButton", "SpeedLabel", "TractionLabel", "TurningLabel", "DataDownSFX", "BitsUpSFX", "CompleteRaceSFX", "_countdownTimer")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -40,11 +42,14 @@ PointsLabel = NodePath("HBoxContainer/Label4")
 PointsParticles = NodePath("HBoxContainer/Label4/GPUParticles2D")
 ButtonList = NodePath("VBoxContainer/UpgradeList")
 NextRaceButton = NodePath("VBoxContainer/Button")
+QuitButton = NodePath("VBoxContainer/Button2")
 SpeedLabel = NodePath("HBoxContainer2/HBoxContainer/Value")
 TractionLabel = NodePath("HBoxContainer2/HBoxContainer2/Value")
 TurningLabel = NodePath("HBoxContainer2/HBoxContainer3/Value")
 DataDownSFX = NodePath("DataDownSFX")
 BitsUpSFX = NodePath("BitsUpSFX")
+CompleteRaceSFX = NodePath("Complete")
+_countdownTimer = NodePath("Timer")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
@@ -145,6 +150,10 @@ text = "Ferrite Core
 layout_mode = 2
 text = "Start Next Race"
 
+[node name="Button2" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Abandon Race (Return to Main Menu)"
+
 [node name="Timer" type="Timer" parent="."]
 wait_time = 1.5
 one_shot = true
@@ -241,6 +250,7 @@ theme_override_font_sizes/font_size = 32
 text = "+0%"
 
 [node name="PS1" type="ColorRect" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_8r1wq")
 layout_mode = 1
 anchors_preset = 15
@@ -249,6 +259,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("7_m4ofw")
 
 [node name="DataDownSFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_ajxib")
@@ -262,6 +273,12 @@ volume_db = -20.0
 pitch_scale = 2.0
 bus = &"SFX"
 
+[node name="Complete" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_heatd")
+volume_db = -20.0
+bus = &"SFX"
+
 [connection signal="NextRace" from="." to="." method="_on_next_race"]
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_next_race"]
+[connection signal="pressed" from="VBoxContainer/Button2" to="." method="_on_quit_game"]
 [connection signal="timeout" from="Timer" to="." method="StartCountdown"]

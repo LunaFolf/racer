@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://db04xgn52pj5d"]
+[gd_scene load_steps=8 format=3 uid="uid://db04xgn52pj5d"]
 
 [ext_resource type="Script" uid="uid://bni530q66sfwk" path="res://scripts/HUD.cs" id="1_qpvh6"]
 [ext_resource type="Shader" uid="uid://dtov263rxa8jv" path="res://shaders/ps1_post_processing.gdshader" id="2_fls4u"]
 [ext_resource type="PackedScene" uid="uid://cyh1x665ocifv" path="res://scenes/minimap.tscn" id="3_1etfg"]
 [ext_resource type="FontFile" uid="uid://dshvdimtf4tuv" path="res://assets/fonts/ithaca.ttf" id="4_7hsmw"]
 [ext_resource type="Material" uid="uid://brinromnhmhce" path="res://assets/BloomShaderMat.tres" id="4_nysna"]
+[ext_resource type="Script" uid="uid://ctrc6b5tnufcy" path="res://scripts/Ps1.cs" id="6_f6qnu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1etfg"]
 shader = ExtResource("2_fls4u")
@@ -226,3 +227,4 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("6_f6qnu")

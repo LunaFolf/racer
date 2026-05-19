@@ -9,9 +9,9 @@ public partial class GameManager : Node
         MainMenu,
         Paused,
         Starting,
+        Tutorial,
         Racing,
         Ending,
-        Finished,
         Shop
     }
 

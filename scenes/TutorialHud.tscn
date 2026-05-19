@@ -1,0 +1,79 @@
+[gd_scene load_steps=7 format=3 uid="uid://i7vgpbgrhf5r"]
+
+[ext_resource type="Script" uid="uid://ddfjb511p37y5" path="res://scripts/TutorialHud.cs" id="1_dk57u"]
+[ext_resource type="Material" uid="uid://brinromnhmhce" path="res://assets/BloomShaderMat.tres" id="2_r56q3"]
+[ext_resource type="Theme" uid="uid://cfusmwt3g4c1p" path="res://assets/ui_font.tres" id="3_n4el6"]
+[ext_resource type="Shader" uid="uid://dtov263rxa8jv" path="res://shaders/ps1_post_processing.gdshader" id="5_i3x63"]
+[ext_resource type="Script" uid="uid://ctrc6b5tnufcy" path="res://scripts/Ps1.cs" id="5_mgmad"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1etfg"]
+shader = ExtResource("5_i3x63")
+shader_parameter/viewport_size = Vector2(640, 480)
+shader_parameter/virtual_resolution = Vector2(320, 240)
+
+[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("TutorialText", "ProgressBar", "MainHUDGroup")]
+script = ExtResource("1_dk57u")
+TutorialText = NodePath("MainHUD/Control/VBoxContainer/TutorialMessage")
+ProgressBar = NodePath("MainHUD/Control/VBoxContainer/ProgressBar")
+MainHUDGroup = NodePath("MainHUD")
+Bloom = ExtResource("2_r56q3")
+
+[node name="MainHUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_n4el6")
+
+[node name="Control" type="Control" parent="MainHUD"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainHUD/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -82.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 56.0
+grow_horizontal = 0
+
+[node name="TutorialMessage" type="Label" parent="MainHUD/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Press RT to Accelerate"
+horizontal_alignment = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="MainHUD/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+value = 75.0
+show_percentage = false
+
+[node name="Bloom" type="ColorRect" parent="."]
+texture_filter = 1
+material = ExtResource("2_r56q3")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
+copy_mode = 2
+
+[node name="PS1" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_1etfg")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_mgmad")

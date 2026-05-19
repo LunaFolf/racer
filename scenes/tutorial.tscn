@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://bp3p75y8nltxv"]
+
+[ext_resource type="PackedScene" uid="uid://ddibarwjv0dnq" path="res://scenes/Player.tscn" id="1_3vd64"]
+[ext_resource type="Script" uid="uid://5qwsqkcgyo3f" path="res://scripts/Tutorial.cs" id="1_ph3nu"]
+[ext_resource type="Texture2D" uid="uid://dmc1gmqo18chn" path="res://assets/bg_grid.png" id="2_8ho6b"]
+[ext_resource type="PackedScene" uid="uid://c6ldfseuefsg7" path="res://scenes/MainCamera.tscn" id="3_cq4me"]
+[ext_resource type="PackedScene" uid="uid://i7vgpbgrhf5r" path="res://scenes/TutorialHud.tscn" id="5_cq4me"]
+
+[node name="Game" type="Node2D" node_paths=PackedStringArray("Hud")]
+script = ExtResource("1_ph3nu")
+Hud = NodePath("HUD")
+PlayerPackedScene = ExtResource("1_3vd64")
+MainCameraScene = ExtResource("3_cq4me")
+
+[node name="BackgroundWater" type="Sprite2D" parent="."]
+z_index = -102
+texture_filter = 1
+texture_repeat = 2
+scale = Vector2(3, 3)
+texture = ExtResource("2_8ho6b")
+region_enabled = true
+region_rect = Rect2(0, 0, 50000, 50000)
+
+[node name="HUD" parent="." instance=ExtResource("5_cq4me")]

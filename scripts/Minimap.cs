@@ -61,7 +61,7 @@ public partial class Minimap : Node2D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		
+		if (RaceManager == null) return;
 
 		var trackLength = 500;
 		var playerMovementScale = trackLength / _scale;
@@ -122,6 +122,8 @@ public partial class Minimap : Node2D
 			first = false;
 			_startingPoint = scaled;
 		}
+
+		if (TrackLine.Points.Length == 0) return;
 
 		FinishLine.Position = TrackLine.Points[1] + (TrackPoints[TrackPoints.Length - 1] / _scale);
 	}

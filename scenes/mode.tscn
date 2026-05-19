@@ -1,0 +1,104 @@
+[gd_scene load_steps=7 format=3 uid="uid://bv486ovm6ymac"]
+
+[ext_resource type="Theme" uid="uid://cfusmwt3g4c1p" path="res://assets/ui_font.tres" id="1_065mx"]
+[ext_resource type="Script" uid="uid://ctqydkxhh5670" path="res://scripts/ModeSelect.cs" id="2_065mx"]
+[ext_resource type="Texture2D" uid="uid://dmc1gmqo18chn" path="res://assets/bg_grid.png" id="3_fnb5t"]
+[ext_resource type="Shader" uid="uid://dtov263rxa8jv" path="res://shaders/ps1_post_processing.gdshader" id="4_qu73p"]
+[ext_resource type="Script" uid="uid://ctrc6b5tnufcy" path="res://scripts/Ps1.cs" id="5_mnxkm"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4ytvr"]
+shader = ExtResource("4_qu73p")
+shader_parameter/viewport_size = Vector2(640, 480)
+shader_parameter/virtual_resolution = Vector2(320, 240)
+
+[node name="Control" type="Control" node_paths=PackedStringArray("TutorialButton", "RaceButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_065mx")
+script = ExtResource("2_065mx")
+TutorialButton = NodePath("Control/VBoxContainer/BoxContainer/TutorialButton")
+RaceButton = NodePath("Control/VBoxContainer/BoxContainer/RaceButton")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -167.0
+offset_top = -34.0
+offset_right = 167.0
+offset_bottom = 34.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Would you like to try the Tutorial?"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "It'll teach you the very basic controls"
+horizontal_alignment = 1
+
+[node name="BoxContainer" type="BoxContainer" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TutorialButton" type="Button" parent="Control/VBoxContainer/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Yes Please!"
+
+[node name="RaceButton" type="Button" parent="Control/VBoxContainer/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Nah..."
+
+[node name="BackgroundWater" type="Sprite2D" parent="."]
+z_index = -102
+texture_filter = 1
+texture_repeat = 2
+scale = Vector2(3, 3)
+texture = ExtResource("3_fnb5t")
+region_enabled = true
+region_rect = Rect2(0, 0, 50000, 50000)
+
+[node name="PS1" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_4ytvr")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("5_mnxkm")
+
+[connection signal="pressed" from="Control/VBoxContainer/BoxContainer/TutorialButton" to="." method="_on_tutorial_mode"]
+[connection signal="pressed" from="Control/VBoxContainer/BoxContainer/RaceButton" to="." method="_on_start_game"]

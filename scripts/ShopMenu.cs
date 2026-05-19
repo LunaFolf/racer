@@ -9,14 +9,17 @@ public partial class ShopMenu : Control
     [Export] public GpuParticles2D PointsParticles;
     [Export] public BoxContainer ButtonList;
     [Export] public Button NextRaceButton;
+    [Export] public Button QuitButton;
     [Export] public Label SpeedLabel;
     [Export] public Label TractionLabel;
     [Export] public Label TurningLabel;
 
     [Export] public AudioStreamPlayer DataDownSFX;
     [Export] public AudioStreamPlayer BitsUpSFX;
+    [Export] public AudioStreamPlayer CompleteRaceSFX;
     [Signal] public delegate void NextRaceEventHandler();
 
+    [Export] private Timer _countdownTimer;
     private int removalCounter;
     private bool _countdown = false;
 
@@ -29,6 +32,9 @@ public partial class ShopMenu : Control
         GameManager.Instance.MusicPlayer.VolumeDb = -32;
 
         NextRaceButton.Visible = false;
+        QuitButton.Visible = false;
+
+        CompleteRaceSFX.Play(0.21f);
 
         foreach (var child in ButtonList.GetChildren())
         {
@@ -36,7 +42,7 @@ public partial class ShopMenu : Control
         }
 
         if (ScoreLabel != null) {
-            ScoreLabel.Text = "Data Transfered: " + GameManager.Instance.PlayerScore + "mb";
+            ScoreLabel.Text = "Data Transferred: " + GameManager.Instance.PlayerScore + "mb";
         }
         if (PointsLabel != null) {
             PointsLabel.Text = GameManager.Instance.PlayerPoints.ToString();
@@ -54,7 +60,7 @@ public partial class ShopMenu : Control
             if (GameManager.Instance.PlayerScore < 0)
             {
                 GameManager.Instance.PlayerScore = 0;
-                ScoreLabel.Text = "Data Transfered: " + GameManager.Instance.PlayerScore + "mb";
+                ScoreLabel.Text = "Data Transferred: " + GameManager.Instance.PlayerScore + "mb";
             }
             DataDownSFX.Stop();
             _countdown = false;
@@ -69,7 +75,7 @@ public partial class ShopMenu : Control
 
         DataDownSFX.Play(0.18f);
 
-        ScoreLabel.Text = "Data Transfered: " + GameManager.Instance.PlayerScore + "mb";
+        ScoreLabel.Text = "Data Transferred: " + GameManager.Instance.PlayerScore + "mb";
 
         if (removalCounter >= 1024)
         {
@@ -85,6 +91,33 @@ public partial class ShopMenu : Control
     public void StartCountdown()
     {
         _countdown = true;
+    }
+
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (GameManager.Instance.PlayerScore <= 0) return;
+
+        if (!@event.IsActionPressed("ui_accept")) return;
+
+        _countdownTimer.Stop();
+        _countdown = false;
+
+        DataDownSFX.Stop();
+
+        var remainingPoints = GameManager.Instance.PlayerScore + removalCounter;
+        if (remainingPoints > 0)
+        {
+            var newPoints = remainingPoints / 1024;
+            GameManager.Instance.PlayerPoints += newPoints;
+            PointsLabel.Text = GameManager.Instance.PlayerPoints.ToString();
+            PointsParticles.Restart();
+            PointsParticles.Emitting = true;
+
+            GameManager.Instance.PlayerScore = 0;
+            ScoreLabel.Text = "Data Transferred: " + GameManager.Instance.PlayerScore + "mb";
+        }
+
+        GenerateShop();
     }
 
     private int availableTypeCount(PlayerUpgrade.Type type)
@@ -129,6 +162,7 @@ public partial class ShopMenu : Control
         ButtonList.GetChild<Button>(0).GrabFocus();
 
         NextRaceButton.Visible = true;
+        QuitButton.Visible = true;
     }
 
     public void UpdateButtons()
@@ -179,5 +213,11 @@ public partial class ShopMenu : Control
         GameManager.Instance.UiAccept();
         GameManager.Instance.RaceCount++;
         GameManager.Instance.SwitchToRaceScene();
+    }
+    public void _on_quit_game()
+    {
+        GameManager.Instance.UiAccept();
+        GameManager.Instance.RaceCount = 1;
+        GetTree().ChangeSceneToFile("res://scenes/menu.tscn");
     }
 }

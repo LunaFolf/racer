@@ -87,7 +87,7 @@ public partial class Player : CharacterBody2D
 	{
 		if (IsQueuedForDeletion()) return;
 
-		if (GameManager.Instance.GameState != GameManager.State.Racing)
+		if (GameManager.Instance.GameState is not (GameManager.State.Racing or GameManager.State.Tutorial))
 		{
 			Hud.Bloom.SetShaderParameter("bloom_spread", 1 + GameManager.Instance.BeatBloom);
 			return;
@@ -99,6 +99,16 @@ public partial class Player : CharacterBody2D
 		// As good practice, you should replace UI actions with custom gameplay actions.
 		float accel = Input.GetAxis("accelerate", "decelerate");
 		float rot = Input.GetAxis("left", "right");
+
+		if (GameManager.Instance.GameState == GameManager.State.Tutorial)
+		{
+			var tutorialScene = GetParent<Tutorial>();
+
+			GD.Print(tutorialScene.CurrentStage);
+
+			if (tutorialScene.CurrentStage < Tutorial.Stage.Reverse) accel = Math.Min(0, accel);
+			if (tutorialScene.CurrentStage < Tutorial.Stage.Turn) rot = 0;
+		}
 
 		if (accel != 0)
 		{
@@ -153,6 +163,7 @@ public partial class Player : CharacterBody2D
 
 	private void CalculateScore()
 	{
+		if (_raceScene == null) return;
 		var distanceFromNextGoal = _raceScene.GoalManager.DistanceToGoal(Position, _goalCounter - 1);
 		float score = (_goalCounter - 1) * 500; // Count number of goals passed
 		score += (500 - distanceFromNextGoal); // Add distance travelled so far to next goal

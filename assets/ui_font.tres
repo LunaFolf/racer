@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=8 format=3 uid="uid://cfusmwt3g4c1p"]
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://cfusmwt3g4c1p"]
 
 [ext_resource type="Texture2D" uid="uid://cgow3be050pjw" path="res://assets/pcb_on.png" id="1_06mjm"]
 [ext_resource type="Texture2D" uid="uid://hgmk8sg0rmmw" path="res://assets/pcb.png" id="1_gopwh"]
@@ -40,6 +40,15 @@ texture = ExtResource("1_06mjm")
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gopwh"]
+bg_color = Color(0, 0, 0, 0.2)
+skew = Vector2(0.45, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r1ldf"]
+bg_color = Color(0.537256, 0.488653, 0.109397, 1)
+skew = Vector2(0.45, 0)
+shadow_offset = Vector2(0, 4)
+
 [resource]
 default_font = ExtResource("1_hwd0l")
 default_font_size = 32
@@ -51,3 +60,7 @@ Button/styles/focus = SubResource("StyleBoxFlat_06mjm")
 Button/styles/hover = SubResource("StyleBoxTexture_r1ldf")
 Button/styles/normal = ExtResource("2_gopwh")
 Button/styles/pressed = SubResource("StyleBoxTexture_oq37a")
+ProgressBar/constants/outline_size = 6
+ProgressBar/font_sizes/font_size = 16
+ProgressBar/styles/background = SubResource("StyleBoxFlat_gopwh")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_r1ldf")
