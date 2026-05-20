@@ -42,7 +42,7 @@ PointsLabel = NodePath("HBoxContainer/Label4")
 PointsParticles = NodePath("HBoxContainer/Label4/GPUParticles2D")
 ButtonList = NodePath("VBoxContainer/UpgradeList")
 NextRaceButton = NodePath("VBoxContainer/Button")
-QuitButton = NodePath("VBoxContainer/Button2")
+QuitButton = NodePath("Button2")
 SpeedLabel = NodePath("HBoxContainer2/HBoxContainer/Value")
 TractionLabel = NodePath("HBoxContainer2/HBoxContainer2/Value")
 TurningLabel = NodePath("HBoxContainer2/HBoxContainer3/Value")
@@ -149,10 +149,6 @@ text = "Ferrite Core
 [node name="Button" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Start Next Race"
-
-[node name="Button2" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-text = "Abandon Race (Return to Main Menu)"
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 1.5
@@ -278,7 +274,20 @@ stream = ExtResource("10_heatd")
 volume_db = -20.0
 bus = &"SFX"
 
+[node name="Button2" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -50.0
+offset_right = 200.0
+offset_bottom = -16.0
+grow_vertical = 0
+size_flags_horizontal = 4
+text = "Abandon Race"
+
 [connection signal="NextRace" from="." to="." method="_on_next_race"]
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_next_race"]
-[connection signal="pressed" from="VBoxContainer/Button2" to="." method="_on_quit_game"]
 [connection signal="timeout" from="Timer" to="." method="StartCountdown"]
+[connection signal="pressed" from="Button2" to="." method="_on_quit_game"]

@@ -35,7 +35,7 @@ position = Vector2(0, -250)
 scale = Vector2(4.5, 4)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
-collision_layer = 3
+collision_layer = 4
 collision_mask = 0
 physics_material_override = ExtResource("4_jwohv")
 

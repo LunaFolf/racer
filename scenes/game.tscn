@@ -15,7 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://dmc1gmqo18chn" path="res://assets/bg_grid.png" id="12_dinhu"]
 [ext_resource type="AudioStream" uid="uid://bdn8k8cjnn3kg" path="res://assets/sounds/freesound_community-short-beep-tone-47916.mp3" id="13_kvuet"]
 
-[node name="RaceScene" type="Node2D" node_paths=PackedStringArray("Hud", "GoalManager", "RacerManager", "Timer", "CountdownSound")]
+[node name="RaceScene" type="Node2D" node_paths=PackedStringArray("Hud", "GoalManager", "RacerManager", "Timer", "GameOverTimer", "CountdownSound")]
 script = ExtResource("1_dinhu")
 Hud = NodePath("HUD")
 GoalManager = NodePath("Goals")
@@ -23,6 +23,7 @@ RacerManager = NodePath("Racers")
 PlayerPackedScene = ExtResource("1_80nbo")
 MainCameraScene = ExtResource("10_kvpfn")
 Timer = NodePath("RaceCountdownTimer")
+GameOverTimer = NodePath("GameOverTimer")
 CountdownSound = NodePath("CountdownBeep")
 
 [node name="TrackStart" parent="." instance=ExtResource("3_u5sy4")]
@@ -43,9 +44,12 @@ MaxRacers = 9
 [node name="HUD" parent="." instance=ExtResource("8_gee14")]
 
 [node name="PauseOverlay" parent="." instance=ExtResource("11_trtic")]
-visible = false
 
 [node name="RaceCountdownTimer" type="Timer" parent="."]
+
+[node name="GameOverTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
 
 [node name="BackgroundWater" type="Sprite2D" parent="."]
 z_index = -102
@@ -62,3 +66,4 @@ volume_db = -20.0
 bus = &"SFX"
 
 [connection signal="timeout" from="RaceCountdownTimer" to="." method="_on_race_countdown_timer_timeout"]
+[connection signal="timeout" from="GameOverTimer" to="." method="_on_GameOverTimer_timeout"]

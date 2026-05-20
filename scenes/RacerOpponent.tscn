@@ -1,14 +1,25 @@
-[gd_scene load_steps=6 format=3 uid="uid://cfrv5mcxkd8cj"]
+[gd_scene load_steps=8 format=3 uid="uid://cfrv5mcxkd8cj"]
 
 [ext_resource type="Script" uid="uid://bbmo4y554w56c" path="res://scripts/Racer.cs" id="1_j3bjo"]
 [ext_resource type="PackedScene" uid="uid://bdlpr56xw4u6o" path="res://scenes/car_particle_system.tscn" id="2_3bsvd"]
 [ext_resource type="Texture2D" uid="uid://crpks4fqcqaiv" path="res://assets/temp-car.png" id="2_oj5pt"]
 [ext_resource type="Script" uid="uid://563pjtpdbxb4" path="res://scripts/AlwaysUp.cs" id="4_3bsvd"]
 [ext_resource type="AudioStream" uid="uid://ci53q16dlndur" path="res://assets/sounds/samuelfjohanns-computer-processing-sound-effect-01-122131.mp3" id="5_s0ej2"]
+[ext_resource type="Texture2D" uid="uid://lpen7bvp67uq" path="res://assets/thruster_particle.png" id="6_yo6ck"]
 
-[node name="Racer" type="CharacterBody2D" node_paths=PackedStringArray("CarParticleSystem", "_debugLabel", "_debugTargetPos", "RacingSFX")]
-collision_layer = 3
-collision_mask = 2
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_url3g"]
+particle_flag_disable_z = true
+angle_min = 360.0
+angle_max = 360.0
+spread = 180.0
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 0, 0)
+turbulence_influence_max = 0.521
+
+[node name="Racer" type="CharacterBody2D" node_paths=PackedStringArray("CarParticleSystem", "_debugLabel", "_debugTargetPos", "RacingSFX", "Explosion", "Sprite")]
+collision_layer = 2
+collision_mask = 15
 floor_stop_on_slope = false
 floor_block_on_wall = false
 script = ExtResource("1_j3bjo")
@@ -19,6 +30,8 @@ CarParticleSystem = NodePath("CarParticleSystem")
 _debugLabel = NodePath("Node2D/DebugText")
 _debugTargetPos = NodePath("Debug_TargetCross")
 RacingSFX = NodePath("RacerSfx")
+Explosion = NodePath("ExplodeParticle")
+Sprite = NodePath("Polygon2D2")
 
 [node name="CarParticleSystem" parent="." instance=ExtResource("2_3bsvd")]
 position = Vector2(0, 16)
@@ -75,6 +88,15 @@ stream = ExtResource("5_s0ej2")
 volume_db = -80.0
 autoplay = true
 bus = &"SFX"
+
+[node name="ExplodeParticle" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 50
+texture = ExtResource("6_yo6ck")
+lifetime = 5.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_url3g")
 
 [connection signal="GoalEntered" from="." to="." method="_on_goal_entered"]
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]

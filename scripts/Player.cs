@@ -16,6 +16,9 @@ public partial class Player : CharacterBody2D
 	[Export] public CarParticleSystem CarParticleSystem;
 	[Export] public MainCamera Camera;
 
+	[Export] public GpuParticles2D Explosion;
+	[Export] public Polygon2D Sprite;
+
 	private static float _defaultCameraZoom = 1f;
 	private static float _zoomedCameraZoom = _defaultCameraZoom + 1f;
 	private float _currentZoom;
@@ -24,6 +27,8 @@ public partial class Player : CharacterBody2D
 	private int _lapCounter = 1;
 	private int _goalCounter = 1;
 	private float bgOffset = 10f;
+
+	private FastNoiseLite _noise = new FastNoiseLite();
 
 	[Signal] public delegate void GoalEnteredEventHandler(int goalNumber);
 
@@ -38,6 +43,14 @@ public partial class Player : CharacterBody2D
 			_racePosition = value;
 			_actualMaxAccelSpeed = (MaxAccelSpeed * upgradeSpeedMultiplier) + (_racePosition - 1) * 10;
 		}
+	}
+
+	public void ExplosionAnimation()
+	{
+		Explosion.Restart();
+		Explosion.Emitting = true;
+		Sprite.Visible = false;
+		CarParticleSystem.Visible = false;
 	}
 
 	public void Reset()
@@ -69,7 +82,7 @@ public partial class Player : CharacterBody2D
         _currentZoom = _defaultCameraZoom;
 
 		GD.Print(MaxAccelSpeed, _actualMaxAccelSpeed);
-    }
+	}
 
 	public override void _Process(double delta)
 	{
@@ -140,11 +153,19 @@ public partial class Player : CharacterBody2D
         CarParticleSystem.ThrusterSpeed = speedPercent;
 		CarParticleSystem.ThrusterAngle = RotationDegrees;
 
-		float vibrationStrength = 0.5f;
-		float weakVibration = Math.Clamp(speedPercent, 0, 1) * vibrationStrength;
-		float strongVibration = Math.Clamp(actualRotSpeed - 2, 0, 1) * vibrationStrength;
+		if (speedPercent > 0f)
+		{
+			var speedDiff = 1.5f - speedPercent;
 
-		Input.StartJoyVibration(0, weakVibration, strongVibration, 0);
+			float noise = (float)Math.Pow(Math.Sin(speedPercent * 100), 4);
+			float weakVibration = Math.Clamp(speedPercent, 0, 1) * speedDiff;
+			float strongVibration = Math.Clamp(actualRotSpeed - 2, 0, 1) * speedDiff;
+
+			weakVibration *= (1 - noise);
+			strongVibration *= (1 - noise);
+
+			Input.StartJoyVibration(0, weakVibration, strongVibration);
+		} else Input.StopJoyVibration(0);
 
 		if (Camera != null)
 		{

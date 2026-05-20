@@ -1,13 +1,24 @@
-[gd_scene load_steps=6 format=3 uid="uid://ddibarwjv0dnq"]
+[gd_scene load_steps=8 format=3 uid="uid://ddibarwjv0dnq"]
 
 [ext_resource type="Script" uid="uid://chny11e8uug28" path="res://scripts/Player.cs" id="1_v6fml"]
 [ext_resource type="Texture2D" uid="uid://crpks4fqcqaiv" path="res://assets/temp-car.png" id="1_xhfnw"]
 [ext_resource type="PackedScene" uid="uid://bdlpr56xw4u6o" path="res://scenes/car_particle_system.tscn" id="3_mdl7e"]
 [ext_resource type="Texture2D" uid="uid://dmc1gmqo18chn" path="res://assets/bg_grid.png" id="4_qu4a1"]
 [ext_resource type="Script" uid="uid://563pjtpdbxb4" path="res://scripts/AlwaysUp.cs" id="5_70d11"]
+[ext_resource type="Texture2D" uid="uid://lpen7bvp67uq" path="res://assets/thruster_particle.png" id="6_70d11"]
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("BackgroundSprite", "CarParticleSystem")]
-collision_mask = 3
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cw2d6"]
+particle_flag_disable_z = true
+angle_min = 360.0
+angle_max = 360.0
+spread = 180.0
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 0, 0)
+turbulence_influence_max = 0.521
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("BackgroundSprite", "CarParticleSystem", "Explosion", "Sprite")]
+collision_mask = 14
 floor_stop_on_slope = false
 floor_block_on_wall = false
 script = ExtResource("1_v6fml")
@@ -17,6 +28,8 @@ Acceleration = 100.0
 Deceleration = 130.0
 BackgroundSprite = NodePath("BackgroundWater")
 CarParticleSystem = NodePath("CarParticleSystem")
+Explosion = NodePath("ExplodeParticle")
+Sprite = NodePath("Polygon2D")
 
 [node name="CarParticleSystem" parent="." instance=ExtResource("3_mdl7e")]
 position = Vector2(0, 16)
@@ -49,6 +62,15 @@ script = ExtResource("5_70d11")
 
 [node name="AudioListener2D" type="AudioListener2D" parent="."]
 current = true
+
+[node name="ExplodeParticle" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 50
+texture = ExtResource("6_70d11")
+lifetime = 5.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_cw2d6")
 
 [connection signal="GoalEntered" from="." to="." method="_on_goal_entered"]
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]

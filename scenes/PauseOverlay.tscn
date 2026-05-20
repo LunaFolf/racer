@@ -4,6 +4,7 @@
 [ext_resource type="Theme" uid="uid://cfusmwt3g4c1p" path="res://assets/ui_font.tres" id="3_fphdq"]
 
 [node name="PauseOverlay" type="CanvasLayer" node_paths=PackedStringArray("ResumeButton", "MasterSlider", "MusicSlider", "SFXSlider")]
+visible = false
 script = ExtResource("1_whw7d")
 ResumeButton = NodePath("MainHUD/Control/Button")
 MasterSlider = NodePath("MainHUD/Control/BoxContainer3/HSlider")
@@ -78,7 +79,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 1
 max_value = 1.0
 step = 0.01
-value = 0.62
+value = 1.0
 
 [node name="BoxContainer5" type="BoxContainer" parent="MainHUD/Control"]
 layout_mode = 2
@@ -94,7 +95,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 1
 max_value = 1.0
 step = 0.01
-value = 0.78
+value = 1.0
 
 [node name="Button2" type="Button" parent="MainHUD/Control"]
 layout_mode = 2

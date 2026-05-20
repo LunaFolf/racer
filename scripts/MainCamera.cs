@@ -7,6 +7,9 @@ public partial class MainCamera : Camera2D
 	public float shake = 0;
 	private int noise_y;
 	public HUD Hud;
+
+	private FastNoiseLite _noise = new FastNoiseLite();
+
 	public override void _Ready()
 	{
 		GameManager.Instance.MainCamera = this;
@@ -24,12 +27,10 @@ public partial class MainCamera : Camera2D
         }
 		noise_y += 1;
 
-		var noise = new FastNoiseLite();
-
 		float amount = (float)Math.Pow(shake, 3);
-		Rotation = 0.1f * amount * noise.GetNoise2D(0, noise_y);
-		var x = 100 * amount * noise.GetNoise2D(1000, noise_y);
-		var y = 75 * amount * noise.GetNoise2D(2000, noise_y);
+		Rotation = 0.1f * amount * _noise.GetNoise2D(0, noise_y);
+		var x = 100 * amount * _noise.GetNoise2D(1000, noise_y);
+		var y = 75 * amount * _noise.GetNoise2D(2000, noise_y);
 
 		Offset = new Vector2(x, y);
         Hud.MainHUDGroup.Position = Offset;

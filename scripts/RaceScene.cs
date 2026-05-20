@@ -11,6 +11,7 @@ public partial class RaceScene : Node2D
     [Export] PackedScene MainCameraScene;
     private Player _player;
     [Export] public Timer Timer;
+    [Export] public Timer GameOverTimer;
     [Export] public AudioStreamPlayer CountdownSound;
 
     private Godot.Collections.Dictionary<int, double> StageTime = new() { [0] = 0 };
@@ -86,17 +87,42 @@ public partial class RaceScene : Node2D
     public void EndRace(bool playerWon)
     {
         GameManager.Instance.SetGameState(GameManager.State.Ending);
-        foreach (var racerId in Racers.Keys)
-        {
-            var racer = Racers[racerId];
-            Racers.Remove(racerId);
-            racer.QueueFree();
-        }
-
         Input.StopJoyVibration(0);
 
-        if (playerWon) GetTree().ChangeSceneToFile("res://scenes/shop.tscn");
-        else GetTree().ChangeSceneToFile("res://scenes/gameover.tscn");
+        if (playerWon)
+        {
+            GD.Print("Player Won");
+            foreach (var racerId in Racers.Keys)
+            {
+                var racer = Racers[racerId];
+                Racers.Remove(racerId);
+                racer.QueueFree();
+            }
+
+            GetTree().ChangeSceneToFile("res://scenes/shop.tscn");
+        }
+        else
+        {
+            GD.Print("Player Lost");
+
+            foreach (var racerId in Racers.Keys)
+            {
+
+                if (racerId == 0)
+                {
+                    var player = (Player)Racers[0];
+                    player.ExplosionAnimation();
+                }
+                else
+                {
+                    var racer = (Racer)Racers[racerId];
+                    racer.ExplosionAnimation();
+                }
+            }
+
+            GameOverTimer.Start();
+            // GetTree().ChangeSceneToFile("res://scenes/gameover.tscn");
+        }
     }
 
     private void UpdatePositionsList()
@@ -150,6 +176,11 @@ public partial class RaceScene : Node2D
 
         Hud.Minimap.SetPlayer(_player);
         Hud.Minimap.SetRaceManager(RacerManager);
+    }
+
+    public void _on_GameOverTimer_timeout()
+    {
+        GetTree().ChangeSceneToFile("res://scenes/gameover.tscn");
     }
 
     public void _on_race_countdown_timer_timeout()

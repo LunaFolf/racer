@@ -17,7 +17,15 @@ public partial class Options : Control
 
 		SeedInput.SetText(GameManager.Instance.GameSeed);
 
-		WindowButton.Selected = (int)DisplayServer.WindowGetMode();
+		switch (DisplayServer.WindowGetMode())
+		{
+			case DisplayServer.WindowMode.Windowed:
+				WindowButton.Selected = 0; break;
+			case DisplayServer.WindowMode.Fullscreen:
+				WindowButton.Selected = 1; break;
+			case DisplayServer.WindowMode.ExclusiveFullscreen:
+				WindowButton.Selected = 2; break;
+		}
 
 		SeedInput.GrabFocus();
 	}

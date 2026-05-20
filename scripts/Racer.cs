@@ -24,6 +24,9 @@ public partial class Racer : CharacterBody2D
 	[Export] private Label _debugLabel;
 	[Export] private Node2D _debugTargetPos;
 	[Export] public AudioStreamPlayer2D RacingSFX;
+
+	[Export] public GpuParticles2D Explosion;
+	[Export] public Polygon2D Sprite;
 	[Export] public int NumberOfGoals { get; set; }
 	[Signal] public delegate void GoalEnteredEventHandler(int goalNumber);
 
@@ -46,6 +49,14 @@ public partial class Racer : CharacterBody2D
 			_racePosition = value;
 			_actualMaxAccelSpeed = (MaxAccelSpeed * upgradeSpeedMultiplier) + _racePosition * 20;
 		}
+	}
+
+	public void ExplosionAnimation()
+	{
+		Explosion.Restart();
+		Explosion.Emitting = true;
+		Sprite.Visible = false;
+		CarParticleSystem.Visible = false;
 	}
 
 	public void Reset()

@@ -125,6 +125,6 @@ public partial class Minimap : Node2D
 
 		if (TrackLine.Points.Length == 0) return;
 
-		FinishLine.Position = TrackLine.Points[1] + (TrackPoints[TrackPoints.Length - 1] / _scale);
+		FinishLine.Position = TrackLine.Points[0] + (TrackPoints[TrackPoints.Length - 1] / _scale);
 	}
 }
