@@ -193,6 +193,7 @@ public partial class GameManager : Node
     public void SetGameState(State state)
     {
         _gameState = state;
+        Input.MouseMode = state is State.Racing or State.Tutorial ? Input.MouseModeEnum.Hidden : Input.MouseModeEnum.Visible;
     }
 
     public override void _Process(double delta)

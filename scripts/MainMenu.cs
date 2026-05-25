@@ -38,6 +38,17 @@ public partial class MainMenu : Control
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
+		var color = Colors.Black;
+
+		GD.Print("has light: " + Input.HasJoyLight(0));
+
+		if (@event.IsActionPressed("ui_left")) color = Colors.Red;
+		if (@event.IsActionPressed("ui_right")) color = Colors.Lime;
+		if (@event.IsActionPressed("ui_up")) color = Colors.Yellow;
+		if (@event.IsActionPressed("ui_down")) color = Colors.Blue;
+
+		Input.SetJoyLight(0, color);
+
 		if (@event.IsActionPressed("quit")) _on_quit_game();
 		if (@event.IsActionPressed("ui_back")) QuitButton.GrabFocus();
 	}
